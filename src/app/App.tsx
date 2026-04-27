@@ -116,7 +116,7 @@ export default function App() {
     >
       <Navigation />
 
-      <main>
+      <main style={{ position: 'relative' }}>
         <Hero />
         <VideoStory />
         <Testimonials />
