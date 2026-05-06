@@ -322,9 +322,7 @@ export const Stats = () => {
             color: '#f2e8d5',
             lineHeight: 1.15,
             letterSpacing: '-1px',
-          }}>
-            המספרים שמספרים את הסיפור
-          </h2>
+          }}>הבחירה במספרים</h2>
         </motion.div>
 
         {/* Stats grid */}

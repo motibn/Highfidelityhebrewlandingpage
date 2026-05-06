@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import logo from '@/imports/logo-1.png';
+import mainLogo from '@/imports/Main_Logo.png';
 
 const navLinks = [
   { label: 'הסיפור שלנו', href: '#video' },
@@ -82,13 +83,13 @@ export const Navigation = () => {
             {/* Logo - Right side in RTL */}
             <div
               onClick={() => scrollToSection('#hero')}
-              style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', zIndex: 20 }}
+              style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', zIndex: 20, alignSelf: 'center' }}
             >
-              <ImageWithFallback
-                src={logo}
+              <img
+                src={mainLogo}
                 alt="קריית שמונה"
                 style={{
-                  height: '56px',
+                  height: '117px',
                   objectFit: 'contain',
                   display: 'block',
                   position: 'relative',

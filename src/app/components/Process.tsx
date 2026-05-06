@@ -1,38 +1,42 @@
 import React, { useRef } from 'react';
 import { motion, useInView } from 'motion/react';
-import { MessageSquare, PhoneCall, MapPin, CheckCircle2 } from 'lucide-react';
+import { PenLine, CalendarDays, ScanSearch, Handshake } from 'lucide-react';
 import { FloralBorder, LeafCluster } from './BotanicalElements';
 
 const steps = [
   {
     num: '01',
-    icon: MessageSquare,
+    icon: PenLine,
     title: 'משאירים פרטים',
     body: 'ממלאים את הטופס המהיר — פחות מ-2 דקות. בלי התחייבות, בלי לחץ.',
+    desc: 'שיחה קצרה להיכרות ראשונית',
     color: '#4d7a5c',
     bg: 'rgba(77,122,92,0.1)',
   },
   {
     num: '02',
-    icon: PhoneCall,
+    icon: CalendarDays,
     title: 'קובעים סיור',
     body: 'מגיעים לראות את העיר והאפשרויות.',
+    desc: 'מגיעים לראות את העיר והאפשרויות',
     color: '#c2754a',
     bg: 'rgba(194,117,74,0.1)',
   },
   {
     num: '03',
-    icon: MapPin,
+    icon: ScanSearch,
     title: 'בודקים התאמה',
     body: 'מבינים אם זה נכון לכם.',
+    desc: 'מבינים אם זה נכון לכם',
     color: '#3a6147',
     bg: 'rgba(58,97,71,0.1)',
   },
   {
     num: '04',
-    icon: CheckCircle2,
+    icon: Handshake,
     title: 'מתקדמים יחד',
     body: 'בליווי מלא, בקצב שלכם.',
+    desc: 'בליווי מלא, בקצב שלכם',
     color: '#7a5538',
     bg: 'rgba(122,85,56,0.1)',
   },
@@ -105,7 +109,7 @@ export const Process = () => {
             letterSpacing: '-1px',
             marginBottom: '10px',
           }}>
-            איך זה עובד
+            הבחירה להתקדם
           </h2>
         </motion.div>
 
@@ -119,7 +123,6 @@ export const Process = () => {
               preserveAspectRatio="none"
               style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', zIndex: 0, pointerEvents: 'none' }}
             >
-              {/* Path y-coords match pin tip screen positions: top=83px, bottom=173px */}
               <path
                 d="M 87.5,83 C 80,115 72,141 62.5,173 C 53,141 47,115 37.5,83 C 30,115 20,141 12.5,173"
                 fill="none"
@@ -133,6 +136,7 @@ export const Process = () => {
             {/* Step columns */}
             <div style={{ display: 'flex', height: '100%', position: 'relative', zIndex: 1 }}>
               {steps.map((step, i) => {
+                const StepIcon = step.icon;
                 const isTop = i % 2 === 0;
                 return (
                   <motion.div
@@ -143,40 +147,57 @@ export const Process = () => {
                     style={{ flex: 1, position: 'relative' }}
                   >
                     {(() => {
-                      // Y coordinate on the journey path for each step (viewBox 0 0 100 560)
                       const lineYs = [80, 170, 80, 170];
                       const lineY = lineYs[i];
-                      // Pin is 73px tall; point tip sits ~70px from the top of the pin div
                       const pinTop = lineY - 70;
-                      // Text anchored just below the pin (pin SVG height = 73px, 20px gap)
-                      const textTop = pinTop + 73 + 20;
+                      const textTop = pinTop + 72 + 20;
 
                       return (
                         <>
-                          {/* Checkpoint pin — ON the journey line */}
+                          {/* Checkpoint — outlined icon + number badge, no pin shell */}
                           <div style={{
                             position: 'absolute',
                             top: `${pinTop}px`,
                             left: '50%',
                             transform: 'translateX(-50%)',
                             zIndex: 3,
-                            filter: `drop-shadow(0 8px 18px ${step.color}50)`,
                           }}>
-                            <svg width="60" height="73" viewBox="0 0 44 54" fill="none">
-                              <path
-                                d="M22,52 C22,52 4,33 4,20 A18,18 0 0,1 40,20 C40,33 22,52 22,52 Z"
-                                fill={step.color}
-                              />
-                              <circle cx="22" cy="20" r="11" fill="white" fillOpacity="0.97" />
-                              <text
-                                x="22" y="24.5"
-                                textAnchor="middle"
-                                fill={step.color}
-                                fontSize="12"
-                                fontWeight="900"
-                                fontFamily="system-ui, sans-serif"
-                              >{i + 1}</text>
-                            </svg>
+                            <div style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+                              {/* Icon circle */}
+                              <div style={{
+                                width: '52px',
+                                height: '52px',
+                                borderRadius: '50%',
+                                border: `2px solid ${step.color}`,
+                                background: `${step.color}12`,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                boxShadow: `0 6px 20px ${step.color}30`,
+                              }}>
+                                <StepIcon size={22} color={step.color} strokeWidth={1.8} />
+                              </div>
+                              {/* Step number badge */}
+                              <div style={{
+                                position: 'absolute',
+                                top: '-8px',
+                                left: '-8px',
+                                width: '22px',
+                                height: '22px',
+                                borderRadius: '50%',
+                                background: step.color,
+                                border: '2.5px solid #e8dcc8',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontSize: '9px',
+                                fontWeight: 900,
+                                color: 'white',
+                                fontFamily: 'system-ui, sans-serif',
+                              }}>
+                                {i + 1}
+                              </div>
+                            </div>
                           </div>
 
                           {/* Text — anchored just below its own checkpoint */}
@@ -189,9 +210,9 @@ export const Process = () => {
                             textAlign: 'center',
                           }}>
                             <div style={{ fontSize: '17px', fontWeight: 700, color: step.color, marginBottom: '6px', lineHeight: 1.25 }}>
-                              {['משאירים פרטים', 'קובעים סיור', 'בודקים התאמה', 'מתקדמים יחד'][i]}
+                              {step.title}
                             </div>
-                            <p style={{ fontSize: '14.5px', color: '#5a6e60', lineHeight: 1.65, margin: 0 }}>{['שיחה קצרה להיכרות ראשונית', 'מגיעים לראות את העיר והאפשרויות', 'מבינים אם זה נכון לכם', 'בליווי מלא, בקצב שלכם'][i]}</p>
+                            <p style={{ fontSize: '14.5px', color: '#5a6e60', lineHeight: 1.65, margin: 0 }}>{step.desc}</p>
                           </div>
                         </>
                       );

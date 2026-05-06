@@ -17,7 +17,7 @@ export const VideoStory = () => {
       style={{
         position: 'relative',
         background: 'linear-gradient(180deg, #2a4332 0%, #1e3228 100%)',
-        padding: '100px 24px 120px',
+        padding: '0px 24px 120px',
         overflow: 'hidden',
       }}
     >

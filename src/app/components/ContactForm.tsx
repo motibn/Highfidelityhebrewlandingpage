@@ -185,7 +185,7 @@ export const ContactForm = () => {
             letterSpacing: '-1px',
             marginBottom: '16px',
           }}>
-            בואו נדבר ונבדוק אם זה מתאים
+            מוזמנות ומוזמנים למפגש מתעניינים!
           </h2>
           <p style={{
             fontSize: 'clamp(14px, 1.6vw, 17px)',
@@ -195,7 +195,7 @@ export const ContactForm = () => {
             margin: '0 auto',
             fontWeight: 400,
           }}>
-            בלי התחייבות, בלי לחץ. רק שיחה אישית כדי להבין מה נכון למשפחה שלכם.
+            השאירו פרטים ונחזור אליכם לשיחה קצרה, אישית וללא התחייבות.
           </p>
         </motion.div>
 
@@ -438,7 +438,7 @@ export const ContactForm = () => {
                 ) : (
                   <>
                     <Send size={18} />
-                    שלחו לי פרטים
+                    בואו לבדוק התאמה
                   </>
                 )}
               </motion.button>
@@ -469,7 +469,6 @@ export const ContactForm = () => {
           }}
         >
           {[
-            { icon: Phone, text: '04-694-0000' },
             { icon: Mail, text: 'info@ks-north.co.il' },
             { icon: MapPin, text: 'קריית שמונה, הצפון' },
           ].map((item, i) => (

@@ -1,20 +1,20 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useState, useEffect } from 'react';
 import { motion, useInView } from 'motion/react';
 import useEmblaCarousel from 'embla-carousel-react';
 import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 import { FloralBorder, CornerBotanical } from './BotanicalElements';
 import BACKGROUND_IMG from '@/imports/brother-sister-cheerful-leisure-offspring-kids-con-2026-01-07-23-37-25-utc.jpg';
-
-const COMMUNITY_IMG = 'https://images.unsplash.com/photo-1769093173089-ef6cd962527b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxJc3JhZWxpJTIwZmFtaWx5JTIwY29tbXVuaXR5JTIwZ2F0aGVyaW5nJTIwd2FybXxlbnwxfHx8fDE3NzYwMTE5OTF8MA&ixlib=rb-4.1.0&q=80&w=1080';
-const CHILDREN_IMG = 'https://images.unsplash.com/photo-1769944121750-2d9d2bcad221?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaGlsZHJlbiUyMHBsYXlpbmclMjBvdXRkb29ycyUyMHBhcmslMjBjb21tdW5pdHl8ZW58MXx8fHwxNzc2MDExOTkyfDA&ixlib=rb-4.1.0&q=80&w=1080';
-const COUPLE_IMG = 'https://images.unsplash.com/photo-1761682815710-8d584fec0e51?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3VwbGUlMjBmYW1pbHklMjBwb3J0cmFpdCUyMHdhcm0lMjBzbWlsZSUyMG91dGRvb3J8ZW58MXx8fHwxNzc2MDExOTk2fDA&ixlib=rb-4.1.0&q=80&w=1080';
+import IMG1 from '@/imports/happy-family-playing-together-in-new-home-2026-01-06-10-58-30-utc.jpg';
+import IMG2 from '@/imports/happy-family-smiling-together-inside-home-2026-01-08-23-06-49-utc.jpg';
+import IMG3 from '@/imports/family-posing-together-on-couch-in-the-living-room-2026-03-20-00-19-54-utc.jpg';
+import IMG4 from '@/imports/mother-and-daughter-give-a-high-five-at-home-2026-01-05-06-34-53-utc.jpg';
 
 const testimonials = [
   {
     name: 'משפחת לוי',
     origin: 'עברה מתל אביב לפני שנה וחצי',
     quote: 'חשבנו שנצטרך לוותר על משהו. גילינו שלמעשה קיבלנו הרבה יותר. שכנים שמכירים אותנו בשם, ילדים שיוצאים לשחק בחוץ, וחיים שמרגישים אמיתיים.',
-    image: COUPLE_IMG,
+    image: IMG3,
     stars: 5,
     highlight: 'הילדים פרחו',
   },
@@ -22,7 +22,7 @@ const testimonials = [
     name: 'משפחת אברהם',
     origin: 'עברה מחיפה לפני שנתיים',
     quote: 'השינוי היה מפחיד בהתחלה. אבל הקהילה קיבלה אותנו בזרועות פתוחות. תוך שבועות הרגשנו שזה הבית שתמיד רצינו. הנוף הוא בונוס שאי אפשר להסביר.',
-    image: COMMUNITY_IMG,
+    image: IMG1,
     stars: 5,
     highlight: 'קהילה שמחה',
   },
@@ -30,7 +30,7 @@ const testimonials = [
     name: 'משפחת כהן',
     origin: 'עברה מרמת גן לפני שמונה חודשים',
     quote: 'שאלנו את עצמנו המון שאלות לפני המעבר. עכשיו, כשאנחנו רואים את הילדים שלנו משחקים בחוץ עם חברים, אנחנו יודעים שעשינו את הצעד הנכון.',
-    image: CHILDREN_IMG,
+    image: IMG4,
     stars: 5,
     highlight: 'ילדות מושלמת',
   },
@@ -38,7 +38,7 @@ const testimonials = [
     name: 'משפחת גולדברג',
     origin: 'עברה מירושלים לפני שלושה חודשים',
     quote: 'המחיר של הדירה היה חצי ממה שחשבנו אפשרי. אבל מה שלא ציפינו זה כמה עשיר יהיה החיים עצמם. אנחנו חיים חיים שרצינו לחיות.',
-    image: COUPLE_IMG,
+    image: IMG2,
     stars: 5,
     highlight: 'איכות חיים',
   },
@@ -48,9 +48,18 @@ export const Testimonials = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.15 });
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'center', direction: 'rtl' });
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    const onSelect = () => setSelectedIndex(emblaApi.selectedScrollSnap());
+    emblaApi.on('select', onSelect);
+    onSelect();
+    return () => { emblaApi.off('select', onSelect); };
+  }, [emblaApi]);
 
   return (
     <section
@@ -265,10 +274,10 @@ export const Testimonials = () => {
                   key={i}
                   onClick={() => emblaApi?.scrollTo(i)}
                   style={{
-                    width: i === 0 ? '24px' : '8px',
+                    width: i === selectedIndex ? '24px' : '8px',
                     height: '8px',
                     borderRadius: '4px',
-                    background: i === 0 ? '#c2754a' : 'rgba(42,67,50,0.2)',
+                    background: i === selectedIndex ? '#c2754a' : 'rgba(42,67,50,0.2)',
                     border: 'none',
                     cursor: 'pointer',
                     transition: 'all 0.3s ease',

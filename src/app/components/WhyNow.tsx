@@ -116,7 +116,7 @@ export const WhyNow = () => {
             letterSpacing: '-1px',
             maxWidth: '600px',
           }}>
-            למה דווקא עכשיו
+            הבחירה בזמן הנכון
           </h2>
         </motion.div>
 
