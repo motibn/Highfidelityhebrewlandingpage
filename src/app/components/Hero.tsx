@@ -111,12 +111,12 @@ export const Hero = () => {
               }}
             >
               {[
-                { img: LOGO_KS },
-                { img: LOGO_MAKOM },
-                { img: LOGO_MINISTRY },
-                { img: LOGO_MATNAS },
-                { img: LOGO_JNF },
-                { img: LOGO_KAKAL },
+                { img: LOGO_KS, alt: 'עיריית קריית שמונה' },
+                { img: LOGO_MAKOM, alt: 'מקום - עמותה לפיתוח הצפון' },
+                { img: LOGO_MINISTRY, alt: 'משרד הנגב, הגליל והחוסן הלאומי' },
+                { img: LOGO_MATNAS, alt: 'מתנ"ס קריית שמונה' },
+                { img: LOGO_JNF, alt: 'JNF - הקרן הקיימת לישראל' },
+                { img: LOGO_KAKAL, alt: 'קק"ל - הקרן הקיימת לישראל' },
               ].map((logo, i) => (
                 <motion.div
                   key={i}
@@ -134,7 +134,7 @@ export const Hero = () => {
                 >
                   <img
                     src={logo.img}
-                    alt=""
+                    alt={logo.alt}
                     style={{ height: '100%', width: 'auto', objectFit: 'contain', maxWidth: 'clamp(70px, 12vw, 120px)' }}
                   />
                 </motion.div>
