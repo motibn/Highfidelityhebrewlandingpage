@@ -96,7 +96,7 @@ const Footer = ({
             </div>
             {[
               { label: 'דף הבית', href: '/' },
-              { label: 'שאלות נפוצות', href: '/faq' },
+              { label: 'שאלות נפוצות', href: 'https://www.k8now.com/faq' },
               { label: 'סיפורים', href: '/#testimonials' },
               { label: 'למה עכשיו', href: '/#why-now' },
               { label: 'איך זה עובד', href: '/#process' },
