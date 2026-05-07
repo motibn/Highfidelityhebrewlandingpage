@@ -1,12 +1,8 @@
 import React, { useEffect } from 'react';
+import { Routes, Route } from 'react-router';
 import { Navigation } from './components/Navigation';
-import { Hero } from './components/Hero';
-import { VideoStory } from './components/VideoStory';
-import { Testimonials } from './components/Testimonials';
-import { WhyNow } from './components/WhyNow';
-import { Stats } from './components/Stats';
-import { Process } from './components/Process';
-import { ContactForm } from './components/ContactForm';
+import { HomePage } from './pages/HomePage';
+import { FAQPage } from './pages/FAQPage';
 
 // TikTok SVG icon (not in lucide-react)
 const TikTokIcon = ({ size = 20, color = 'currentColor' }: { size?: number; color?: string }) => (
@@ -87,9 +83,21 @@ const Footer = () => (
             <div style={{ fontSize: '11px', fontWeight: 700, color: '#8aaa78', letterSpacing: '0.5px', marginBottom: '12px' }}>
               הדף
             </div>
-            {['אודות', 'סיפורים', 'למה עכשיו', 'איך זה עובד', 'צרו קשר'].map(link => (
-              <div key={link} style={{ fontSize: '13px', color: 'rgba(242,232,213,0.55)', marginBottom: '8px', cursor: 'pointer', fontWeight: 400 }}>
-                {link}
+            {[
+              { label: 'דף הבית', href: '/' },
+              { label: 'שאלות נפוצות', href: '/faq' },
+              { label: 'סיפורים', href: '/#testimonials' },
+              { label: 'למה עכשיו', href: '/#why-now' },
+              { label: 'איך זה עובד', href: '/#process' },
+              { label: 'צרו קשר', href: '/#contact' },
+            ].map(({ label, href }) => (
+              <div key={label} style={{ marginBottom: '8px' }}>
+                <a
+                  href={href}
+                  style={{ fontSize: '13px', color: 'rgba(242,232,213,0.55)', fontWeight: 400, textDecoration: 'none' }}
+                >
+                  {label}
+                </a>
               </div>
             ))}
           </div>
@@ -177,7 +185,6 @@ export default function App() {
   useEffect(() => {
     document.documentElement.setAttribute('dir', 'rtl');
     document.documentElement.setAttribute('lang', 'he');
-    document.title = 'קריית שמונה מחכה לכם | עוברים צפונה, מתחילים מחדש';
   }, []);
 
   return (
@@ -195,13 +202,10 @@ export default function App() {
       <Navigation />
 
       <main style={{ position: 'relative' }}>
-        <Hero />
-        <VideoStory />
-        <Testimonials />
-        <WhyNow />
-        <Stats />
-        <Process />
-        <ContactForm />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/faq" element={<FAQPage />} />
+        </Routes>
       </main>
 
       <Footer />

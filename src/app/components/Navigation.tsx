@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 const logo = '/logo-1.png';
 
-const navLinks = [
+type NavLinkItem =
+  | { label: string; href: string }
+  | { label: string; to: string };
+
+const navLinks: NavLinkItem[] = [
   { label: 'הסיפור שלנו', href: '#video' },
   { label: 'משפחות שכבר כאן', href: '#testimonials' },
   { label: 'למה עכשיו', href: '#why-now' },
   { label: 'המספרים', href: '#stats' },
   { label: 'איך זה עובד', href: '#process' },
+  { label: 'שאלות נפוצות', to: '/faq' },
 ];
 
 const scrollToSection = (href: string) => {
@@ -19,9 +25,28 @@ const scrollToSection = (href: string) => {
   }
 };
 
+function isRouteLink(link: NavLinkItem): link is { label: string; to: string } {
+  return 'to' in link;
+}
+
 export const Navigation = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const goHomeAndScroll = (hash: string) => {
+    if (location.pathname !== '/') {
+      navigate('/');
+      window.setTimeout(() => scrollToSection(hash), 80);
+    } else {
+      scrollToSection(hash);
+    }
+  };
+
+  const handleLogoClick = () => {
+    goHomeAndScroll('#hero');
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -81,7 +106,7 @@ export const Navigation = () => {
             
             {/* Logo - Right side in RTL */}
             <div
-              onClick={() => scrollToSection('#hero')}
+              onClick={handleLogoClick}
               style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', zIndex: 20, alignSelf: 'center' }}
             >
               <img
@@ -99,40 +124,73 @@ export const Navigation = () => {
 
             {/* Desktop Nav Links - Center */}
             <nav style={{ display: 'flex', gap: '6px', alignItems: 'center' }} className="hidden-mobile">
-              {navLinks.map((link) => (
-                <button
-                  key={link.href}
-                  onClick={() => scrollToSection(link.href)}
-                  style={{
-                    background: 'none',
-                    border: 'none',
-                    cursor: 'pointer',
-                    padding: '8px 14px',
-                    fontSize: '14px',
-                    fontWeight: 500,
-                    color: '#3a5c42',
-                    borderRadius: '8px',
-                    transition: 'all 0.2s ease',
-                    fontFamily: 'inherit',
-                  }}
-                  onMouseEnter={e => {
-                    (e.target as HTMLElement).style.background = 'rgba(42,67,50,0.08)';
-                    (e.target as HTMLElement).style.color = '#2a4332';
-                  }}
-                  onMouseLeave={e => {
-                    (e.target as HTMLElement).style.background = 'none';
-                    (e.target as HTMLElement).style.color = '#3a5c42';
-                  }}
-                >
-                  {link.label}
-                </button>
-              ))}
+              {navLinks.map((link) =>
+                isRouteLink(link) ? (
+                  <Link
+                    key={link.label}
+                    to={link.to}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      padding: '8px 14px',
+                      fontSize: '14px',
+                      fontWeight: 500,
+                      color: '#3a5c42',
+                      borderRadius: '8px',
+                      transition: 'all 0.2s ease',
+                      fontFamily: 'inherit',
+                      textDecoration: 'none',
+                      display: 'inline-block',
+                    }}
+                    onMouseEnter={e => {
+                      (e.target as HTMLElement).style.background = 'rgba(42,67,50,0.08)';
+                      (e.target as HTMLElement).style.color = '#2a4332';
+                    }}
+                    onMouseLeave={e => {
+                      (e.target as HTMLElement).style.background = 'none';
+                      (e.target as HTMLElement).style.color = '#3a5c42';
+                    }}
+                  >
+                    {link.label}
+                  </Link>
+                ) : (
+                  <button
+                    key={link.label}
+                    type="button"
+                    onClick={() => goHomeAndScroll(link.href)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      padding: '8px 14px',
+                      fontSize: '14px',
+                      fontWeight: 500,
+                      color: '#3a5c42',
+                      borderRadius: '8px',
+                      transition: 'all 0.2s ease',
+                      fontFamily: 'inherit',
+                    }}
+                    onMouseEnter={e => {
+                      (e.target as HTMLElement).style.background = 'rgba(42,67,50,0.08)';
+                      (e.target as HTMLElement).style.color = '#2a4332';
+                    }}
+                    onMouseLeave={e => {
+                      (e.target as HTMLElement).style.background = 'none';
+                      (e.target as HTMLElement).style.color = '#3a5c42';
+                    }}
+                  >
+                    {link.label}
+                  </button>
+                ),
+              )}
             </nav>
 
             {/* CTA Button - Left side in RTL + Hamburger */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <button
-                onClick={() => scrollToSection('#contact')}
+                type="button"
+                onClick={() => goHomeAndScroll('#contact')}
                 className="hidden-mobile"
                 style={{
                   background: 'linear-gradient(135deg, #c2754a, #d4906a)',
@@ -248,33 +306,69 @@ export const Navigation = () => {
 
               {/* Nav links */}
               <nav style={{ display: 'flex', flexDirection: 'column', gap: '4px', flex: 1 }}>
-                {navLinks.map((link, i) => (
-                  <motion.button
-                    key={link.href}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.07 + 0.15, duration: 0.4 }}
-                    onClick={() => { scrollToSection(link.href); setMobileOpen(false); }}
-                    style={{
-                      background: 'none',
-                      border: 'none',
-                      textAlign: 'right',
-                      cursor: 'pointer',
-                      padding: '16px 12px',
-                      fontSize: '18px',
-                      fontWeight: 600,
-                      color: '#2a4332',
-                      borderRadius: '10px',
-                      fontFamily: 'inherit',
-                      borderBottom: '1px solid rgba(42,67,50,0.08)',
-                      transition: 'background 0.2s',
-                    }}
-                    onMouseEnter={e => (e.currentTarget.style.background = 'rgba(42,67,50,0.06)')}
-                    onMouseLeave={e => (e.currentTarget.style.background = 'none')}
-                  >
-                    {link.label}
-                  </motion.button>
-                ))}
+                {navLinks.map((link, i) =>
+                  isRouteLink(link) ? (
+                    <motion.div
+                      key={link.label}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.07 + 0.15, duration: 0.4 }}
+                      style={{ borderBottom: '1px solid rgba(42,67,50,0.08)' }}
+                    >
+                      <Link
+                        to={link.to}
+                        onClick={() => setMobileOpen(false)}
+                        style={{
+                          display: 'block',
+                          background: 'none',
+                          border: 'none',
+                          textAlign: 'right',
+                          cursor: 'pointer',
+                          padding: '16px 12px',
+                          fontSize: '18px',
+                          fontWeight: 600,
+                          color: '#2a4332',
+                          borderRadius: '10px',
+                          fontFamily: 'inherit',
+                          textDecoration: 'none',
+                          transition: 'background 0.2s',
+                        }}
+                      >
+                        {link.label}
+                      </Link>
+                    </motion.div>
+                  ) : (
+                    <motion.button
+                      key={link.label}
+                      type="button"
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.07 + 0.15, duration: 0.4 }}
+                      onClick={() => {
+                        goHomeAndScroll(link.href);
+                        setMobileOpen(false);
+                      }}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        textAlign: 'right',
+                        cursor: 'pointer',
+                        padding: '16px 12px',
+                        fontSize: '18px',
+                        fontWeight: 600,
+                        color: '#2a4332',
+                        borderRadius: '10px',
+                        fontFamily: 'inherit',
+                        borderBottom: '1px solid rgba(42,67,50,0.08)',
+                        transition: 'background 0.2s',
+                      }}
+                      onMouseEnter={e => (e.currentTarget.style.background = 'rgba(42,67,50,0.06)')}
+                      onMouseLeave={e => (e.currentTarget.style.background = 'none')}
+                    >
+                      {link.label}
+                    </motion.button>
+                  ),
+                )}
               </nav>
 
               {/* Mobile CTA */}
@@ -287,7 +381,11 @@ export const Navigation = () => {
                   הצעד הראשון הוא פשוט — בואו נדבר
                 </div>
                 <button
-                  onClick={() => { scrollToSection('#contact'); setMobileOpen(false); }}
+                  type="button"
+                  onClick={() => {
+                    goHomeAndScroll('#contact');
+                    setMobileOpen(false);
+                  }}
                   style={{
                     width: '100%',
                     background: 'linear-gradient(135deg, #c2754a, #d4906a)',

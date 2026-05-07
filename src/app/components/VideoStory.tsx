@@ -1,14 +1,10 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { motion, useInView } from 'motion/react';
-import { Play } from 'lucide-react';
 import { BranchLinework, LeafCluster, FloralBorder } from './BotanicalElements';
-
-const VIDEO_POSTER = 'https://images.unsplash.com/photo-1619588191166-b2ee00a4c314?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb3VudGFpbiUyMHZhbGxleSUyMHJpdmVyJTIwbGFuZHNjYXBlJTIwYWVyaWFsfGVufDF8fHx8MTc3NjAxMTk5Mnww&ixlib=rb-4.1.0&q=80&w=1080';
 
 export const VideoStory = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
-  const [playing, setPlaying] = useState(false);
 
   return (
     <section
@@ -109,80 +105,24 @@ export const VideoStory = () => {
               borderRadius: '24px',
               overflow: 'hidden',
               aspectRatio: '16/9',
-              cursor: 'pointer',
               boxShadow: '0 30px 80px rgba(0,0,0,0.4), 0 4px 20px rgba(0,0,0,0.2)',
               border: '1px solid rgba(255,255,255,0.1)',
             }}
-            onClick={() => setPlaying(true)}
           >
-            {/* Video poster */}
-            <img
-              src={VIDEO_POSTER}
-              alt="סרטון סיפור קריית שמונה"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', filter: 'brightness(0.75) saturate(1.1)' }}
+            <iframe
+              src="https://www.facebook.com/plugins/video.php?height=304&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F802159462564263%2F&show_text=false&width=560&t=0"
+              title="סרטון עדויות של משפחות"
+              style={{
+                width: '100%',
+                height: '100%',
+                border: 'none',
+                display: 'block',
+              }}
+              scrolling="no"
+              frameBorder="0"
+              allowFullScreen
+              allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
             />
-
-            {/* Dark gradient overlay */}
-            <div style={{
-              position: 'absolute', inset: 0,
-              background: 'linear-gradient(180deg, rgba(30,50,40,0.2) 0%, rgba(30,50,40,0.5) 100%)',
-            }} />
-
-            {/* Landscape texture overlay */}
-            <div style={{
-              position: 'absolute', bottom: 0, left: 0, right: 0, height: '40%',
-              background: 'linear-gradient(to top, rgba(30,50,40,0.7), transparent)',
-            }} />
-
-            {/* Play button */}
-            <div style={{
-              position: 'absolute', inset: 0,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-            }}>
-              <motion.div
-                whileHover={{ scale: 1.08 }}
-                whileTap={{ scale: 0.95 }}
-                style={{
-                  width: '80px',
-                  height: '80px',
-                  borderRadius: '50%',
-                  background: 'rgba(255,255,255,0.18)',
-                  backdropFilter: 'blur(12px)',
-                  WebkitBackdropFilter: 'blur(12px)',
-                  border: '2px solid rgba(255,255,255,0.4)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  boxShadow: '0 8px 32px rgba(0,0,0,0.3), 0 0 0 12px rgba(255,255,255,0.06)',
-                  transition: 'all 0.3s ease',
-                }}
-              >
-                <Play size={30} fill="white" color="white" style={{ marginRight: '-3px' }} />
-              </motion.div>
-            </div>
-
-            {/* Bottom info strip */}
-            <div style={{
-              position: 'absolute', bottom: 0, left: 0, right: 0,
-              padding: '20px 28px',
-              display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end',
-            }}>
-              <div style={{
-                background: 'rgba(255,255,255,0.12)',
-                backdropFilter: 'blur(8px)',
-                WebkitBackdropFilter: 'blur(8px)',
-                border: '1px solid rgba(255,255,255,0.2)',
-                borderRadius: '10px',
-                padding: '8px 14px',
-              }}>
-                <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.6)', fontWeight: 500 }}>משך</div>
-                <div style={{ fontSize: '14px', color: 'white', fontWeight: 700 }}>4:32</div>
-              </div>
-              <div style={{ textAlign: 'left' }}>
-                <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.55)', fontWeight: 500 }}>סרטון תיעודי</div>
-                <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.9)', fontWeight: 600 }}>קריית שמונה 2025</div>
-              </div>
-            </div>
           </div>
         </motion.div>
 
