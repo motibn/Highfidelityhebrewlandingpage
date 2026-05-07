@@ -10,11 +10,6 @@ export const ContactForm = () => {
   const { openTerms, openPrivacy } = useLegalModal();
 
   useEffect(() => {
-    const container = document.querySelector<HTMLElement>('[data-origamiformid]');
-    if (container) {
-      container.innerHTML = '';
-    }
-
     const existingScript = document.querySelector<HTMLScriptElement>(
       'script[src^="https://live-public.origamicloud.ms/web_forms/js"]',
     );
@@ -23,7 +18,7 @@ export const ContactForm = () => {
     }
 
     const script = document.createElement('script');
-    script.src = 'https://live-public.origamicloud.ms/web_forms/js';
+    script.src = `https://live-public.origamicloud.ms/web_forms/js?t=${Date.now()}`;
     script.async = true;
     document.body.appendChild(script);
 
@@ -248,6 +243,7 @@ export const ContactForm = () => {
           direction: rtl;
           font-family: inherit;
           width: 100%;
+          min-height: 480px;
         }
         .origami-form-wrapper > div {
           width: 100%;
@@ -258,7 +254,7 @@ export const ContactForm = () => {
           max-width: 100% !important;
           border: none !important;
           display: block !important;
-          min-height: 480px;
+          min-height: 480px !important;
           border-radius: 16px !important;
           background: white !important;
         }
@@ -266,13 +262,14 @@ export const ContactForm = () => {
           #contact {
             padding: 80px 16px 100px !important;
           }
-          .origami-form-wrapper iframe {
-            min-height: 560px;
-            border-radius: 12px !important;
-          }
           .origami-form-wrapper {
+            min-height: 560px;
             margin: 0;
             overflow-x: hidden;
+          }
+          .origami-form-wrapper iframe {
+            min-height: 560px !important;
+            border-radius: 12px !important;
           }
         }
       `}</style>
