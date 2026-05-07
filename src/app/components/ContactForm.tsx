@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'motion/react';
 import { Mail, MapPin } from 'lucide-react';
 import { FloralBorder, LeafCluster, BranchLinework } from './BotanicalElements';
@@ -8,8 +8,11 @@ export const ContactForm = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
   const { openTerms, openPrivacy } = useLegalModal();
+  const [formError, setFormError] = useState(false);
 
   useEffect(() => {
+    let poll: ReturnType<typeof setInterval>;
+
     const existingScript = document.querySelector<HTMLScriptElement>(
       'script[src^="https://live-public.origamicloud.ms/web_forms/js"]',
     );
@@ -20,9 +23,26 @@ export const ContactForm = () => {
     const script = document.createElement('script');
     script.src = `https://live-public.origamicloud.ms/web_forms/js?t=${Date.now()}`;
     script.async = true;
+
+    script.onerror = () => setFormError(true);
+
+    script.onload = () => {
+      let attempts = 0;
+      poll = setInterval(() => {
+        const container = document.querySelector<HTMLElement>('[data-origamiformid]');
+        if (container?.querySelector('iframe')) {
+          clearInterval(poll);
+        } else if (++attempts >= 20) {
+          setFormError(true);
+          clearInterval(poll);
+        }
+      }, 500);
+    };
+
     document.body.appendChild(script);
 
     return () => {
+      clearInterval(poll);
       if (document.body.contains(script)) {
         document.body.removeChild(script);
       }
@@ -147,12 +167,43 @@ export const ContactForm = () => {
           }} />
 
           {/* Origami Cloud form */}
-          <div className="origami-form-wrapper" style={{ position: 'relative', zIndex: 1 }}>
-            <div
-              data-origamiformname="form_69de8238df351"
-              data-origamiformid="64fe36895a4af3e076fd231678d20a4423e961c0a1c4aeb15e1260e3a57a928466be8f7a72fe42947cbefc4a948ae556d6438f5839fafa8b696d9de545b811ebGTOxJqCWiPDDu6ZRP9chdrwXIiPoIAeZ/rfVrg4zoGF/t4xXucR6m1qsni/kjtPbUKf7TErt/1Sk8NPhqCJOKUsZ3TXeUVlUKDRDNnulTRkDMMn+uEZRbcdbWS0agqsg"
-            />
-          </div>
+          {formError ? (
+            <div style={{
+              textAlign: 'center',
+              padding: '48px 24px',
+              direction: 'rtl',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '16px',
+            }}>
+              <p style={{ fontSize: '16px', color: '#555', margin: 0 }}>
+                הטופס אינו זמין כרגע — ניתן לפנות ישירות:
+              </p>
+              <a
+                href="mailto:info@ks-north.co.il"
+                style={{
+                  display: 'inline-block',
+                  background: '#2a4332',
+                  color: '#f2e8d5',
+                  padding: '14px 32px',
+                  borderRadius: '12px',
+                  fontSize: '16px',
+                  fontWeight: 700,
+                  textDecoration: 'none',
+                }}
+              >
+                שלח אימייל
+              </a>
+            </div>
+          ) : (
+            <div className="origami-form-wrapper" style={{ position: 'relative', zIndex: 1 }}>
+              <div
+                data-origamiformname="form_69de8238df351"
+                data-origamiformid="64fe36895a4af3e076fd231678d20a4423e961c0a1c4aeb15e1260e3a57a928466be8f7a72fe42947cbefc4a948ae556d6438f5839fafa8b696d9de545b811ebGTOxJqCWiPDDu6ZRP9chdrwXIiPoIAeZ/rfVrg4zoGF/t4xXucR6m1qsni/kjtPbUKf7TErt/1Sk8NPhqCJOKUsZ3TXeUVlUKDRDNnulTRkDMMn+uEZRbcdbWS0agqsg"
+              />
+            </div>
+          )}
         </motion.div>
 
         <p
