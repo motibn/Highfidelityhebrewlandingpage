@@ -7,6 +7,7 @@ const Testimonials = lazy(() => import('../components/Testimonials').then(module
 const WhyNow = lazy(() => import('../components/WhyNow').then(module => ({ default: module.WhyNow })));
 const Stats = lazy(() => import('../components/Stats').then(module => ({ default: module.Stats })));
 const Process = lazy(() => import('../components/Process').then(module => ({ default: module.Process })));
+const FAQ = lazy(() => import('../components/FAQ').then(module => ({ default: module.FAQ })));
 const ContactForm = lazy(() => import('../components/ContactForm').then(module => ({ default: module.ContactForm })));
 
 export function HomePage() {
@@ -31,6 +32,7 @@ export function HomePage() {
         <WhyNow />
         <Stats />
         <Process />
+        <FAQ />
         <ContactForm />
       </Suspense>
     </>

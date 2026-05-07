@@ -1,25 +1,57 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'motion/react';
 import { Mail, MapPin } from 'lucide-react';
 import { FloralBorder, LeafCluster, BranchLinework } from './BotanicalElements';
 import { useLegalModal } from './LegalModal';
 
+const ORIGAMI_LOADER_SRC_PREFIX = 'https://live-public.origamicloud.ms/web_forms/js';
+
+function bootstrapOrigamiAfterLoad(): void {
+  if (document.readyState !== 'complete') return;
+  const { ORIGAMI_FORMS } = window as Window & {
+    ORIGAMI_FORMS?: { init?: () => void };
+  };
+  ORIGAMI_FORMS?.init?.();
+}
+
 export const ContactForm = () => {
   const ref = useRef(null);
+  const origamiContainerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
+  const [shouldLoadOrigamiScript, setShouldLoadOrigamiScript] = useState(false);
   const { openTerms, openPrivacy } = useLegalModal();
 
   useEffect(() => {
+    if (isInView) {
+      setShouldLoadOrigamiScript(true);
+    }
+  }, [isInView]);
+
+  /**
+   * Origami registers window "load" + myInit. On SPAs load already fired before this script injects —
+   * myInit never runs unless we call ORIGAMI_FORMS.init() after the loader executes.
+   */
+  useEffect(() => {
+    if (!shouldLoadOrigamiScript) return;
+
     const existingScript = document.querySelector<HTMLScriptElement>(
-      'script[src^="https://live-public.origamicloud.ms/web_forms/js"]',
+      `script[src^="${ORIGAMI_LOADER_SRC_PREFIX}"]`,
     );
+
     if (existingScript) {
-      existingScript.remove();
+      if (typeof (window as Window & { ORIGAMI_FORMS?: { init?: () => void } }).ORIGAMI_FORMS?.init === 'function') {
+        bootstrapOrigamiAfterLoad();
+      } else {
+        existingScript.addEventListener('load', bootstrapOrigamiAfterLoad);
+        return () => existingScript.removeEventListener('load', bootstrapOrigamiAfterLoad);
+      }
+      return undefined;
     }
 
     const script = document.createElement('script');
-    script.src = `https://live-public.origamicloud.ms/web_forms/js?t=${Date.now()}`;
+    script.src = `${ORIGAMI_LOADER_SRC_PREFIX}`;
     script.async = true;
+    script.onload = () => bootstrapOrigamiAfterLoad();
     document.body.appendChild(script);
 
     return () => {
@@ -27,7 +59,7 @@ export const ContactForm = () => {
         document.body.removeChild(script);
       }
     };
-  }, []);
+  }, [shouldLoadOrigamiScript]);
 
   return (
     <section
@@ -149,6 +181,7 @@ export const ContactForm = () => {
           {/* Origami Cloud form */}
           <div className="origami-form-wrapper" style={{ position: 'relative', zIndex: 1 }}>
             <div
+              ref={origamiContainerRef}
               data-origamiformname="form_69de8238df351"
               data-origamiformid="64fe36895a4af3e076fd231678d20a4423e961c0a1c4aeb15e1260e3a57a928466be8f7a72fe42947cbefc4a948ae556d6438f5839fafa8b696d9de545b811ebGTOxJqCWiPDDu6ZRP9chdrwXIiPoIAeZ/rfVrg4zoGF/t4xXucR6m1qsni/kjtPbUKf7TErt/1Sk8NPhqCJOKUsZ3TXeUVlUKDRDNnulTRkDMMn+uEZRbcdbWS0agqsg"
             />
@@ -219,22 +252,40 @@ export const ContactForm = () => {
             paddingTop: '24px',
           }}
         >
-          {[
-            { icon: Mail, text: 'info@ks-north.co.il' },
-            { icon: MapPin, text: 'קריית שמונה, הצפון' },
-          ].map((item, i) => (
-            <div key={i} style={{
+          <a
+            href="mailto:info@ks-north.co.il"
+            aria-label="שליחת אימייל ל-info@ks-north.co.il"
+            style={{
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
               color: 'rgba(194,220,180,0.7)',
               fontSize: '13px',
               fontWeight: 500,
-            }}>
-              <item.icon size={14} />
-              {item.text}
-            </div>
-          ))}
+              textDecoration: 'none',
+              transition: 'color 0.2s ease',
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLAnchorElement).style.color = '#f2e8d5';
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(194,220,180,0.7)';
+            }}
+          >
+            <Mail size={14} aria-hidden="true" />
+            <span style={{ direction: 'ltr', unicodeBidi: 'isolate' }}>info@ks-north.co.il</span>
+          </a>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            color: 'rgba(194,220,180,0.7)',
+            fontSize: '13px',
+            fontWeight: 500,
+          }}>
+            <MapPin size={14} aria-hidden="true" />
+            קריית שמונה, הצפון
+          </div>
         </motion.div>
       </div>
 

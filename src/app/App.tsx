@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { Routes, Route } from 'react-router';
 import { Navigation } from './components/Navigation';
 import { HomePage } from './pages/HomePage';
-import { FAQPage } from './pages/FAQPage';
 import { LegalModalProvider, useLegalModal } from './components/LegalModal';
 import { AccessibilityProvider } from './components/AccessibilityWidget';
 import { CookieConsent } from './components/CookieConsent';
@@ -96,7 +95,7 @@ const Footer = ({
             </div>
             {[
               { label: 'דף הבית', href: '/' },
-              { label: 'שאלות נפוצות', href: 'https://www.k8now.com/faq' },
+              { label: 'שאלות נפוצות', href: '/#faq' },
               { label: 'סיפורים', href: '/#testimonials' },
               { label: 'למה עכשיו', href: '/#why-now' },
               { label: 'איך זה עובד', href: '/#process' },
@@ -116,11 +115,32 @@ const Footer = ({
             <div style={{ fontSize: '11px', fontWeight: 700, color: '#8aaa78', letterSpacing: '0.5px', marginBottom: '12px' }}>
               יצירת קשר
             </div>
-            {['info@ks-north.co.il', 'קריית שמונה, הצפון'].map(link => (
-              <div key={link} style={{ fontSize: '13px', color: 'rgba(242,232,213,0.55)', marginBottom: '8px', fontWeight: 400 }}>
-                {link}
-              </div>
-            ))}
+            <div style={{ marginBottom: '8px' }}>
+              <a
+                href="mailto:info@ks-north.co.il"
+                style={{
+                  fontSize: '13px',
+                  color: 'rgba(242,232,213,0.55)',
+                  fontWeight: 400,
+                  textDecoration: 'none',
+                  transition: 'color 0.2s ease',
+                  direction: 'ltr',
+                  display: 'inline-block',
+                  unicodeBidi: 'isolate',
+                }}
+                onMouseEnter={e => {
+                  (e.currentTarget as HTMLAnchorElement).style.color = '#f2e8d5';
+                }}
+                onMouseLeave={e => {
+                  (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(242,232,213,0.55)';
+                }}
+              >
+                info@ks-north.co.il
+              </a>
+            </div>
+            <div style={{ fontSize: '13px', color: 'rgba(242,232,213,0.55)', marginBottom: '8px', fontWeight: 400 }}>
+              קריית שמונה, הצפון
+            </div>
             {/* Social icons */}
             <div style={{ display: 'flex', gap: '14px', marginTop: '18px' }}>
               {[
@@ -286,7 +306,6 @@ function AppContent() {
       <main id="main-content" tabIndex={-1} style={{ position: 'relative', outline: 'none' }}>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/faq" element={<FAQPage />} />
         </Routes>
       </main>
 

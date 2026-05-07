@@ -15,7 +15,7 @@ const navLinks: NavLinkItem[] = [
   { label: 'למה עכשיו', href: '#why-now' },
   { label: 'המספרים', href: '#stats' },
   { label: 'איך זה עובד', href: '#process' },
-  { label: 'שאלות נפוצות', to: '/faq' },
+  { label: 'שאלות נפוצות', href: '#faq' },
 ];
 
 const scrollToSection = (href: string) => {
