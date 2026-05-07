@@ -1,23 +1,38 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'motion/react';
 import { Mail, MapPin } from 'lucide-react';
 import { FloralBorder, LeafCluster, BranchLinework } from './BotanicalElements';
+import { useLegalModal } from './LegalModal';
 
 export const ContactForm = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
+  const [shouldLoadScript, setShouldLoadScript] = useState(false);
+  const { openTerms, openPrivacy } = useLegalModal();
 
   useEffect(() => {
+    if (isInView) {
+      setShouldLoadScript(true);
+    }
+  }, [isInView]);
+
+  useEffect(() => {
+    if (!shouldLoadScript) return;
+    const existingScript = document.querySelector<HTMLScriptElement>('script[src="https://live-public.origamicloud.ms/web_forms/js"]');
+    if (existingScript) return;
+
     const script = document.createElement('script');
     script.src = 'https://live-public.origamicloud.ms/web_forms/js';
     script.async = true;
+    script.defer = true;
     document.body.appendChild(script);
+
     return () => {
       if (document.body.contains(script)) {
         document.body.removeChild(script);
       }
     };
-  }, []);
+  }, [shouldLoadScript]);
 
   return (
     <section
@@ -144,6 +159,55 @@ export const ContactForm = () => {
             />
           </div>
         </motion.div>
+
+        <p
+          style={{
+            textAlign: 'center',
+            marginTop: '16px',
+            marginBottom: 0,
+            fontSize: '12px',
+            lineHeight: 1.65,
+            color: 'rgba(242,232,213,0.65)',
+            fontWeight: 400,
+            maxWidth: '420px',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+          }}
+        >
+          בלחיצה על «הירשם» אני מסכים/ה ל
+          <button
+            type="button"
+            onClick={openTerms}
+            style={{
+              color: '#c2754a',
+              textDecoration: 'underline',
+              background: 'none',
+              border: 'none',
+              padding: 0,
+              font: 'inherit',
+              cursor: 'pointer',
+            }}
+          >
+            תנאי השימוש
+          </button>
+          {' '}ו{' '}
+          <button
+            type="button"
+            onClick={openPrivacy}
+            style={{
+              color: '#c2754a',
+              textDecoration: 'underline',
+              background: 'none',
+              border: 'none',
+              padding: 0,
+              font: 'inherit',
+              cursor: 'pointer',
+            }}
+          >
+            מדיניות הפרטיות
+          </button>
+          .
+        </p>
 
         {/* Contact details */}
         <motion.div

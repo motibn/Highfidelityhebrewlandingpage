@@ -1,7 +1,8 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { HeroLandscape, BranchLinework, CornerBotanical } from './BotanicalElements';
-const HERO_IMG = '/young-family-with-two-small-children-walking-on-me-2026-03-10-02-01-47-utc.jpg';
+const HERO_IMG_LARGE = '/hero-1920.avif';
+const HERO_IMG_SMALL = '/hero-1280.avif';
 const LOGO_KS = '/לוגו-קריית-שמונה.png';
 const LOGO_MAKOM = '/מקום.png';
 const LOGO_MINISTRY = '/משרד-הנגב-הגלול-והחוסן-הלאומי.png';
@@ -45,13 +46,27 @@ export const Hero = () => {
 
         {/* Background nature image with parallax */}
         <motion.div style={{ position: 'absolute', inset: 0, zIndex: 0, y: bgY }}>
-          <div style={{
-            position: 'absolute', inset: 0,
-            backgroundImage: `url("${HERO_IMG}")`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center 40%',
-            opacity: 0.55,
-          }} />
+          <picture style={{ position: 'absolute', inset: 0 }}>
+            <source media="(max-width: 1024px)" srcSet={HERO_IMG_SMALL} type="image/avif" />
+            <source srcSet={HERO_IMG_LARGE} type="image/avif" />
+            <img
+              src={HERO_IMG_LARGE}
+              alt=""
+              aria-hidden="true"
+              fetchPriority="high"
+              loading="eager"
+              decoding="async"
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                objectPosition: 'center 40%',
+                opacity: 0.55,
+              }}
+            />
+          </picture>
           <div style={{
             position: 'absolute', inset: 0,
             background: 'linear-gradient(180deg, rgba(247,241,229,0.75) 0%, rgba(238,228,208,0.6) 50%, rgba(238,228,208,0.2) 80%, transparent 100%)',

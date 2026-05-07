@@ -3,6 +3,9 @@ import { Routes, Route } from 'react-router';
 import { Navigation } from './components/Navigation';
 import { HomePage } from './pages/HomePage';
 import { FAQPage } from './pages/FAQPage';
+import { LegalModalProvider, useLegalModal } from './components/LegalModal';
+import { AccessibilityProvider } from './components/AccessibilityWidget';
+import { CookieConsent } from './components/CookieConsent';
 
 // TikTok SVG icon (not in lucide-react)
 const TikTokIcon = ({ size = 20, color = 'currentColor' }: { size?: number; color?: string }) => (
@@ -25,7 +28,15 @@ const InstagramIcon = ({ size = 20, color = 'currentColor' }: { size?: number; c
   </svg>
 );
 
-const Footer = () => (
+const Footer = ({
+  onTermsClick,
+  onPrivacyClick,
+  onAccessibilityClick,
+}: {
+  onTermsClick: () => void;
+  onPrivacyClick: () => void;
+  onAccessibilityClick: () => void;
+}) => (
   <footer style={{
     background: '#1a2a20',
     padding: '48px 24px 36px',
@@ -169,19 +180,82 @@ const Footer = () => (
         <div style={{ fontSize: '12px', color: 'rgba(194,220,180,0.4)', fontWeight: 400 }}>
           © 2025 קריית שמונה מחכה לכם. כל הזכויות שמורות.
         </div>
-        <div style={{ display: 'flex', gap: '20px' }}>
-          {['תנאי שימוש', 'מדיניות פרטיות'].map(link => (
-            <span key={link} style={{ fontSize: '12px', color: 'rgba(194,220,180,0.35)', cursor: 'pointer', fontWeight: 400 }}>
-              {link}
-            </span>
-          ))}
+        <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+          <button
+            type="button"
+            onClick={onTermsClick}
+            style={{
+              fontSize: '12px',
+              color: 'rgba(194,220,180,0.35)',
+              cursor: 'pointer',
+              fontWeight: 400,
+              background: 'none',
+              border: 'none',
+              padding: 0,
+              fontFamily: 'inherit',
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLButtonElement).style.color = 'rgba(194,220,180,0.7)';
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLButtonElement).style.color = 'rgba(194,220,180,0.35)';
+            }}
+          >
+            תנאי שימוש
+          </button>
+          <button
+            type="button"
+            onClick={onPrivacyClick}
+            style={{
+              fontSize: '12px',
+              color: 'rgba(194,220,180,0.35)',
+              cursor: 'pointer',
+              fontWeight: 400,
+              background: 'none',
+              border: 'none',
+              padding: 0,
+              fontFamily: 'inherit',
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLButtonElement).style.color = 'rgba(194,220,180,0.7)';
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLButtonElement).style.color = 'rgba(194,220,180,0.35)';
+            }}
+          >
+            מדיניות פרטיות
+          </button>
+          <button
+            type="button"
+            onClick={onAccessibilityClick}
+            style={{
+              fontSize: '12px',
+              color: 'rgba(194,220,180,0.35)',
+              cursor: 'pointer',
+              fontWeight: 400,
+              background: 'none',
+              border: 'none',
+              padding: 0,
+              fontFamily: 'inherit',
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLButtonElement).style.color = 'rgba(194,220,180,0.7)';
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLButtonElement).style.color = 'rgba(194,220,180,0.35)';
+            }}
+          >
+            הצהרת נגישות
+          </button>
         </div>
       </div>
     </div>
   </footer>
 );
 
-export default function App() {
+function AppContent() {
+  const { openTerms, openPrivacy, openAccessibility } = useLegalModal();
+
   useEffect(() => {
     document.documentElement.setAttribute('dir', 'rtl');
     document.documentElement.setAttribute('lang', 'he');
@@ -199,16 +273,30 @@ export default function App() {
         minHeight: '100vh',
       }}
     >
+      <a
+        href="#main-content"
+        className="skip-to-content"
+        aria-label="דלג ישירות לתוכן הראשי"
+      >
+        דלג לתוכן
+      </a>
+
       <Navigation />
 
-      <main style={{ position: 'relative' }}>
+      <main id="main-content" tabIndex={-1} style={{ position: 'relative', outline: 'none' }}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/faq" element={<FAQPage />} />
         </Routes>
       </main>
 
-      <Footer />
+      <Footer
+        onTermsClick={openTerms}
+        onPrivacyClick={openPrivacy}
+        onAccessibilityClick={openAccessibility}
+      />
+
+      <CookieConsent />
 
       <style>{`
         * {
@@ -241,7 +329,152 @@ export default function App() {
         section[id] {
           scroll-margin-top: 72px;
         }
+
+        :focus-visible {
+          outline: 2px solid #c2754a;
+          outline-offset: 3px;
+        }
+
+        #main-content:focus:not(:focus-visible) {
+          outline: none;
+        }
+
+        #main-content:focus-visible {
+          outline: 2px solid #c2754a;
+          outline-offset: 4px;
+        }
+
+        .skip-to-content {
+          position: absolute;
+          top: -120px;
+          right: 16px;
+          z-index: 200;
+          padding: 10px 16px;
+          background: #2a4332;
+          color: #f2e8d5;
+          font-weight: 700;
+          font-size: 14px;
+          font-family: 'Heebo', Arial, sans-serif;
+          text-decoration: none;
+          border-radius: 8px;
+          border: 1px solid rgba(255,255,255,0.2);
+          box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+        }
+
+        .skip-to-content:focus {
+          top: 12px;
+          outline: 2px solid #c2754a;
+          outline-offset: 2px;
+        }
+
+        html.a11y-font-100 { font-size: 100%; }
+        html.a11y-font-115 { font-size: 115%; }
+        html.a11y-font-130 { font-size: 130%; }
+        html.a11y-font-150 { font-size: 150%; }
+
+        html[class*="a11y-font-"] body {
+          font-size: 1em;
+        }
+
+        html.a11y-contrast-dark body {
+          filter: invert(0.92) hue-rotate(180deg);
+        }
+
+        html.a11y-contrast-dark body img,
+        html.a11y-contrast-dark body video,
+        html.a11y-contrast-dark body iframe,
+        html.a11y-contrast-dark body svg {
+          filter: invert(1) hue-rotate(180deg);
+        }
+
+        html.a11y-contrast-mono body {
+          filter: grayscale(1) contrast(1.05);
+        }
+
+        html.a11y-contrast-mono body img,
+        html.a11y-contrast-mono body video,
+        html.a11y-contrast-mono body iframe {
+          filter: grayscale(0) contrast(1);
+        }
+
+        html.a11y-highlight-links a,
+        html.a11y-highlight-links button[type="button"],
+        html.a11y-highlight-links button[type="submit"] {
+          text-decoration: underline !important;
+          font-weight: 700 !important;
+          text-underline-offset: 2px;
+        }
+
+        html.a11y-highlight-headings :is(h1, h2, h3) {
+          background: rgba(42, 67, 50, 0.08);
+          padding: 4px 8px;
+          border-radius: 6px;
+          outline: 1px dashed rgba(42, 67, 50, 0.45);
+          outline-offset: 2px;
+        }
+
+        html.a11y-big-cursor,
+        html.a11y-big-cursor * {
+          cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath fill='%232a4332' stroke='%23f2e8d5' stroke-width='1.5' d='M4 4l10 22 3-9 9-3L4 4z'/%3E%3C/svg%3E") 4 4, auto !important;
+        }
+
+        html.a11y-pause-anim *,
+        html.a11y-pause-anim *::before,
+        html.a11y-pause-anim *::after {
+          animation-duration: 0ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0ms !important;
+          scroll-behavior: auto !important;
+        }
+
+        html.cookie-banner-visible .a11y-fab {
+          bottom: 110px;
+        }
+
+        .cookie-consent-inner {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+          align-items: stretch;
+        }
+
+        .cookie-consent-actions {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          justify-content: flex-start;
+        }
+
+        @media (min-width: 768px) {
+          .cookie-consent-inner {
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+          }
+
+          .cookie-consent-text-row {
+            flex: 1;
+            min-width: 0;
+          }
+
+          .cookie-consent-actions {
+            flex-wrap: nowrap;
+            justify-content: flex-end;
+            flex-shrink: 0;
+          }
+        }
       `}</style>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <LegalModalProvider>
+      <AccessibilityProvider>
+        <AppContent />
+      </AccessibilityProvider>
+    </LegalModalProvider>
   );
 }

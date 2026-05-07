@@ -3,18 +3,15 @@ import { motion, useInView } from 'motion/react';
 import useEmblaCarousel from 'embla-carousel-react';
 import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 import { FloralBorder, CornerBotanical } from './BotanicalElements';
-const BACKGROUND_IMG = '/brother-sister-cheerful-leisure-offspring-kids-con-2026-01-07-23-37-25-utc.jpg';
-const IMG1 = '/happy-family-on-the-open-air-young-dark-haired-wo-2026-03-09-05-15-00-utc.jpg';
-const IMG2 = '/happy-family-on-the-open-air-young-dark-haired-wo-2026-03-09-05-15-00-utc.jpg';
-const IMG3 = '/happy-family-on-the-open-air-young-dark-haired-wo-2026-03-09-05-15-00-utc.jpg';
-const IMG4 = '/happy-family-on-the-open-air-young-dark-haired-wo-2026-03-09-05-15-00-utc.jpg';
+const IMG_DESKTOP = '/testimonial-1600.avif';
+const IMG_MOBILE = '/testimonial-960.avif';
 
 const testimonials = [
   {
     name: 'משפחת לוי',
     origin: 'עברה מתל אביב לפני שנה וחצי',
     quote: 'חשבנו שנצטרך לוותר על משהו. גילינו שלמעשה קיבלנו הרבה יותר. שכנים שמכירים אותנו בשם, ילדים שיוצאים לשחק בחוץ, וחיים שמרגישים אמיתיים.',
-    image: IMG3,
+    image: IMG_DESKTOP,
     stars: 5,
     highlight: 'הילדים פרחו',
   },
@@ -22,7 +19,7 @@ const testimonials = [
     name: 'משפחת אברהם',
     origin: 'עברה מחיפה לפני שנתיים',
     quote: 'השינוי היה מפחיד בהתחלה. אבל הקהילה קיבלה אותנו בזרועות פתוחות. תוך שבועות הרגשנו שזה הבית שתמיד רצינו. הנוף הוא בונוס שאי אפשר להסביר.',
-    image: IMG1,
+    image: IMG_DESKTOP,
     stars: 5,
     highlight: 'קהילה שמחה',
   },
@@ -30,7 +27,7 @@ const testimonials = [
     name: 'משפחת כהן',
     origin: 'עברה מרמת גן לפני שמונה חודשים',
     quote: 'שאלנו את עצמנו המון שאלות לפני המעבר. עכשיו, כשאנחנו רואים את הילדים שלנו משחקים בחוץ עם חברים, אנחנו יודעים שעשינו את הצעד הנכון.',
-    image: IMG4,
+    image: IMG_DESKTOP,
     stars: 5,
     highlight: 'ילדות מושלמת',
   },
@@ -38,7 +35,7 @@ const testimonials = [
     name: 'משפחת גולדברג',
     origin: 'עברה מירושלים לפני שלושה חודשים',
     quote: 'המחיר של הדירה היה חצי ממה שחשבנו אפשרי. אבל מה שלא ציפינו זה כמה עשיר יהיה החיים עצמם. אנחנו חיים חיים שרצינו לחיות.',
-    image: IMG2,
+    image: IMG_DESKTOP,
     stars: 5,
     highlight: 'איכות חיים',
   },
@@ -158,7 +155,7 @@ export const Testimonials = () => {
                     {/* Paper texture inner */}
                     <div style={{
                       position: 'absolute', inset: 0, borderRadius: '28px', pointerEvents: 'none',
-                      backgroundImage: `url("${t.image}")`,
+                      backgroundImage: `image-set(url("${IMG_MOBILE}") 1x, url("${t.image}") 2x)`,
                       backgroundSize: 'cover',
                       backgroundPosition: 'center',
                       opacity: 0.15,

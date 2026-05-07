@@ -2,12 +2,25 @@
   <!DOCTYPE html>
   <html lang="he" dir="rtl">
     <head>
-      <!-- Google Tag Manager -->
-      <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-MMJGRMR9');</script>
+      <!-- Google Tag Manager (deferred until after load) -->
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+        window.addEventListener('load', function () {
+          var loadGtm = function () {
+            var firstScript = document.getElementsByTagName('script')[0];
+            var gtmScript = document.createElement('script');
+            gtmScript.async = true;
+            gtmScript.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-MMJGRMR9';
+            firstScript.parentNode.insertBefore(gtmScript, firstScript);
+          };
+          if ('requestIdleCallback' in window) {
+            window.requestIdleCallback(loadGtm, { timeout: 2000 });
+          } else {
+            setTimeout(loadGtm, 1200);
+          }
+        });
+      </script>
       <!-- End Google Tag Manager -->
       <meta charset="UTF-8" />
       <link rel="icon" href="/Main_Logo.svg" type="image/svg+xml" />
@@ -32,9 +45,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <meta name="twitter:description" content="גלו למה מעל 200 משפחות בחרו לעבור לקריית שמונה. דירות, קהילה, הטבות מס ואיכות חיים." />
       <meta name="twitter:image" content="https://k8now.com/happy-family-on-the-open-air-young-dark-haired-wo-2026-03-09-05-15-00-utc.jpg" />
 
+      <!-- LCP image preload -->
+      <link rel="preload" as="image" href="/hero-1920.avif" type="image/avif" fetchpriority="high" />
+
       <!-- preconnect for fonts -->
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Playpen+Sans+Hebrew:wght@400&display=swap" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Playpen+Sans+Hebrew:wght@400&display=swap" media="print" onload="this.media='all'" />
+      <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Playpen+Sans+Hebrew:wght@400&display=swap" />
+      </noscript>
 
       <!-- JSON-LD: Organization -->
       <script type="application/ld+json">

@@ -5,7 +5,11 @@
   "type": "module",
   "scripts": {
     "build": "vite build",
-    "dev": "vite"
+    "dev": "vite",
+    "perf:build": "npm run build",
+    "perf:serve": "vite preview --host 127.0.0.1 --port 4173 --strictPort",
+    "perf:lighthouse:mobile": "npx lighthouse http://127.0.0.1:4173 --emulated-form-factor=mobile --throttling-method=simulate --only-categories=performance --output=html --output=json --output-path=./.perf/lighthouse-mobile --chrome-flags='--headless=new'",
+    "perf:lighthouse:desktop": "npx lighthouse http://127.0.0.1:4173 --preset=desktop --only-categories=performance --output=html --output=json --output-path=./.perf/lighthouse-desktop --chrome-flags='--headless=new'"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",

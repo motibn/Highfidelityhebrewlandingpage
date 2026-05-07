@@ -1,10 +1,11 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { motion, useInView } from 'motion/react';
 import { BranchLinework, LeafCluster, FloralBorder } from './BotanicalElements';
 
 export const VideoStory = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
+  const [isVideoActivated, setIsVideoActivated] = useState(false);
 
   return (
     <section
@@ -109,20 +110,66 @@ export const VideoStory = () => {
               border: '1px solid rgba(255,255,255,0.1)',
             }}
           >
-            <iframe
-              src="https://www.facebook.com/plugins/video.php?height=304&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F802159462564263%2F&show_text=false&width=560&t=0"
-              title="סרטון עדויות של משפחות"
-              style={{
-                width: '100%',
-                height: '100%',
-                border: 'none',
-                display: 'block',
-              }}
-              scrolling="no"
-              frameBorder="0"
-              allowFullScreen
-              allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share; unload"
-            />
+            {isVideoActivated ? (
+              <iframe
+                src="https://www.facebook.com/plugins/video.php?height=304&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F802159462564263%2F&show_text=false&width=560&t=0"
+                title="סרטון עדויות של משפחות"
+                loading="lazy"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  border: 'none',
+                  display: 'block',
+                }}
+                scrolling="no"
+                frameBorder="0"
+                allowFullScreen
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share; unload"
+              />
+            ) : (
+              <button
+                type="button"
+                onClick={() => setIsVideoActivated(true)}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  border: 'none',
+                  padding: 0,
+                  cursor: 'pointer',
+                  position: 'relative',
+                  background: `url("/testimonials-bg-1400.avif") center/cover no-repeat`,
+                }}
+                aria-label="הפעלת הסרטון"
+              >
+                <span
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'linear-gradient(180deg, rgba(30,45,39,0.25), rgba(30,45,39,0.5))',
+                  }}
+                />
+                <span
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: '78px',
+                    height: '78px',
+                    borderRadius: '50%',
+                    background: 'rgba(242,232,213,0.92)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0 16px 40px rgba(0,0,0,0.35)',
+                    color: '#2a4332',
+                    fontSize: '30px',
+                  }}
+                >
+                  ▶
+                </span>
+              </button>
+            )}
           </div>
         </motion.div>
 
