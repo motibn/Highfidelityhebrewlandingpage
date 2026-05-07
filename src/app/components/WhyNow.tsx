@@ -3,7 +3,7 @@ import { motion, useInView } from 'motion/react';
 import { TrendingUp, Users, Leaf, Heart } from 'lucide-react';
 import { BranchLinework, FloralBorder, CornerBotanical } from './BotanicalElements';
 import { ImageWithFallback } from './figma/ImageWithFallback';
-import HOUSE_IMG from '@/imports/4b8fdbae-ad78-49c0-b13b-88320eec281d.jpeg';
+const HOUSE_IMG = '/4b8fdbae-ad78-49c0-b13b-88320eec281d.jpeg';
 
 const reasons = [
   {

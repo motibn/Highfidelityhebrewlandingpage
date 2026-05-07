@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
-import logo from '@/imports/logo-1.png';
-import mainLogo from '@/imports/Main_Logo.png';
+const logo = '/logo-1.png';
+const mainLogo = '/Main_Logo.svg';
 
 const navLinks = [
   { label: 'הסיפור שלנו', href: '#video' },

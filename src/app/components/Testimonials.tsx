@@ -3,11 +3,11 @@ import { motion, useInView } from 'motion/react';
 import useEmblaCarousel from 'embla-carousel-react';
 import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 import { FloralBorder, CornerBotanical } from './BotanicalElements';
-import BACKGROUND_IMG from '@/imports/brother-sister-cheerful-leisure-offspring-kids-con-2026-01-07-23-37-25-utc.jpg';
-import IMG1 from '@/imports/happy-family-playing-together-in-new-home-2026-01-06-10-58-30-utc.jpg';
-import IMG2 from '@/imports/happy-family-smiling-together-inside-home-2026-01-08-23-06-49-utc.jpg';
-import IMG3 from '@/imports/family-posing-together-on-couch-in-the-living-room-2026-03-20-00-19-54-utc.jpg';
-import IMG4 from '@/imports/mother-and-daughter-give-a-high-five-at-home-2026-01-05-06-34-53-utc.jpg';
+const BACKGROUND_IMG = '/brother-sister-cheerful-leisure-offspring-kids-con-2026-01-07-23-37-25-utc.jpg';
+const IMG1 = '/happy-family-on-the-open-air-young-dark-haired-wo-2026-03-09-05-15-00-utc.jpg';
+const IMG2 = '/happy-family-on-the-open-air-young-dark-haired-wo-2026-03-09-05-15-00-utc.jpg';
+const IMG3 = '/happy-family-on-the-open-air-young-dark-haired-wo-2026-03-09-05-15-00-utc.jpg';
+const IMG4 = '/happy-family-on-the-open-air-young-dark-haired-wo-2026-03-09-05-15-00-utc.jpg';
 
 const testimonials = [
   {
