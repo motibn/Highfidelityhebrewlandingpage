@@ -112,7 +112,7 @@ export const ContactForm = () => {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           style={{
-            background: 'rgba(245,239,227,0.92)',
+            background: 'rgba(250,247,242,0.97)',
             backdropFilter: 'blur(20px)',
             WebkitBackdropFilter: 'blur(20px)',
             border: '1px solid rgba(255,255,255,0.6)',
@@ -120,7 +120,7 @@ export const ContactForm = () => {
             padding: 'clamp(28px, 4vw, 52px)',
             boxShadow: '0 30px 80px rgba(0,0,0,0.25), 0 4px 20px rgba(0,0,0,0.1)',
             position: 'relative',
-            overflow: 'hidden',
+            overflow: 'visible',
           }}
         >
           {/* Inner paper texture */}
@@ -156,6 +156,8 @@ export const ContactForm = () => {
             gap: '32px',
             marginTop: '40px',
             flexWrap: 'wrap',
+            borderTop: '1px solid rgba(42,67,50,0.1)',
+            paddingTop: '24px',
           }}
         >
           {[
@@ -181,64 +183,31 @@ export const ContactForm = () => {
         .origami-form-wrapper {
           direction: rtl;
           font-family: inherit;
+          width: 100%;
         }
-        .origami-form-wrapper input,
-        .origami-form-wrapper select,
-        .origami-form-wrapper textarea {
-          font-family: inherit !important;
-          direction: rtl !important;
-          border-radius: 14px !important;
-          border: 1.5px solid rgba(42,67,50,0.15) !important;
-          background: rgba(255,255,255,0.45) !important;
-          color: #1e2d27 !important;
-          padding: 14px 16px !important;
+        .origami-form-wrapper > div {
+          width: 100%;
+        }
+        .origami-form-wrapper iframe {
           width: 100% !important;
-          box-sizing: border-box !important;
-          font-size: 15px !important;
-          transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease !important;
-          outline: none !important;
-        }
-        .origami-form-wrapper input:focus,
-        .origami-form-wrapper select:focus,
-        .origami-form-wrapper textarea:focus {
-          border-color: rgba(42,67,50,0.4) !important;
-          background: rgba(255,255,255,0.7) !important;
-          box-shadow: 0 0 0 3px rgba(42,67,50,0.1) !important;
-        }
-        .origami-form-wrapper label {
-          font-size: 12px !important;
-          font-weight: 700 !important;
-          color: #4a5e50 !important;
-          letter-spacing: 0.3px !important;
-          font-family: inherit !important;
-          direction: rtl !important;
-          display: block !important;
-          margin-bottom: 8px !important;
-        }
-        .origami-form-wrapper button[type="submit"],
-        .origami-form-wrapper input[type="submit"] {
-          background: linear-gradient(135deg, #c2754a 0%, #d4906a 50%, #c2754a 100%) !important;
-          color: white !important;
+          min-width: 100% !important;
+          max-width: 100% !important;
           border: none !important;
-          border-radius: 50px !important;
-          padding: 18px 52px !important;
-          font-size: 17px !important;
-          font-weight: 800 !important;
-          font-family: inherit !important;
-          cursor: pointer !important;
-          box-shadow: 0 10px 36px rgba(194,117,74,0.45), 0 3px 10px rgba(194,117,74,0.25) !important;
-          transition: transform 0.3s ease, box-shadow 0.3s ease !important;
-          letter-spacing: 0.3px !important;
           display: block !important;
-          margin: 0 auto !important;
+          min-height: 520px !important;
+          border-radius: 16px !important;
+          background: white !important;
         }
-        .origami-form-wrapper button[type="submit"]:hover,
-        .origami-form-wrapper input[type="submit"]:hover {
-          transform: translateY(-2px) !important;
-          box-shadow: 0 14px 42px rgba(194,117,74,0.55) !important;
-        }
-        .origami-form-wrapper select {
-          appearance: auto !important;
+        @media (max-width: 640px) {
+          #contact {
+            padding: 80px 16px 100px !important;
+          }
+          .origami-form-wrapper iframe {
+            min-height: 600px !important;
+          }
+          .origami-form-wrapper {
+            margin: 0 -4px;
+          }
         }
       `}</style>
     </section>
