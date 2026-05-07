@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { motion, useInView } from 'motion/react';
 import { Mail, MapPin } from 'lucide-react';
 import { FloralBorder, LeafCluster, BranchLinework } from './BotanicalElements';
@@ -7,22 +7,18 @@ import { useLegalModal } from './LegalModal';
 export const ContactForm = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
-  const [shouldLoadScript, setShouldLoadScript] = useState(false);
   const { openTerms, openPrivacy } = useLegalModal();
 
   useEffect(() => {
-    if (isInView) {
-      setShouldLoadScript(true);
+    const existingScript = document.querySelector<HTMLScriptElement>(
+      'script[src^="https://live-public.origamicloud.ms/web_forms/js"]',
+    );
+    if (existingScript) {
+      existingScript.remove();
     }
-  }, [isInView]);
-
-  useEffect(() => {
-    if (!shouldLoadScript) return;
-    const existingScript = document.querySelector<HTMLScriptElement>('script[src="https://live-public.origamicloud.ms/web_forms/js"]');
-    if (existingScript) return;
 
     const script = document.createElement('script');
-    script.src = 'https://live-public.origamicloud.ms/web_forms/js';
+    script.src = `https://live-public.origamicloud.ms/web_forms/js?t=${Date.now()}`;
     script.async = true;
     script.defer = true;
     document.body.appendChild(script);
@@ -32,7 +28,7 @@ export const ContactForm = () => {
         document.body.removeChild(script);
       }
     };
-  }, [shouldLoadScript]);
+  }, []);
 
   return (
     <section
