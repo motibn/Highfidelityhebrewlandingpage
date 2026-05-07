@@ -20,7 +20,6 @@ export const ContactForm = () => {
     const script = document.createElement('script');
     script.src = `https://live-public.origamicloud.ms/web_forms/js?t=${Date.now()}`;
     script.async = true;
-    script.defer = true;
     document.body.appendChild(script);
 
     return () => {
@@ -244,6 +243,7 @@ export const ContactForm = () => {
           direction: rtl;
           font-family: inherit;
           width: 100%;
+          min-height: 480px;
         }
         .origami-form-wrapper > div {
           width: 100%;
@@ -254,7 +254,7 @@ export const ContactForm = () => {
           max-width: 100% !important;
           border: none !important;
           display: block !important;
-          min-height: 520px !important;
+          min-height: 480px !important;
           border-radius: 16px !important;
           background: white !important;
         }
@@ -262,11 +262,14 @@ export const ContactForm = () => {
           #contact {
             padding: 80px 16px 100px !important;
           }
-          .origami-form-wrapper iframe {
-            min-height: 600px !important;
-          }
           .origami-form-wrapper {
-            margin: 0 -4px;
+            min-height: 560px;
+            margin: 0;
+            overflow-x: hidden;
+          }
+          .origami-form-wrapper iframe {
+            min-height: 560px !important;
+            border-radius: 12px !important;
           }
         }
       `}</style>
