@@ -1,13 +1,13 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { HeroLandscape, BranchLinework, CornerBotanical } from './BotanicalElements';
-import HERO_IMG from '../../imports/young-family-with-two-small-children-walking-on-me-2026-03-10-02-01-47-utc.jpg';
-import LOGO_KS from '../../imports/לוגו-קריית-שמונה.png';
-import LOGO_MAKOM from '../../imports/מקום.png';
-import LOGO_MINISTRY from '../../imports/משרד-הנגב-הגלול-והחוסן-הלאומי.png';
-import LOGO_MATNAS from '../../imports/עדכון-לוגו-מתנס.png';
-import LOGO_KAKAL from '../../imports/KakalLogo.png';
-import LOGO_JNF from '@/imports/לוגו_JNF.png';
+const HERO_IMG = '/young-family-with-two-small-children-walking-on-me-2026-03-10-02-01-47-utc.jpg';
+const LOGO_KS = '/לוגו-קריית-שמונה.png';
+const LOGO_MAKOM = '/מקום.png';
+const LOGO_MINISTRY = '/משרד-הנגב-הגלול-והחוסן-הלאומי.png';
+const LOGO_MATNAS = '/עדכון-לוגו-מתנס.png';
+const LOGO_KAKAL = '/KakalLogo.png';
+const LOGO_JNF = '/logo_jnf.svg';
 
 const scrollToSection = (href: string) => {
   const el = document.querySelector(href);
