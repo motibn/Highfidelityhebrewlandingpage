@@ -1,0 +1,5 @@
+# SPA: כל נתיב שאינו קובץ סטטי מחזיר את index.html (חובה ל־/thank-you וכו׳)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
