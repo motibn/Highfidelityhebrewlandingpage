@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "vite build",
+    "postbuild": "node scripts/verify-dist.mjs",
     "dev": "vite",
     "og:build": "node scripts/build-og-image.mjs",
     "perf:build": "npm run build",

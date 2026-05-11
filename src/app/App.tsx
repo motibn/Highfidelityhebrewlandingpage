@@ -308,6 +308,7 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/thank-you" element={<ThankYouLeadPage />} />
+          <Route path="/thank-you/" element={<ThankYouLeadPage />} />
         </Routes>
       </main>
 
