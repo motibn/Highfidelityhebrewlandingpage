@@ -25,8 +25,14 @@ if (!fs.existsSync(assetsDir)) {
   ok = false;
 }
 
+const thankYouIndex = path.join(dist, 'thank-you', 'index.html');
+if (!fs.existsSync(thankYouIndex)) {
+  console.error(`verify-dist: חסר ${path.relative(root, thankYouIndex)} (נדרש ל־NGINX סטטי בלי SPA rewrite)`);
+  ok = false;
+}
+
 if (!ok) {
   process.exit(1);
 }
 
-console.log('verify-dist: dist תקין (index.html, .htaccess, assets/)');
+console.log('verify-dist: dist תקין (index.html, thank-you/index.html, .htaccess, assets/)');

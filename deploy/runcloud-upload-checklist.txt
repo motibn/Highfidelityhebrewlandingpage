@@ -14,14 +14,17 @@
 3) ודאו בהגדרות ה־Git של האפליקציה שנקבעו פקודות בסגנון:
    - התקנה: npm ci   (או npm install)
    - בילד:   npm run build
-   אחרי הבילד חייב להופיע תוכן ב־dist/ בשרת עם: index.html, assets/, .htaccess
+   אחרי הבילד חייב להופיע ב־dist/ לפחות: index.html, תיקייה thank-you/index.html, assets/, .htaccess
+   (העתק ל־thank-you/ עוזר ל־NGINX סטטי בלי try_files)
 
 אם אין סקריפט בילד בפאנל — הגדירו את זה בתמיכת RunCloud או במסך Git של האפליקציה.
 
 ---
 ב. מה שאתה עושה באתר פעם אחת (ב־RunCloud)
 ------------------------------------------
-רק אם עדיין מתקבל 404 בכניסה ישירה ל־ https://k8now.com/thank-you
+אם מתקבל 404 על /thank-you ללא slash: נסו קודם
+  https://k8now.com/thank-you/
+לאחר פריסת הבילד החדש. אם עדיין 404:
 
 1) Web Application k8now → NGINX Config
 2) הוסיפו (או שלבו בקיים) את התוכן מקובץ הריפו:
@@ -32,11 +35,11 @@
 ---
 ג. Origami (מחוץ לאתר)
 ----------------------
-בממשק Origami, אחרי שליחת טופס: Redirect ל־
-  https://www.k8now.com/thank-you
-(או ללא www לפי מה שבאמת מוגדר בדומיין)
+בממשק Origami, אחרי שליחת טופס: הפניה לכתובת עם slash בסוף:
+  https://www.k8now.com/thank-you/
+(או k8now.com ללא www — לפי הדומיין שלכם)
 
 ---
 ד. בדיקה
 ---------
-בדפדפן: https://k8now.com/thank-you — אמור להיטען דף תודה גם אחרי רענון.
+בדפדפן: https://k8now.com/thank-you/ (עם slash) — אמור להיטען דף התודה.

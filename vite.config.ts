@@ -1,3 +1,4 @@
+import fs from 'node:fs'
 import path from 'path'
 import type { Plugin } from 'vite'
 import { defineConfig } from 'vite'
@@ -31,6 +32,22 @@ function spaPreviewFallback(): Plugin {
   }
 }
 
+/** Nginx סטטי בלי try_files לא משרת SPA — קובץ אמיתי ב־/thank-you/ נותן index.html מהבילד */
+function copyThankYouIndexHtml(): Plugin {
+  return {
+    name: 'copy-thank-you-index-html',
+    closeBundle() {
+      const distDir = path.resolve(__dirname, 'dist')
+      const src = path.join(distDir, 'index.html')
+      const destDir = path.join(distDir, 'thank-you')
+      const dest = path.join(destDir, 'index.html')
+      if (!fs.existsSync(src)) return
+      fs.mkdirSync(destDir, { recursive: true })
+      fs.copyFileSync(src, dest)
+    },
+  }
+}
+
 function figmaAssetResolver() {
   return {
     name: 'figma-asset-resolver',
@@ -46,6 +63,7 @@ function figmaAssetResolver() {
 export default defineConfig({
   plugins: [
     spaPreviewFallback(),
+    copyThankYouIndexHtml(),
     figmaAssetResolver(),
     // The React and Tailwind plugins are both required for Make, even if
     // Tailwind is not being actively used – do not remove them

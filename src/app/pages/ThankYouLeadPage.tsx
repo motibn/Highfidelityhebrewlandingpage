@@ -8,7 +8,8 @@ import { setPageSEO } from '../utils/seo';
 const THANK_YOU_SEO = {
   title: 'תודה שנרשמתם | קריית שמונה מחכה לכם',
   description: 'קיבלנו את הפנייה שלכם. נציג שלנו יחזור אליכם בהקדם.',
-  canonical: 'https://www.k8now.com/thank-you',
+  // slash סוף: תואם ל־thank-you/index.html בשרת Nginx סטטי
+  canonical: 'https://www.k8now.com/thank-you/',
 } as const;
 
 function pushLeadConversionEvent(): void {
@@ -17,7 +18,7 @@ function pushLeadConversionEvent(): void {
   w.dataLayer.push({
     event: 'origami_lead_submit',
     form_source: 'origami',
-    page_path: '/thank-you',
+    page_path: '/thank-you/',
   });
 }
 
