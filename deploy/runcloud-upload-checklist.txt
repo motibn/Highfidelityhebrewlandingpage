@@ -1,0 +1,20 @@
+פריסה ל־RunCloud (אתר סטטי מ־Vite)
+================================
+
+1) מקומית: npm run build
+
+2) בענן: העלו את *תוכן* תיקיית dist (לא את תיקיית dist עצמה) לתוך
+   תיקיית ה־Document Root של האתר — ב־RunCloud לרוב זה:
+   .../webapps/<שם-האפליקציה>/public
+   (במסך Settings מופיע "Public Path" — לרוב /public)
+
+3) ודאו שבאותה תיקייה מופיעים בין השאר:
+   - index.html
+   - תיקיית assets/
+   - .htaccess  (מועתק מ־public/ בפרויקט — חשוב ל־Apache / Hybrid)
+
+4) אם עדיין 404 על /thank-you אחרי רענון:
+   - Web Application → NGINX Config → הוסיפו את הבלוק מ־deploy/runcloud-nginx-spa.conf
+   - שמרו ורעננו Nginx
+
+5) ב־Origami: הפניה אחרי טופס ל־https://<הדומיין שלכם>/thank-you

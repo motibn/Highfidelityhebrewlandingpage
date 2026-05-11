@@ -1,8 +1,22 @@
+# SPA (Vite + React Router) — RunCloud / Apache / Nginx+Apache Hybrid
+# דורש AllowOverride עם FileInfo (וכן Indexes ל־DirectoryIndex) או All עבור mod_rewrite.
+
+<IfModule mod_dir.c>
+  DirectoryIndex index.html
+</IfModule>
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
+
+  # אל תגע ב־index.html עצמו
   RewriteRule ^index\.html$ - [L]
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
+
+  # קבצים ותיקיות קיימים (כולל /assets/...) — ללא שינוי
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # כל שאר הנתיבים (למשל /thank-you) → אפליקציית ה-React
   RewriteRule . /index.html [L]
 </IfModule>
