@@ -1,20 +1,42 @@
-פריסה ל־RunCloud (אתר סטטי מ־Vite)
-================================
+פריסה — k8now.com (RunCloud + GitHub)
+=====================================
 
-1) מקומית: npm run build
+המסך שלך מראה: Web App "k8now", דומיין k8now.com, Public Path =
+  /home/runcloud/webapps/k8now/dist
 
-2) בענן: העלו את *תוכן* תיקיית dist (לא את תיקיית dist עצמה) לתוך
-   תיקיית ה־Document Root של האתר — ב־RunCloud לרוב זה:
-   .../webapps/<שם-האפליקציה>/public
-   (במסך Settings מופיע "Public Path" — לרוב /public)
+כלומר השרת מגיש את האתר מתוך תיקיית dist אחרי בילד.
 
-3) ודאו שבאותה תיקייה מופיעים בין השאר:
-   - index.html
-   - תיקיית assets/
-   - .htaccess  (מועתק מ־public/ בפרויקט — חשוב ל־Apache / Hybrid)
+---
+א. מה שקורה מהריפו (אחרי push ל־main)
+--------------------------------------
+1) ב־RunCloud: נכנסים ל־Web Application "k8now" → טאב Git.
+2) לוחצים Deploy / Pull לפי הממשק שלכם (כדי למשוך את main האחרון מהריפו motibn/Highfidelityhebrewlandingpage).
+3) ודאו בהגדרות ה־Git של האפליקציה שנקבעו פקודות בסגנון:
+   - התקנה: npm ci   (או npm install)
+   - בילד:   npm run build
+   אחרי הבילד חייב להופיע תוכן ב־dist/ בשרת עם: index.html, assets/, .htaccess
 
-4) אם עדיין 404 על /thank-you אחרי רענון:
-   - Web Application → NGINX Config → הוסיפו את הבלוק מ־deploy/runcloud-nginx-spa.conf
-   - שמרו ורעננו Nginx
+אם אין סקריפט בילד בפאנל — הגדירו את זה בתמיכת RunCloud או במסך Git של האפליקציה.
 
-5) ב־Origami: הפניה אחרי טופס ל־https://<הדומיין שלכם>/thank-you
+---
+ב. מה שאתה עושה באתר פעם אחת (ב־RunCloud)
+------------------------------------------
+רק אם עדיין מתקבל 404 בכניסה ישירה ל־ https://k8now.com/thank-you
+
+1) Web Application k8now → NGINX Config
+2) הוסיפו (או שלבו בקיים) את התוכן מקובץ הריפו:
+   deploy/runcloud-nginx-spa.conf
+   — הבלוק עם:  try_files $uri $uri/ /index.html;
+3) שמרו ועדכנו/רעננו Nginx.
+
+---
+ג. Origami (מחוץ לאתר)
+----------------------
+בממשק Origami, אחרי שליחת טופס: Redirect ל־
+  https://www.k8now.com/thank-you
+(או ללא www לפי מה שבאמת מוגדר בדומיין)
+
+---
+ד. בדיקה
+---------
+בדפדפן: https://k8now.com/thank-you — אמור להיטען דף תודה גם אחרי רענון.
