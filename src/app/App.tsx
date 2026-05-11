@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Routes, Route } from 'react-router';
 import { Navigation } from './components/Navigation';
 import { HomePage } from './pages/HomePage';
+import { ThankYouLeadPage } from './pages/ThankYouLeadPage';
 import { LegalModalProvider, useLegalModal } from './components/LegalModal';
 import { AccessibilityProvider } from './components/AccessibilityWidget';
 import { CookieConsent } from './components/CookieConsent';
@@ -306,6 +307,7 @@ function AppContent() {
       <main id="main-content" tabIndex={-1} style={{ position: 'relative', outline: 'none' }}>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/thank-you" element={<ThankYouLeadPage />} />
         </Routes>
       </main>
 
