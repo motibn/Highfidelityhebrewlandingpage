@@ -253,8 +253,8 @@ export const ContactForm = () => {
           }}
         >
           <a
-            href="mailto:info@ks-north.co.il"
-            aria-label="שליחת אימייל ל-info@ks-north.co.il"
+            href="mailto:Info@north-il.center"
+            aria-label="שליחת אימייל ל-Info@north-il.center"
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -273,7 +273,7 @@ export const ContactForm = () => {
             }}
           >
             <Mail size={14} aria-hidden="true" />
-            <span style={{ direction: 'ltr', unicodeBidi: 'isolate' }}>info@ks-north.co.il</span>
+            <span style={{ direction: 'ltr', unicodeBidi: 'isolate' }}>Info@north-il.center</span>
           </a>
           <div style={{
             display: 'flex',

@@ -118,7 +118,7 @@ const Footer = ({
             </div>
             <div style={{ marginBottom: '8px' }}>
               <a
-                href="mailto:info@ks-north.co.il"
+                href="mailto:Info@north-il.center"
                 style={{
                   fontSize: '13px',
                   color: 'rgba(242,232,213,0.55)',
@@ -136,7 +136,7 @@ const Footer = ({
                   (e.currentTarget as HTMLAnchorElement).style.color = 'rgba(242,232,213,0.55)';
                 }}
               >
-                info@ks-north.co.il
+                Info@north-il.center
               </a>
             </div>
             <div style={{ fontSize: '13px', color: 'rgba(242,232,213,0.55)', marginBottom: '8px', fontWeight: 400 }}>
