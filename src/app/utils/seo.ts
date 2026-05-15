@@ -1,4 +1,4 @@
-/** Updates title, meta description, canonical, and basic Open Graph tags for client-side route changes. */
+/** Updates title, meta description, canonical, robots, and basic Open Graph tags for client-side route changes. */
 export function setPageSEO(opts: {
   title: string;
   description: string;
@@ -6,6 +6,7 @@ export function setPageSEO(opts: {
   ogTitle?: string;
   ogDescription?: string;
   ogUrl?: string;
+  robots?: string;
 }) {
   document.title = opts.title;
 
@@ -21,6 +22,16 @@ export function setPageSEO(opts: {
     document.head.appendChild(canonical);
   }
   canonical.setAttribute('href', opts.canonical);
+
+  // Defaults to "index, follow" so navigating back from a noindex page restores indexability.
+  const robotsContent = opts.robots ?? 'index, follow';
+  let robotsMeta = document.querySelector('meta[name="robots"]');
+  if (!robotsMeta) {
+    robotsMeta = document.createElement('meta');
+    robotsMeta.setAttribute('name', 'robots');
+    document.head.appendChild(robotsMeta);
+  }
+  robotsMeta.setAttribute('content', robotsContent);
 
   const ogTitle = opts.ogTitle ?? opts.title;
   const ogDescription = opts.ogDescription ?? opts.description;

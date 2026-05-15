@@ -36,7 +36,7 @@
 ג. Origami (מחוץ לאתר)
 ----------------------
 בממשק Origami, אחרי שליחת טופס: הפניה לכתובת עם slash בסוף:
-  https://www.k8now.com/thank-you/
+  https://k8now.com/thank-you/
 (או k8now.com ללא www — לפי הדומיין שלכם)
 
 ---

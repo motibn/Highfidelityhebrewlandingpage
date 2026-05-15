@@ -9,7 +9,10 @@ const THANK_YOU_SEO = {
   title: 'תודה שנרשמתם | קריית שמונה מחכה לכם',
   description: 'קיבלנו את הפנייה שלכם. נציג שלנו יחזור אליכם בהקדם.',
   // slash סוף: תואם ל־thank-you/index.html בשרת Nginx סטטי
-  canonical: 'https://www.k8now.com/thank-you/',
+  canonical: 'https://k8now.com/thank-you/',
+  // לא לאינדקס: דף תודה אחרי שליחת טופס — לא רלוונטי לחיפוש אורגני
+  // ועלול לזהם המרות אם מישהו ייכנס ישירות מגוגל.
+  robots: 'noindex, follow',
 } as const;
 
 function pushLeadConversionEvent(): void {
