@@ -3,54 +3,17 @@ import { motion, useInView } from 'motion/react';
 import { Mail, MapPin } from 'lucide-react';
 import { FloralBorder, LeafCluster, BranchLinework } from './BotanicalElements';
 import { useLegalModal } from './LegalModal';
+import {
+  configureOrigamiFields,
+  ORIGAMI_FORM_NAME,
+  type WindowWithOrigami,
+} from '../utils/origamiAttribution';
 
 const ORIGAMI_LOADER_SRC_PREFIX = 'https://live-public.origamicloud.ms/web_forms/js';
-const ORIGAMI_FORM_NAME = 'form_69de8238df351';
-const ATTRIBUTION_KEYS = [
-  'utm_source',
-  'utm_medium',
-  'utm_campaign',
-  'utm_content',
-  'utm_term',
-  'gclid',
-  'fbclid',
-] as const;
-const ATTRIBUTION_DEFAULTS: Partial<Record<(typeof ATTRIBUTION_KEYS)[number], string>> = {
-  utm_source: 'direct',
-  utm_medium: 'none',
-};
-
-type OrigamiFieldConfig = { value: string; hidden: string };
-type OrigamiFormConfig = { fields?: Record<string, OrigamiFieldConfig> };
-type OrigamiGlobal = Record<string, OrigamiFormConfig> & { init?: () => void };
-
-type WindowWithOrigami = Window & { ORIGAMI_FORMS?: OrigamiGlobal };
-
-function readAttributionFromUrl(): Record<string, string> {
-  const params = new URLSearchParams(window.location.search);
-  const out: Record<string, string> = {};
-  for (const key of ATTRIBUTION_KEYS) {
-    const raw = (params.get(key) ?? '').trim();
-    if (raw) out[key] = raw;
-    else if (ATTRIBUTION_DEFAULTS[key]) out[key] = ATTRIBUTION_DEFAULTS[key]!;
-  }
-  return out;
-}
-
-function configureOrigamiFields(): void {
-  const w = window as WindowWithOrigami;
-  w.ORIGAMI_FORMS = w.ORIGAMI_FORMS || ({} as OrigamiGlobal);
-  const attribution = readAttributionFromUrl();
-  const fields: Record<string, OrigamiFieldConfig> = {};
-  for (const [k, v] of Object.entries(attribution)) {
-    fields[k] = { value: v, hidden: '1' };
-  }
-  const prev = w.ORIGAMI_FORMS[ORIGAMI_FORM_NAME] ?? {};
-  w.ORIGAMI_FORMS[ORIGAMI_FORM_NAME] = { ...prev, fields };
-}
 
 function bootstrapOrigamiAfterLoad(): void {
   if (document.readyState !== 'complete') return;
+  configureOrigamiFields();
   const { ORIGAMI_FORMS } = window as WindowWithOrigami;
   ORIGAMI_FORMS?.init?.();
 }
@@ -61,6 +24,10 @@ export const ContactForm = () => {
   const isInView = useInView(ref, { once: true, amount: 0.1 });
   const [shouldLoadOrigamiScript, setShouldLoadOrigamiScript] = useState(false);
   const { openTerms, openPrivacy } = useLegalModal();
+
+  useEffect(() => {
+    configureOrigamiFields();
+  }, []);
 
   useEffect(() => {
     if (isInView) {
