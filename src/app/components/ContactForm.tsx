@@ -5,12 +5,53 @@ import { FloralBorder, LeafCluster, BranchLinework } from './BotanicalElements';
 import { useLegalModal } from './LegalModal';
 
 const ORIGAMI_LOADER_SRC_PREFIX = 'https://live-public.origamicloud.ms/web_forms/js';
+const ORIGAMI_FORM_NAME = 'form_69de8238df351';
+const ATTRIBUTION_KEYS = [
+  'utm_source',
+  'utm_medium',
+  'utm_campaign',
+  'utm_content',
+  'utm_term',
+  'gclid',
+  'fbclid',
+] as const;
+const ATTRIBUTION_DEFAULTS: Partial<Record<(typeof ATTRIBUTION_KEYS)[number], string>> = {
+  utm_source: 'direct',
+  utm_medium: 'none',
+};
+
+type OrigamiFieldConfig = { value: string; hidden: string };
+type OrigamiFormConfig = { fields?: Record<string, OrigamiFieldConfig> };
+type OrigamiGlobal = Record<string, OrigamiFormConfig> & { init?: () => void };
+
+type WindowWithOrigami = Window & { ORIGAMI_FORMS?: OrigamiGlobal };
+
+function readAttributionFromUrl(): Record<string, string> {
+  const params = new URLSearchParams(window.location.search);
+  const out: Record<string, string> = {};
+  for (const key of ATTRIBUTION_KEYS) {
+    const raw = (params.get(key) ?? '').trim();
+    if (raw) out[key] = raw;
+    else if (ATTRIBUTION_DEFAULTS[key]) out[key] = ATTRIBUTION_DEFAULTS[key]!;
+  }
+  return out;
+}
+
+function configureOrigamiFields(): void {
+  const w = window as WindowWithOrigami;
+  w.ORIGAMI_FORMS = w.ORIGAMI_FORMS || ({} as OrigamiGlobal);
+  const attribution = readAttributionFromUrl();
+  const fields: Record<string, OrigamiFieldConfig> = {};
+  for (const [k, v] of Object.entries(attribution)) {
+    fields[k] = { value: v, hidden: '1' };
+  }
+  const prev = w.ORIGAMI_FORMS[ORIGAMI_FORM_NAME] ?? {};
+  w.ORIGAMI_FORMS[ORIGAMI_FORM_NAME] = { ...prev, fields };
+}
 
 function bootstrapOrigamiAfterLoad(): void {
   if (document.readyState !== 'complete') return;
-  const { ORIGAMI_FORMS } = window as Window & {
-    ORIGAMI_FORMS?: { init?: () => void };
-  };
+  const { ORIGAMI_FORMS } = window as WindowWithOrigami;
   ORIGAMI_FORMS?.init?.();
 }
 
@@ -34,12 +75,14 @@ export const ContactForm = () => {
   useEffect(() => {
     if (!shouldLoadOrigamiScript) return;
 
+    configureOrigamiFields();
+
     const existingScript = document.querySelector<HTMLScriptElement>(
       `script[src^="${ORIGAMI_LOADER_SRC_PREFIX}"]`,
     );
 
     if (existingScript) {
-      if (typeof (window as Window & { ORIGAMI_FORMS?: { init?: () => void } }).ORIGAMI_FORMS?.init === 'function') {
+      if (typeof (window as WindowWithOrigami).ORIGAMI_FORMS?.init === 'function') {
         bootstrapOrigamiAfterLoad();
       } else {
         existingScript.addEventListener('load', bootstrapOrigamiAfterLoad);
@@ -182,7 +225,7 @@ export const ContactForm = () => {
           <div className="origami-form-wrapper" style={{ position: 'relative', zIndex: 1 }}>
             <div
               ref={origamiContainerRef}
-              data-origamiformname="form_69de8238df351"
+              data-origamiformname={ORIGAMI_FORM_NAME}
               data-origamiformid="64fe36895a4af3e076fd231678d20a4423e961c0a1c4aeb15e1260e3a57a928466be8f7a72fe42947cbefc4a948ae556d6438f5839fafa8b696d9de545b811ebGTOxJqCWiPDDu6ZRP9chdrwXIiPoIAeZ/rfVrg4zoGF/t4xXucR6m1qsni/kjtPbUKf7TErt/1Sk8NPhqCJOKUsZ3TXeUVlUKDRDNnulTRkDMMn+uEZRbcdbWS0agqsg"
             />
           </div>
