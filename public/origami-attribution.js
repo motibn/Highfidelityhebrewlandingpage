@@ -5,6 +5,37 @@
   var DEFAULTS = { utm_source: 'direct', utm_medium: 'none' };
   var CSS = 'https://site-files-apps.s3.eu-west-3.amazonaws.com/Origami/origami_form.css.txt';
 
+  var UTM_SOURCE_TO_ORIGAMI = {
+    google: 'google',
+    facebook: 'facebook',
+    fb: 'facebook',
+    organic: 'organic',
+    instagram: 'אינסטגרם',
+    linkedin: 'לינקדאין',
+    direct: 'אתר',
+    site: 'אתר',
+    website: 'אתר',
+  };
+
+  var UTM_MEDIUM_TO_ORIGAMI = {
+    cpc: 'cpc',
+    ppc: 'cpc',
+    none: 'אחר',
+    direct: 'אחר',
+    organic: 'אינטרנט',
+    internet: 'אינטרנט',
+    phone: 'טלפון',
+    referral: 'קשר אישי',
+  };
+
+  function mapUtmValue(key, raw) {
+    var normalized = (raw || '').trim().toLowerCase();
+    if (!normalized) return '';
+    if (key === 'utm_source') return UTM_SOURCE_TO_ORIGAMI[normalized] || raw.trim();
+    if (key === 'utm_medium') return UTM_MEDIUM_TO_ORIGAMI[normalized] || raw.trim();
+    return raw.trim();
+  }
+
   function persistFromUrl() {
     var params = new URLSearchParams(window.location.search);
     var stored = {};
@@ -38,9 +69,9 @@
     var fields = {};
     KEYS.forEach(function (key) {
       var fromUrl = (params.get(key) || '').trim();
-      var value = fromUrl || (stored[key] || '').trim();
-      if (!value && DEFAULTS[key]) value = DEFAULTS[key];
-      fields[key] = { value: value || '', hidden: '1' };
+      var raw = fromUrl || (stored[key] || '').trim() || DEFAULTS[key] || '';
+      var mapped = mapUtmValue(key, raw);
+      if (mapped) fields[key] = { value: mapped, hidden: '1' };
     });
     return fields;
   }

@@ -5,6 +5,8 @@ import { FloralBorder, LeafCluster, BranchLinework } from './BotanicalElements';
 import { useLegalModal } from './LegalModal';
 import {
   configureOrigamiFields,
+  installOrigamiSaveRedirect,
+  navigateToThankYou,
   ORIGAMI_FORM_NAME,
   wrapOrigamiInit,
   type WindowWithOrigami,
@@ -29,6 +31,7 @@ export const ContactForm = () => {
 
   useEffect(() => {
     configureOrigamiFields();
+    return installOrigamiSaveRedirect(navigateToThankYou);
   }, []);
 
   useEffect(() => {
