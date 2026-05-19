@@ -39,11 +39,8 @@
     KEYS.forEach(function (key) {
       var fromUrl = (params.get(key) || '').trim();
       var value = fromUrl || (stored[key] || '').trim();
-      if (value) {
-        fields[key] = { value: value, hidden: '1' };
-      } else if (DEFAULTS[key]) {
-        fields[key] = { value: DEFAULTS[key], hidden: '1' };
-      }
+      if (!value && DEFAULTS[key]) value = DEFAULTS[key];
+      fields[key] = { value: value || '', hidden: '1' };
     });
     return fields;
   }

@@ -67,6 +67,7 @@ function readAttributionFromUrl(): Record<string, string> {
     const raw = fromUrl || (stored[key] ?? '').trim();
     if (raw) out[key] = raw;
     else if (ATTRIBUTION_DEFAULTS[key]) out[key] = ATTRIBUTION_DEFAULTS[key]!;
+    else out[key] = '';
   }
   return out;
 }
@@ -76,8 +77,8 @@ export function configureOrigamiFields(): void {
   w.ORIGAMI_FORMS = w.ORIGAMI_FORMS || ({} as OrigamiGlobal);
   const attribution = readAttributionFromUrl();
   const fields: Record<string, OrigamiFieldConfig> = {};
-  for (const [k, v] of Object.entries(attribution)) {
-    fields[k] = { value: v, hidden: '1' };
+  for (const key of ATTRIBUTION_KEYS) {
+    fields[key] = { value: attribution[key] ?? '', hidden: '1' };
   }
   const prev = w.ORIGAMI_FORMS[ORIGAMI_FORM_NAME] ?? {};
   w.ORIGAMI_FORMS[ORIGAMI_FORM_NAME] = {
