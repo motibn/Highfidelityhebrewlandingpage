@@ -2,6 +2,8 @@ export const ORIGAMI_FORM_NAME = 'form_69de8238df351';
 export const ORIGAMI_FORM_CSS =
   'https://site-files-apps.s3.eu-west-3.amazonaws.com/Origami/origami_form.css.txt';
 
+const ATTRIBUTION_STORAGE_KEY = 'origami_attribution_v1';
+
 const ATTRIBUTION_KEYS = [
   'utm_source',
   'utm_medium',
@@ -23,11 +25,46 @@ export type OrigamiGlobal = Record<string, OrigamiFormConfig> & { init?: () => v
 
 export type WindowWithOrigami = Window & { ORIGAMI_FORMS?: OrigamiGlobal };
 
-function readAttributionFromUrl(): Record<string, string> {
+type WrappedOrigamiInit = (() => void) & { __origamiWrapped?: boolean };
+
+/** Keep UTM across in-page navigation (e.g. /?utm_* → /#contact drops query string). */
+export function persistAttributionFromUrl(): void {
   const params = new URLSearchParams(window.location.search);
-  const out: Record<string, string> = {};
+  const stored: Record<string, string> = {};
+  let hasAny = false;
   for (const key of ATTRIBUTION_KEYS) {
     const raw = (params.get(key) ?? '').trim();
+    if (raw) {
+      stored[key] = raw;
+      hasAny = true;
+    }
+  }
+  if (!hasAny) return;
+  try {
+    sessionStorage.setItem(ATTRIBUTION_STORAGE_KEY, JSON.stringify(stored));
+  } catch {
+    // sessionStorage unavailable (private mode quota, etc.)
+  }
+}
+
+function readStoredAttribution(): Record<string, string> {
+  try {
+    const raw = sessionStorage.getItem(ATTRIBUTION_STORAGE_KEY);
+    if (raw) return JSON.parse(raw) as Record<string, string>;
+  } catch {
+    // ignore parse / access errors
+  }
+  return {};
+}
+
+function readAttributionFromUrl(): Record<string, string> {
+  persistAttributionFromUrl();
+  const params = new URLSearchParams(window.location.search);
+  const stored = readStoredAttribution();
+  const out: Record<string, string> = {};
+  for (const key of ATTRIBUTION_KEYS) {
+    const fromUrl = (params.get(key) ?? '').trim();
+    const raw = fromUrl || (stored[key] ?? '').trim();
     if (raw) out[key] = raw;
     else if (ATTRIBUTION_DEFAULTS[key]) out[key] = ATTRIBUTION_DEFAULTS[key]!;
   }
@@ -48,4 +85,23 @@ export function configureOrigamiFields(): void {
     css: ORIGAMI_FORM_CSS,
     fields,
   };
+}
+
+/**
+ * Origami loader starts with `var ORIGAMI_FORMS = {}` which wipes pre-set fields.
+ * Wrap init so configureOrigamiFields runs immediately before the form reads ORIGAMI_FORMS.
+ */
+export function wrapOrigamiInit(): void {
+  const w = window as WindowWithOrigami;
+  if (!w.ORIGAMI_FORMS || typeof w.ORIGAMI_FORMS.init !== 'function') return;
+
+  const originalInit = w.ORIGAMI_FORMS.init as WrappedOrigamiInit;
+  if (originalInit.__origamiWrapped) return;
+
+  const wrapped: WrappedOrigamiInit = () => {
+    configureOrigamiFields();
+    originalInit();
+  };
+  wrapped.__origamiWrapped = true;
+  w.ORIGAMI_FORMS.init = wrapped;
 }

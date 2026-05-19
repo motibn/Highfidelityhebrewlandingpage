@@ -6,6 +6,7 @@ import { useLegalModal } from './LegalModal';
 import {
   configureOrigamiFields,
   ORIGAMI_FORM_NAME,
+  wrapOrigamiInit,
   type WindowWithOrigami,
 } from '../utils/origamiAttribution';
 
@@ -13,6 +14,7 @@ const ORIGAMI_LOADER_SRC_PREFIX = 'https://live-public.origamicloud.ms/web_forms
 
 function bootstrapOrigamiAfterLoad(): void {
   if (document.readyState !== 'complete') return;
+  wrapOrigamiInit();
   configureOrigamiFields();
   const { ORIGAMI_FORMS } = window as WindowWithOrigami;
   ORIGAMI_FORMS?.init?.();
