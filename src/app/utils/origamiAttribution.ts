@@ -44,7 +44,7 @@ const UTM_MEDIUM_TO_ORIGAMI: Record<string, string> = {
   referral: 'קשר אישי',
 };
 
-type OrigamiFieldConfig = { value: string; hidden: string };
+type OrigamiFieldConfig = { value?: string; hidden: string };
 type OrigamiFormConfig = { css?: string; fields?: Record<string, OrigamiFieldConfig> };
 export type OrigamiGlobal = Record<string, OrigamiFormConfig> & { init?: () => void };
 
@@ -116,8 +116,9 @@ export function configureOrigamiFields(): void {
   w.ORIGAMI_FORMS = w.ORIGAMI_FORMS || ({} as OrigamiGlobal);
   const attribution = readAttributionFromUrl();
   const fields: Record<string, OrigamiFieldConfig> = {};
-  for (const [k, v] of Object.entries(attribution)) {
-    fields[k] = { value: v, hidden: '1' };
+  for (const key of ATTRIBUTION_KEYS) {
+    const value = attribution[key];
+    fields[key] = value ? { value, hidden: '1' } : { hidden: '1' };
   }
   const prev = w.ORIGAMI_FORMS[ORIGAMI_FORM_NAME] ?? {};
   w.ORIGAMI_FORMS[ORIGAMI_FORM_NAME] = {

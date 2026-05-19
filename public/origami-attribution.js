@@ -71,7 +71,7 @@
       var fromUrl = (params.get(key) || '').trim();
       var raw = fromUrl || (stored[key] || '').trim() || DEFAULTS[key] || '';
       var mapped = mapUtmValue(key, raw);
-      if (mapped) fields[key] = { value: mapped, hidden: '1' };
+      fields[key] = mapped ? { value: mapped, hidden: '1' } : { hidden: '1' };
     });
     return fields;
   }
