@@ -15,33 +15,11 @@ const ATTRIBUTION_KEYS = [
   'fbclid',
 ] as const;
 
+import { inferUtmFromClickIds, resolveUtmMedium, resolveUtmSource } from './utmOrigamiMap';
+
 const ATTRIBUTION_DEFAULTS: Partial<Record<(typeof ATTRIBUTION_KEYS)[number], string>> = {
   utm_source: 'direct',
   utm_medium: 'none',
-};
-
-/** Map URL/default values to Origami dropdown options (Hebrew labels from form config). */
-const UTM_SOURCE_TO_ORIGAMI: Record<string, string> = {
-  google: 'google',
-  facebook: 'facebook',
-  fb: 'facebook',
-  organic: 'organic',
-  instagram: 'אינסטגרם',
-  linkedin: 'לינקדאין',
-  direct: 'אתר',
-  site: 'אתר',
-  website: 'אתר',
-};
-
-const UTM_MEDIUM_TO_ORIGAMI: Record<string, string> = {
-  cpc: 'cpc',
-  ppc: 'cpc',
-  none: 'אחר',
-  direct: 'אחר',
-  organic: 'אינטרנט',
-  internet: 'אינטרנט',
-  phone: 'טלפון',
-  referral: 'קשר אישי',
 };
 
 type OrigamiFieldConfig = { value?: string; hidden: string };
@@ -55,15 +33,9 @@ type WrappedOrigamiInit = (() => void) & { __origamiWrapped?: boolean };
 type XhrWithOrigamiUrl = XMLHttpRequest & { _origamiUrl?: string };
 
 function mapUtmValue(key: (typeof ATTRIBUTION_KEYS)[number], raw: string): string {
-  const normalized = raw.trim().toLowerCase();
-  if (!normalized) return '';
-
-  if (key === 'utm_source') {
-    return UTM_SOURCE_TO_ORIGAMI[normalized] ?? raw.trim();
-  }
-  if (key === 'utm_medium') {
-    return UTM_MEDIUM_TO_ORIGAMI[normalized] ?? raw.trim();
-  }
+  if (!raw.trim()) return '';
+  if (key === 'utm_source') return resolveUtmSource(raw);
+  if (key === 'utm_medium') return resolveUtmMedium(raw);
   return raw.trim();
 }
 
@@ -102,12 +74,28 @@ function readAttributionFromUrl(): Record<string, string> {
   const params = new URLSearchParams(window.location.search);
   const stored = readStoredAttribution();
   const out: Record<string, string> = {};
+
   for (const key of ATTRIBUTION_KEYS) {
     const fromUrl = (params.get(key) ?? '').trim();
     const raw = fromUrl || (stored[key] ?? '').trim() || ATTRIBUTION_DEFAULTS[key] || '';
     const mapped = mapUtmValue(key, raw);
     if (mapped) out[key] = mapped;
   }
+
+  const inferred = inferUtmFromClickIds({
+    gclid: params.get('gclid') ?? stored.gclid,
+    fbclid: params.get('fbclid') ?? stored.fbclid,
+    msclkid: params.get('msclkid') ?? undefined,
+    ttclid: params.get('ttclid') ?? undefined,
+    li_fat_id: params.get('li_fat_id') ?? undefined,
+  });
+  if (!out.utm_source && inferred.utm_source) {
+    out.utm_source = resolveUtmSource(inferred.utm_source);
+  }
+  if (!out.utm_medium && inferred.utm_medium) {
+    out.utm_medium = resolveUtmMedium(inferred.utm_medium);
+  }
+
   return out;
 }
 

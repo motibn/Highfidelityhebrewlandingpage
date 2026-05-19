@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "vite build",
+    "prebuild": "node scripts/sync-utm-origami-public.mjs",
     "postbuild": "node scripts/verify-dist.mjs",
     "dev": "vite",
     "og:build": "node scripts/build-og-image.mjs",
