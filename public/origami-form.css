@@ -1,0 +1,43 @@
+@import url('https://site-files-apps.s3.eu-west-3.amazonaws.com/Origami/origami_form.css.txt');
+
+/* Keep attribution fields hidden even when pre-filled from UTM (Origami may still render them). */
+.field.utm_source,
+.field.utm_medium,
+.field.utm_campaign,
+.field.utm_content,
+.field.utm_term,
+.field.gclid,
+.field.fbclid,
+.utm_source,
+.utm_medium,
+.utm_campaign,
+.utm_content,
+.utm_term,
+.gclid,
+.fbclid {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  max-height: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  border: 0 !important;
+}
+
+input[name='utm_source'],
+input[name='utm_medium'],
+input[name='utm_campaign'],
+input[name='utm_content'],
+input[name='utm_term'],
+input[name='gclid'],
+input[name='fbclid'],
+select[name='utm_source'],
+select[name='utm_medium'],
+select[name='utm_campaign'],
+select[name='utm_content'],
+select[name='utm_term'] {
+  display: none !important;
+}

@@ -7,6 +7,7 @@ import {
   configureOrigamiFields,
   installOrigamiSaveRedirect,
   navigateToThankYou,
+  observeOrigamiIframe,
   ORIGAMI_FORM_NAME,
   wrapOrigamiInit,
   type WindowWithOrigami,
@@ -31,7 +32,12 @@ export const ContactForm = () => {
 
   useEffect(() => {
     configureOrigamiFields();
-    return installOrigamiSaveRedirect(navigateToThankYou);
+    const stopIframeObserver = observeOrigamiIframe(origamiContainerRef.current);
+    const stopRedirect = installOrigamiSaveRedirect(navigateToThankYou);
+    return () => {
+      stopIframeObserver();
+      stopRedirect();
+    };
   }, []);
 
   useEffect(() => {
@@ -48,6 +54,7 @@ export const ContactForm = () => {
     if (!shouldLoadOrigamiScript) return;
 
     configureOrigamiFields();
+    const stopIframeObserver = observeOrigamiIframe(origamiContainerRef.current);
 
     const existingScript = document.querySelector<HTMLScriptElement>(
       `script[src^="${ORIGAMI_LOADER_SRC_PREFIX}"]`,
@@ -70,6 +77,7 @@ export const ContactForm = () => {
     document.body.appendChild(script);
 
     return () => {
+      stopIframeObserver();
       if (document.body.contains(script)) {
         document.body.removeChild(script);
       }

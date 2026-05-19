@@ -9,7 +9,7 @@
   var STORAGE_KEY = 'origami_attribution_v1';
   var KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'fbclid'];
   var DEFAULTS = { utm_source: 'direct', utm_medium: 'none' };
-  var CSS = 'https://site-files-apps.s3.eu-west-3.amazonaws.com/Origami/origami_form.css.txt';
+  var CSS = '/origami-form.css';
 
   function mapField(key, raw) {
     if (!raw) return '';
@@ -74,7 +74,9 @@
     var fields = {};
     KEYS.forEach(function (key) {
       var value = values[key];
-      fields[key] = value ? { value: value, hidden: '1' } : { hidden: '1' };
+      fields[key] = value
+        ? { value: value, hidden: '1', is_hidden: '1' }
+        : { hidden: '1', is_hidden: '1' };
     });
     return fields;
   }

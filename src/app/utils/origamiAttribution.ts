@@ -1,7 +1,19 @@
+import { inferUtmFromClickIds, resolveUtmMedium, resolveUtmSource } from './utmOrigamiMap';
+
 export const ORIGAMI_FORM_NAME = 'form_69de8238df351';
-export const ORIGAMI_FORM_CSS =
-  'https://site-files-apps.s3.eu-west-3.amazonaws.com/Origami/origami_form.css.txt';
+/** Theme + rules that force-hide UTM fields inside the Origami iframe */
+export const ORIGAMI_FORM_CSS = '/origami-form.css';
 export const THANK_YOU_PATH = '/thank-you/';
+
+export const ATTRIBUTION_HIDE_CSS = `
+.field.utm_source,.field.utm_medium,.field.utm_campaign,.field.utm_content,.field.utm_term,.field.gclid,.field.fbclid,
+.utm_source,.utm_medium,.utm_campaign,.utm_content,.utm_term,.gclid,.fbclid{
+display:none!important;visibility:hidden!important;height:0!important;max-height:0!important;overflow:hidden!important;
+margin:0!important;padding:0!important;opacity:0!important;pointer-events:none!important;border:0!important}
+input[name='utm_source'],input[name='utm_medium'],input[name='utm_campaign'],input[name='utm_content'],input[name='utm_term'],
+input[name='gclid'],input[name='fbclid'],select[name='utm_source'],select[name='utm_medium'],select[name='utm_campaign'],
+select[name='utm_content'],select[name='utm_term']{display:none!important}
+`;
 
 const ATTRIBUTION_STORAGE_KEY = 'origami_attribution_v1';
 
@@ -15,14 +27,12 @@ const ATTRIBUTION_KEYS = [
   'fbclid',
 ] as const;
 
-import { inferUtmFromClickIds, resolveUtmMedium, resolveUtmSource } from './utmOrigamiMap';
-
 const ATTRIBUTION_DEFAULTS: Partial<Record<(typeof ATTRIBUTION_KEYS)[number], string>> = {
   utm_source: 'direct',
   utm_medium: 'none',
 };
 
-type OrigamiFieldConfig = { value?: string; hidden: string };
+type OrigamiFieldConfig = { value?: string; hidden: string; is_hidden?: string };
 type OrigamiFormConfig = { css?: string; fields?: Record<string, OrigamiFieldConfig> };
 export type OrigamiGlobal = Record<string, OrigamiFormConfig> & { init?: () => void };
 
@@ -106,7 +116,9 @@ export function configureOrigamiFields(): void {
   const fields: Record<string, OrigamiFieldConfig> = {};
   for (const key of ATTRIBUTION_KEYS) {
     const value = attribution[key];
-    fields[key] = value ? { value, hidden: '1' } : { hidden: '1' };
+    fields[key] = value
+      ? { value, hidden: '1', is_hidden: '1' }
+      : { hidden: '1', is_hidden: '1' };
   }
   const prev = w.ORIGAMI_FORMS[ORIGAMI_FORM_NAME] ?? {};
   w.ORIGAMI_FORMS[ORIGAMI_FORM_NAME] = {
@@ -191,4 +203,51 @@ export function installOrigamiSaveRedirect(onSuccess: (url: string) => void): ()
 
 export function navigateToThankYou(url: string): void {
   window.location.assign(resolveThankYouUrl(url));
+}
+
+export function injectOrigamiAttributionHideStyles(doc: Document): void {
+  if (!doc.body || doc.getElementById('origami-attribution-hide')) return;
+  const style = doc.createElement('style');
+  style.id = 'origami-attribution-hide';
+  style.textContent = ATTRIBUTION_HIDE_CSS;
+  (doc.head || doc.documentElement).appendChild(style);
+}
+
+/** Origami iframe is same-origin (document.write) — inject hide CSS after render. */
+export function observeOrigamiIframe(container: HTMLElement | null): () => void {
+  if (!container) return () => {};
+
+  const processed = new WeakSet<HTMLIFrameElement>();
+
+  const attachToIframe = (iframe: HTMLIFrameElement) => {
+    if (processed.has(iframe)) return;
+    processed.add(iframe);
+
+    const inject = () => {
+      try {
+        const doc = iframe.contentDocument;
+        if (doc?.body) injectOrigamiAttributionHideStyles(doc);
+      } catch {
+        // ignore
+      }
+    };
+    inject();
+    iframe.addEventListener('load', inject);
+  };
+
+  const scan = () => {
+    container.querySelectorAll('iframe').forEach((frame) => attachToIframe(frame));
+  };
+
+  scan();
+  const observer = new MutationObserver(scan);
+  observer.observe(container, { childList: true, subtree: true });
+  const retryTimer = window.setInterval(scan, 400);
+  const stopRetry = window.setTimeout(() => window.clearInterval(retryTimer), 12_000);
+
+  return () => {
+    observer.disconnect();
+    window.clearInterval(retryTimer);
+    window.clearTimeout(stopRetry);
+  };
 }
