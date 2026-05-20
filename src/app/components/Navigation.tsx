@@ -106,12 +106,21 @@ export const Navigation = () => {
             
             {/* Logo - Right side in RTL */}
             <div
+              role="button"
+              tabIndex={0}
+              aria-label="הבחירה הצפונית – דף הבית"
               onClick={handleLogoClick}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  handleLogoClick();
+                }
+              }}
               style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', zIndex: 20, alignSelf: 'center' }}
             >
               <img
                 src={logo}
-                alt="קריית שמונה"
+                alt="הבחירה הצפונית – קריית שמונה"
                 style={{
                   height: '56px',
                   objectFit: 'contain',
@@ -294,7 +303,7 @@ export const Navigation = () => {
                   <div style={{ fontSize: '15px', fontWeight: 700, color: '#2a4332' }}>קריית שמונה</div>
                   <ImageWithFallback
                     src={logo}
-                    alt="קריית שמונה"
+                    alt="הבחירה הצפונית – קריית שמונה"
                     style={{
                       width: '32px',
                       height: '32px',
