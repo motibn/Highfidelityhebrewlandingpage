@@ -6,7 +6,6 @@ const HERO_IMG_SMALL = '/hero-1280.avif';
 const LOGO_KS = '/לוגו-קריית-שמונה.png';
 const LOGO_MAKOM = '/מקום.png';
 const LOGO_MINISTRY = '/משרד-הנגב-הגלול-והחוסן-הלאומי.png';
-const LOGO_MATNAS = '/עדכון-לוגו-מתנס.png';
 const LOGO_KAKAL = '/KakalLogo.png';
 const LOGO_JNF = '/logo_jnf.svg';
 
@@ -129,7 +128,6 @@ export const Hero = () => {
                 { img: LOGO_KS, alt: 'עיריית קריית שמונה' },
                 { img: LOGO_MAKOM, alt: 'מקום - עמותה לפיתוח הצפון' },
                 { img: LOGO_MINISTRY, alt: 'משרד הנגב, הגליל והחוסן הלאומי' },
-                { img: LOGO_MATNAS, alt: 'מתנ"ס קריית שמונה' },
                 { img: LOGO_JNF, alt: 'JNF - הקרן הקיימת לישראל' },
                 { img: LOGO_KAKAL, alt: 'קק"ל - הקרן הקיימת לישראל' },
               ].map((logo, i) => (
