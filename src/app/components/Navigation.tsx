@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
-const logo = '/logo-nav.svg';
+const logo = '/logo-1.png';
 
 type NavLinkItem =
   | { label: string; href: string }

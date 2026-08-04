@@ -67,7 +67,7 @@ export function HiTechNav() {
             aria-label="קהילת ההייטק — דף הבית"
           >
             <img
-              src="/logo-nav.svg"
+              src="/logo-1.png"
               alt="הבחירה הצפונית"
               className="ht-nav-logo"
               style={{
