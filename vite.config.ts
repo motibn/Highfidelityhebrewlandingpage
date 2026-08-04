@@ -32,18 +32,20 @@ function spaPreviewFallback(): Plugin {
   }
 }
 
-/** Nginx סטטי בלי try_files לא משרת SPA — קובץ אמיתי ב־/thank-you/ נותן index.html מהבילד */
-function copyThankYouIndexHtml(): Plugin {
+/** Nginx סטטי בלי try_files לא משרת SPA — קובץ אמיתי בנתיב נותן index.html מהבילד */
+function copySpaRouteIndexHtml(routes: string[]): Plugin {
   return {
-    name: 'copy-thank-you-index-html',
+    name: 'copy-spa-route-index-html',
     closeBundle() {
       const distDir = path.resolve(__dirname, 'dist')
       const src = path.join(distDir, 'index.html')
-      const destDir = path.join(distDir, 'thank-you')
-      const dest = path.join(destDir, 'index.html')
       if (!fs.existsSync(src)) return
-      fs.mkdirSync(destDir, { recursive: true })
-      fs.copyFileSync(src, dest)
+      for (const route of routes) {
+        const destDir = path.join(distDir, ...route.split('/').filter(Boolean))
+        const dest = path.join(destDir, 'index.html')
+        fs.mkdirSync(destDir, { recursive: true })
+        fs.copyFileSync(src, dest)
+      }
     },
   }
 }
@@ -63,7 +65,7 @@ function figmaAssetResolver() {
 export default defineConfig({
   plugins: [
     spaPreviewFallback(),
-    copyThankYouIndexHtml(),
+    copySpaRouteIndexHtml(['thank-you', 'hi-tech', 'hi-tech/thank-you']),
     figmaAssetResolver(),
     // The React and Tailwind plugins are both required for Make, even if
     // Tailwind is not being actively used – do not remove them

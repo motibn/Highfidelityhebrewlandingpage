@@ -23,22 +23,41 @@ function bootstrapOrigamiAfterLoad(): void {
   ORIGAMI_FORMS?.init?.();
 }
 
-export const ContactForm = () => {
+export type ContactFormProps = {
+  /** Override post-submit thank-you path (e.g. /hi-tech/thank-you/) */
+  thankYouPath?: string;
+  headline?: string;
+  subheadline?: string;
+  /** Visual variant — defaults preserve homepage look */
+  variant?: 'default' | 'hi-tech';
+};
+
+export const ContactForm = ({
+  thankYouPath,
+  headline = 'מוזמנות ומוזמנים למפגש מתעניינים!',
+  subheadline = 'השאירו פרטים ונחזור אליכם לשיחה קצרה, אישית וללא התחייבות.',
+  variant = 'default',
+}: ContactFormProps = {}) => {
   const ref = useRef(null);
   const origamiContainerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
   const [shouldLoadOrigamiScript, setShouldLoadOrigamiScript] = useState(false);
   const { openTerms, openPrivacy } = useLegalModal();
+  const isHiTech = variant === 'hi-tech';
 
   useEffect(() => {
     configureOrigamiFields();
     const stopIframeObserver = observeOrigamiIframe(origamiContainerRef.current);
-    const stopRedirect = installOrigamiSaveRedirect(navigateToThankYou);
+    const onSuccess = (url: string) => {
+      // Campaign pages must keep their own thank-you URL even if Origami returns a default
+      navigateToThankYou(thankYouPath ?? url);
+    };
+    const stopRedirect = installOrigamiSaveRedirect(onSuccess);
     return () => {
       stopIframeObserver();
       stopRedirect();
     };
-  }, []);
+  }, [thankYouPath]);
 
   useEffect(() => {
     if (isInView) {
@@ -84,13 +103,21 @@ export const ContactForm = () => {
     };
   }, [shouldLoadOrigamiScript]);
 
+  const sectionBg = isHiTech
+    ? 'linear-gradient(160deg, #345842 0%, #2A4A38 55%, #345842 100%)'
+    : 'linear-gradient(160deg, #2a4332 0%, #1e3228 60%, #2a4332 100%)';
+  const topFill = isHiTech ? '#F7FBF5' : '#f0e8d6';
+  const accent = isHiTech ? '#A85C80' : '#c2754a';
+  const leafA = isHiTech ? '#96BA8B' : '#8aaa78';
+  const leafB = isHiTech ? '#CF8071' : '#c2754a';
+
   return (
     <section
       id="contact"
       ref={ref}
       style={{
         position: 'relative',
-        background: 'linear-gradient(160deg, #2a4332 0%, #1e3228 60%, #2a4332 100%)',
+        background: sectionBg,
         padding: '110px 24px 120px',
         overflow: 'hidden',
       }}
@@ -104,7 +131,7 @@ export const ContactForm = () => {
       {/* Top edge */}
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0 }}>
         <svg viewBox="0 0 1440 70" preserveAspectRatio="none" style={{ width: '100%', height: '70px', display: 'block' }}>
-          <path d="M0,70 C250,10 600,50 900,20 C1100,5 1300,30 1440,15 L1440,0 L0,0 Z" fill="#f0e8d6" />
+          <path d="M0,70 C250,10 600,50 900,20 C1100,5 1300,30 1440,15 L1440,0 L0,0 Z" fill={topFill} />
         </svg>
       </div>
 
@@ -117,10 +144,10 @@ export const ContactForm = () => {
 
       {/* Botanical accents */}
       <div style={{ position: 'absolute', top: '80px', right: '2%', width: '160px', opacity: 0.12 }}>
-        <LeafCluster color="#8aaa78" opacity={1} />
+        <LeafCluster color={leafA} opacity={1} />
       </div>
       <div style={{ position: 'absolute', bottom: '100px', left: '2%', width: '140px', opacity: 0.1, transform: 'scaleX(-1)' }}>
-        <LeafCluster color="#c2754a" opacity={1} />
+        <LeafCluster color={leafB} opacity={1} />
       </div>
       <div style={{ position: 'absolute', top: '120px', left: '8%', width: '220px', opacity: 0.18 }}>
         <BranchLinework color="rgba(255,255,255,1)" opacity={0.25} />
@@ -134,7 +161,9 @@ export const ContactForm = () => {
         transform: 'translate(-50%, -50%)',
         width: '700px',
         height: '500px',
-        background: 'radial-gradient(ellipse, rgba(194,117,74,0.12) 0%, transparent 65%)',
+        background: isHiTech
+          ? 'radial-gradient(ellipse, rgba(168,92,128,0.14) 0%, transparent 65%)'
+          : 'radial-gradient(ellipse, rgba(194,117,74,0.12) 0%, transparent 65%)',
         pointerEvents: 'none',
       }} />
 
@@ -147,7 +176,7 @@ export const ContactForm = () => {
           style={{ textAlign: 'center', marginBottom: '56px' }}
         >
           <div style={{ marginBottom: '14px', display: 'flex', justifyContent: 'center' }}>
-            <FloralBorder color="#8aaa78" opacity={0.5} style={{ width: '240px' }} />
+            <FloralBorder color={leafA} opacity={0.5} style={{ width: '240px' }} />
           </div>
           <h2 style={{
             fontSize: 'clamp(30px, 4vw, 52px)',
@@ -156,8 +185,9 @@ export const ContactForm = () => {
             lineHeight: 1.15,
             letterSpacing: '-1px',
             marginBottom: '16px',
+            fontFamily: isHiTech ? "'Fb Tamlil', 'Heebo', Arial, sans-serif" : 'inherit',
           }}>
-            מוזמנות ומוזמנים למפגש מתעניינים!
+            {headline}
           </h2>
           <p style={{
             fontSize: 'clamp(14px, 1.6vw, 17px)',
@@ -166,8 +196,9 @@ export const ContactForm = () => {
             maxWidth: '520px',
             margin: '0 auto',
             fontWeight: 400,
+            fontFamily: isHiTech ? "'Fb Tamlil', 'Heebo', Arial, sans-serif" : 'inherit',
           }}>
-            השאירו פרטים ונחזור אליכם לשיחה קצרה, אישית וללא התחייבות.
+            {subheadline}
           </p>
         </motion.div>
 
@@ -230,7 +261,7 @@ export const ContactForm = () => {
             type="button"
             onClick={openTerms}
             style={{
-              color: '#c2754a',
+              color: accent,
               textDecoration: 'underline',
               background: 'none',
               border: 'none',
@@ -246,7 +277,7 @@ export const ContactForm = () => {
             type="button"
             onClick={openPrivacy}
             style={{
-              color: '#c2754a',
+              color: accent,
               textDecoration: 'underline',
               background: 'none',
               border: 'none',

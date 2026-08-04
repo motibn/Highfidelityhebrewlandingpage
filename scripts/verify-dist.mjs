@@ -31,8 +31,20 @@ if (!fs.existsSync(thankYouIndex)) {
   ok = false;
 }
 
+const hiTechIndex = path.join(dist, 'hi-tech', 'index.html');
+if (!fs.existsSync(hiTechIndex)) {
+  console.error(`verify-dist: חסר ${path.relative(root, hiTechIndex)} (נדרש ל־/hi-tech/)`);
+  ok = false;
+}
+
+const hiTechThankYouIndex = path.join(dist, 'hi-tech', 'thank-you', 'index.html');
+if (!fs.existsSync(hiTechThankYouIndex)) {
+  console.error(`verify-dist: חסר ${path.relative(root, hiTechThankYouIndex)} (נדרש ל־/hi-tech/thank-you/)`);
+  ok = false;
+}
+
 if (!ok) {
   process.exit(1);
 }
 
-console.log('verify-dist: dist תקין (index.html, thank-you/index.html, .htaccess, assets/)');
+console.log('verify-dist: dist תקין (index.html, thank-you/, hi-tech/, hi-tech/thank-you/, .htaccess, assets/)');

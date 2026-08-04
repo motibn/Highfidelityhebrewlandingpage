@@ -1,11 +1,17 @@
 import React, { useEffect } from 'react';
-import { Routes, Route } from 'react-router';
+import { Routes, Route, useLocation } from 'react-router';
 import { Navigation } from './components/Navigation';
 import { HomePage } from './pages/HomePage';
 import { ThankYouLeadPage } from './pages/ThankYouLeadPage';
 import { LegalModalProvider, useLegalModal } from './components/LegalModal';
 import { AccessibilityProvider } from './components/AccessibilityWidget';
 import { CookieConsent } from './components/CookieConsent';
+import { HiTechPage } from './hi-tech/HiTechPage';
+import { HiTechThankYouPage } from './hi-tech/HiTechThankYouPage';
+import { HiTechNav } from './hi-tech/HiTechNav';
+import { HiTechFooter } from './hi-tech/HiTechFooter';
+import { HT } from './hi-tech/tokens';
+import '../styles/hi-tech-fonts.css';
 
 // TikTok SVG icon (not in lucide-react)
 const TikTokIcon = ({ size = 20, color = 'currentColor' }: { size?: number; color?: string }) => (
@@ -276,11 +282,58 @@ const Footer = ({
 
 function AppContent() {
   const { openTerms, openPrivacy, openAccessibility } = useLegalModal();
+  const location = useLocation();
+  const isHiTech = location.pathname.startsWith('/hi-tech');
 
   useEffect(() => {
     document.documentElement.setAttribute('dir', 'rtl');
     document.documentElement.setAttribute('lang', 'he');
   }, []);
+
+  if (isHiTech) {
+    return (
+      <div
+        dir="rtl"
+        lang="he"
+        style={{
+          position: 'relative',
+          fontFamily: HT.fontSans,
+          overflowX: 'hidden',
+          background: HT.cream,
+          minHeight: '100vh',
+        }}
+      >
+        <a
+          href="#main-content"
+          className="skip-to-content"
+          aria-label="דלג ישירות לתוכן הראשי"
+        >
+          דלג לתוכן
+        </a>
+        <HiTechNav />
+        <main id="main-content" tabIndex={-1} style={{ position: 'relative', outline: 'none' }}>
+          <Routes>
+            <Route path="/hi-tech" element={<HiTechPage />} />
+            <Route path="/hi-tech/" element={<HiTechPage />} />
+            <Route path="/hi-tech/thank-you" element={<HiTechThankYouPage />} />
+            <Route path="/hi-tech/thank-you/" element={<HiTechThankYouPage />} />
+          </Routes>
+        </main>
+        <HiTechFooter />
+        <CookieConsent />
+        <style>{`
+          * { box-sizing: border-box; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+          html { scroll-behavior: smooth; }
+          body { margin: 0; padding: 0; overflow-x: hidden; }
+          .skip-to-content {
+            position: absolute; top: -100px; right: 16px; z-index: 1000;
+            background: ${HT.greenDark}; color: white; padding: 12px 16px; border-radius: 8px;
+          }
+          .skip-to-content:focus { top: 16px; }
+        `}</style>
+      </div>
+    );
+  }
 
   return (
     <div

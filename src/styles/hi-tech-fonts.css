@@ -1,0 +1,73 @@
+/* Brand fonts — scoped for /hi-tech only (loaded by HiTechShell) */
+
+@font-face {
+  font-family: 'Fb Tamlil';
+  src: url('/fonts/brand/FbTamlil-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Fb Tamlil';
+  src: url('/fonts/brand/FbTamlil-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Fb Tamlil';
+  src: url('/fonts/brand/FbTamlil-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Fb Tamlil';
+  src: url('/fonts/brand/FbTamlil-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Fb Tamlil';
+  src: url('/fonts/brand/FbTamlil-Black.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Fb Marzipan';
+  src: url('/fonts/brand/FbMarzipan-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Fb Marzipan';
+  src: url('/fonts/brand/FbMarzipan-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Fb Tamlil Eng';
+  src: url('/fonts/brand/FbTamlilEng-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Fb Tamlil Eng';
+  src: url('/fonts/brand/FbTamlilEng-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
