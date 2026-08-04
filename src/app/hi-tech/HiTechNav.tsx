@@ -66,18 +66,21 @@ export function HiTechNav() {
             style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none', flexShrink: 0 }}
             aria-label="קהילת ההייטק — דף הבית"
           >
-            <img
-              src="/logo-1.png"
-              alt="הבחירה הצפונית"
-              className="ht-nav-logo"
-              style={{
-                height: 'clamp(56px, 7vw, 72px)',
-                width: 'auto',
-                maxWidth: 'min(52vw, 340px)',
-                objectFit: 'contain',
-                display: 'block',
-              }}
-            />
+            <picture>
+              <source srcSet="/brand-logo.webp" type="image/webp" />
+              <img
+                src="/brand-logo.png"
+                alt="הבחירה הצפונית"
+                className="ht-nav-logo"
+                style={{
+                  height: 'clamp(52px, 6vw, 64px)',
+                  width: 'auto',
+                  maxWidth: 'min(52vw, 300px)',
+                  objectFit: 'contain',
+                  display: 'block',
+                }}
+              />
+            </picture>
           </Link>
 
           <nav
@@ -242,8 +245,8 @@ export function HiTechNav() {
           .ht-nav-desktop { display: none !important; }
           .ht-nav-burger { display: flex !important; }
           .ht-nav-logo {
-            height: 52px !important;
-            max-width: min(68vw, 280px) !important;
+            height: 48px !important;
+            max-width: min(68vw, 260px) !important;
           }
         }
       `}</style>

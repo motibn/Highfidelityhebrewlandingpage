@@ -3,7 +3,8 @@ import { Link, useLocation, useNavigate } from 'react-router';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
-const logo = '/logo-1.png';
+const logo = '/brand-logo.png';
+const logoWebp = '/brand-logo.webp';
 
 type NavLinkItem =
   | { label: string; href: string }
@@ -118,20 +119,23 @@ export const Navigation = () => {
               }}
               style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', zIndex: 20, alignSelf: 'center', flexShrink: 0 }}
             >
-              <img
-                src={logo}
-                alt="הבחירה הצפונית – קריית שמונה"
-                className="main-nav-logo"
-                style={{
-                  height: 'clamp(60px, 6vw, 76px)',
-                  width: 'auto',
-                  maxWidth: 'min(48vw, 360px)',
-                  objectFit: 'contain',
-                  display: 'block',
-                  position: 'relative',
-                  zIndex: 20,
-                }}
-              />
+              <picture>
+                <source srcSet={logoWebp} type="image/webp" />
+                <img
+                  src={logo}
+                  alt="הבחירה הצפונית – קריית שמונה"
+                  className="main-nav-logo"
+                  style={{
+                    height: 'clamp(56px, 5.5vw, 68px)',
+                    width: 'auto',
+                    maxWidth: 'min(48vw, 320px)',
+                    objectFit: 'contain',
+                    display: 'block',
+                    position: 'relative',
+                    zIndex: 20,
+                  }}
+                />
+              </picture>
             </div>
 
             {/* Desktop Nav Links - Center */}
@@ -309,8 +313,8 @@ export const Navigation = () => {
                     alt="הבחירה הצפונית – קריית שמונה"
                     style={{
                       width: 'auto',
-                      height: '52px',
-                      maxWidth: '180px',
+                      height: '48px',
+                      maxWidth: '200px',
                       objectFit: 'contain',
                     }}
                   />
@@ -436,8 +440,8 @@ export const Navigation = () => {
           .hidden-mobile { display: none !important; }
           .show-mobile { display: flex !important; }
           .main-nav-logo {
-            height: 52px !important;
-            max-width: min(62vw, 260px) !important;
+            height: 48px !important;
+            max-width: min(62vw, 240px) !important;
           }
         }
         @media (min-width: 769px) {
