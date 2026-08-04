@@ -8,7 +8,8 @@ export type JobDomain =
   | 'cloud'
   | 'support'
   | 'product'
-  | 'pm';
+  | 'pm'
+  | 'employer';
 
 export interface HiTechJob {
   id: string;
@@ -16,17 +17,12 @@ export interface HiTechJob {
   company: string;
   domain: JobDomain;
   domainLabel: string;
-  level: JobLevel;
+  /** null = חברה/מוסד ללא משרה פתוחה מפורסמת */
+  level: JobLevel | null;
   location: string;
-  applyUrl: string;
-}
-
-export interface HiTechCompany {
-  id: string;
-  name: string;
-  field: string;
-  location: string;
-  note: string;
+  note?: string;
+  /** קישור Comeet — אם חסר, משתמשים ב-WhatsApp */
+  applyUrl?: string;
 }
 
 export const JOB_DOMAIN_LABELS: Record<JobDomain, string> = {
@@ -38,6 +34,7 @@ export const JOB_DOMAIN_LABELS: Record<JobDomain, string> = {
   support: 'תמיכה',
   product: 'מוצר',
   pm: 'ניהול פרויקטים',
+  employer: 'חברות באזור',
 };
 
 export const JOB_LEVEL_LABELS: Record<JobLevel, string> = {
@@ -45,7 +42,169 @@ export const JOB_LEVEL_LABELS: Record<JobLevel, string> = {
   senior: 'בכיר',
 };
 
+export const HI_TECH_WHATSAPP = '972552135965';
+
+export function buildWhatsAppJobUrl(job: HiTechJob): string {
+  const text = [
+    'שלום, הגעתי מדף המשרות של הבחירה הצפונית',
+    `ואשמח למידע על הזדמנויות תעסוקה ב־${job.company}`,
+    `(${job.domainLabel}) באזור ${job.location}.`,
+  ].join(' ');
+  return `https://wa.me/${HI_TECH_WHATSAPP}?text=${encodeURIComponent(text)}`;
+}
+
+/** כל הפריטים מהאקסל — חברות ואז משרות Genpact */
 export const HI_TECH_JOBS: HiTechJob[] = [
+  {
+    id: 'nvidia',
+    title: 'NVIDIA',
+    company: 'NVIDIA',
+    domain: 'employer',
+    domainLabel: 'שבבים / AI',
+    level: null,
+    location: 'תל חי',
+    note: 'ענקית טכנולוגיה עולמית; מרכז הפיתוח השני בגודלו מחוץ לארה"ב',
+  },
+  {
+    id: 'plasan',
+    title: 'פלסן סאסא',
+    company: 'פלסן סאסא',
+    domain: 'employer',
+    domainLabel: 'מיגון מתקדם / חומרים מרוכבים',
+    level: null,
+    location: 'קיבוץ סאסא',
+    note: 'מובילת שוק עולמית בייצור מיגון; בדרך להנפקה בשווי כמיליארד ₪',
+  },
+  {
+    id: 'shamir-optics',
+    title: 'שמיר תעשיות אופטיקה',
+    company: 'שמיר תעשיות אופטיקה',
+    domain: 'employer',
+    domainLabel: 'R&D אופטי - עדשות',
+    level: null,
+    location: 'קיבוץ שמיר',
+    note: 'מובילה עולמית בעדשות מולטיפוקל; אקזיט של חצי מיליארד $ ב-2022',
+  },
+  {
+    id: 'spo',
+    title: 'SPO (Smart Precision Optics)',
+    company: 'SPO',
+    domain: 'employer',
+    domainLabel: 'אופטיקה מדויקת - Free Form',
+    level: null,
+    location: 'קיבוץ שמיר',
+    note: 'ספין-אוף של שמיר אופטיקה; היחידה בישראל בתחומה',
+  },
+  {
+    id: 'bental',
+    title: 'בנטל תעשיות',
+    company: 'בנטל תעשיות',
+    domain: 'employer',
+    domainLabel: 'מנועים חשמליים לביטחון/תעופה',
+    level: null,
+    location: 'מרום גולן',
+    note: 'לקוחות: אלביט, רפא"ל, התעשייה האווירית, רית\'און',
+  },
+  {
+    id: 'bmc',
+    title: 'BMC Software',
+    company: 'BMC Software',
+    domain: 'employer',
+    domainLabel: 'פיתוח תוכנה לארגוני מחשוב',
+    level: null,
+    location: 'גן התעשייה תל חי',
+    note: 'מרכז פיתוח עם 200+ עובדים; חברת הייטק מובילה בעולם',
+  },
+  {
+    id: 'elbit',
+    title: 'אלביט מערכות (תקשוב וסייבר)',
+    company: 'אלביט מערכות',
+    domain: 'employer',
+    domainLabel: 'אלקטרוניקה ביטחונית / רדיו תוכנה',
+    level: null,
+    location: 'גן התעשייה תל חי',
+    note: 'מייצרת מערכות רדיו תוכנה Elynx לצה"ל ולצבאות בעולם; כ-200 עובדים',
+  },
+  {
+    id: 'hubayta',
+    title: 'HUBayta by OpenValley',
+    company: 'HUBayta by OpenValley',
+    domain: 'employer',
+    domainLabel: 'מתחם חדשנות/הייטק',
+    level: null,
+    location: 'עמק החולה',
+    note: 'כ-20 חברות טכנולוגיה; בשיתוף פעולה עם Google',
+  },
+  {
+    id: 'tel-hai',
+    title: 'תל-חי - אוניברסיטת קריית שמונה בגליל',
+    company: 'תל-חי',
+    domain: 'employer',
+    domainLabel: 'השכלה גבוהה + R&D',
+    level: null,
+    location: 'קריית שמונה',
+    note: 'הוכרה כאוניברסיטה ע"י המל"ג בינואר 2026; תקציב 570 מיליון ₪',
+  },
+  {
+    id: 'migal',
+    title: 'מכון מיגל (MIGAL)',
+    company: 'מכון מיגל',
+    domain: 'employer',
+    domainLabel: 'מו"פ ביוטק/אגרוטק',
+    level: null,
+    location: 'קריית שמונה',
+    note: '40+ חברות כלקוחות מו"פ, כולל טבע',
+  },
+  {
+    id: 'shamir-research',
+    title: 'מכון שמיר למחקר',
+    company: 'מכון שמיר למחקר',
+    domain: 'employer',
+    domainLabel: 'מו"פ אקדמי - חקלאות/סביבה',
+    level: null,
+    location: 'קצרין',
+    note: 'בחסות אוניברסיטת חיפה; 12 מעבדות מולקולריות',
+  },
+  {
+    id: 'galcon',
+    title: 'גלקון (Galcon)',
+    company: 'גלקון',
+    domain: 'employer',
+    domainLabel: 'אגרוטק - בקרת השקיה חכמה',
+    level: null,
+    location: 'כפר בלום',
+    note: 'טכנולוגיית ענן ובקרה מתקדמת',
+  },
+  {
+    id: 'margalit',
+    title: 'Margalit Startup City / Workport',
+    company: 'Margalit Startup City',
+    domain: 'employer',
+    domainLabel: 'חממת חדשנות',
+    level: null,
+    location: 'קריית שמונה',
+    note: 'מרכז סטארטאפים בגיבוי קרן JVP',
+  },
+  {
+    id: 'shalag',
+    title: 'שלא"ג תעשיות',
+    company: 'שלא"ג תעשיות',
+    domain: 'employer',
+    domainLabel: 'טקסטיל תעשייתי מתקדם',
+    level: null,
+    location: 'קיבוץ שמיר',
+    note: 'חברה גלובלית, פעילות גם בארה"ב',
+  },
+  {
+    id: 'rimony',
+    title: 'רימוני תעשיות',
+    company: 'רימוני תעשיות',
+    domain: 'employer',
+    domainLabel: 'פלסטיק מדויק / רפואי',
+    level: null,
+    location: 'קריית שמונה',
+    note: 'לקוחות: טבע, HP, BMW, נסטלה',
+  },
   {
     id: 'genpact-jr-qa',
     title: 'QA Automation (JR)',
@@ -184,113 +343,5 @@ export const HI_TECH_JOBS: HiTechJob[] = [
     location: 'גליל עליון (קריית שמונה)',
     applyUrl:
       'https://www.comeet.com/jobs/genpact/B9.008/upper-galilee---senior-support-engineer/12.F6C',
-  },
-];
-
-export const HI_TECH_COMPANIES: HiTechCompany[] = [
-  {
-    id: 'nvidia',
-    name: 'NVIDIA',
-    field: 'שבבים / AI',
-    location: 'תל חי',
-    note: 'ענקית טכנולוגיה עולמית; מרכז הפיתוח השני בגודלו מחוץ לארה"ב',
-  },
-  {
-    id: 'plasan',
-    name: 'פלסן סאסא',
-    field: 'מיגון מתקדם / חומרים מרוכבים',
-    location: 'קיבוץ סאסא',
-    note: 'מובילת שוק עולמית בייצור מיגון; בדרך להנפקה בשווי כמיליארד ₪',
-  },
-  {
-    id: 'shamir-optics',
-    name: 'שמיר תעשיות אופטיקה',
-    field: 'R&D אופטי - עדשות',
-    location: 'קיבוץ שמיר',
-    note: 'מובילה עולמית בעדשות מולטיפוקל; אקזיט של חצי מיליארד $ ב-2022',
-  },
-  {
-    id: 'spo',
-    name: 'SPO (Smart Precision Optics)',
-    field: 'אופטיקה מדויקת - Free Form',
-    location: 'קיבוץ שמיר',
-    note: 'ספין-אוף של שמיר אופטיקה; היחידה בישראל בתחומה',
-  },
-  {
-    id: 'bental',
-    name: 'בנטל תעשיות',
-    field: 'מנועים חשמליים לביטחון/תעופה',
-    location: 'מרום גולן',
-    note: 'לקוחות: אלביט, רפא"ל, התעשייה האווירית, רית\'און',
-  },
-  {
-    id: 'bmc',
-    name: 'BMC Software',
-    field: 'פיתוח תוכנה לארגוני מחשוב',
-    location: 'גן התעשייה תל חי',
-    note: 'מרכז פיתוח עם 200+ עובדים; חברת הייטק מובילה בעולם',
-  },
-  {
-    id: 'elbit',
-    name: 'אלביט מערכות (תקשוב וסייבר)',
-    field: 'אלקטרוניקה ביטחונית / רדיו תוכנה',
-    location: 'גן התעשייה תל חי',
-    note: 'מייצרת מערכות רדיו תוכנה Elynx לצה"ל ולצבאות בעולם; כ-200 עובדים',
-  },
-  {
-    id: 'hubayta',
-    name: 'HUBayta by OpenValley',
-    field: 'מתחם חדשנות/הייטק',
-    location: 'עמק החולה',
-    note: 'כ-20 חברות טכנולוגיה; בשיתוף פעולה עם Google',
-  },
-  {
-    id: 'tel-hai',
-    name: 'תל-חי - אוניברסיטת קריית שמונה בגליל',
-    field: 'השכלה גבוהה + R&D',
-    location: 'קריית שמונה',
-    note: 'הוכרה כאוניברסיטה ע"י המל"ג בינואר 2026; תקציב 570 מיליון ₪',
-  },
-  {
-    id: 'migal',
-    name: 'מכון מיגל (MIGAL)',
-    field: 'מו"פ ביוטק/אגרוטק',
-    location: 'קריית שמונה',
-    note: '40+ חברות כלקוחות מו"פ, כולל טבע',
-  },
-  {
-    id: 'shamir-research',
-    name: 'מכון שמיר למחקר',
-    field: 'מו"פ אקדמי - חקלאות/סביבה',
-    location: 'קצרין',
-    note: 'בחסות אוניברסיטת חיפה; 12 מעבדות מולקולריות',
-  },
-  {
-    id: 'galcon',
-    name: 'גלקון (Galcon)',
-    field: 'אגרוטק - בקרת השקיה חכמה',
-    location: 'כפר בלום',
-    note: 'טכנולוגיית ענן ובקרה מתקדמת',
-  },
-  {
-    id: 'margalit',
-    name: 'Margalit Startup City / Workport',
-    field: 'חממת חדשנות',
-    location: 'קריית שמונה',
-    note: 'מרכז סטארטאפים בגיבוי קרן JVP',
-  },
-  {
-    id: 'shalag',
-    name: 'שלא"ג תעשיות',
-    field: 'טקסטיל תעשייתי מתקדם',
-    location: 'קיבוץ שמיר',
-    note: 'חברה גלובלית, פעילות גם בארה"ב',
-  },
-  {
-    id: 'rimony',
-    name: 'רימוני תעשיות',
-    field: 'פלסטיק מדויק / רפואי',
-    location: 'קריית שמונה',
-    note: 'לקוחות: טבע, HP, BMW, נסטלה',
   },
 ];

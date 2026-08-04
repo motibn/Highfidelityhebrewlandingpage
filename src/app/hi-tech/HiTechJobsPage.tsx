@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import { Link } from 'react-router';
 import { motion } from 'motion/react';
-import { Briefcase, ExternalLink, MapPin, Search, X } from 'lucide-react';
+import { Briefcase, ExternalLink, MapPin, MessageCircle, Search, X } from 'lucide-react';
 import { setPageSEO } from '../utils/seo';
 import {
-  HI_TECH_COMPANIES,
+  buildWhatsAppJobUrl,
   HI_TECH_JOBS,
   JOB_DOMAIN_LABELS,
   JOB_LEVEL_LABELS,
@@ -14,11 +14,11 @@ import {
 } from './jobs-data';
 import { HI_TECH_JOBS_PATH, HI_TECH_JOBS_SEO, HT } from './tokens';
 
-function pushJobApplyEvent(job: HiTechJob): void {
+function pushJobCtaEvent(job: HiTechJob, channel: 'comeet' | 'whatsapp'): void {
   const w = window as Window & { dataLayer?: Record<string, unknown>[] };
   w.dataLayer = w.dataLayer || [];
   w.dataLayer.push({
-    event: 'hi_tech_job_apply',
+    event: channel === 'comeet' ? 'hi_tech_job_apply' : 'hi_tech_job_whatsapp',
     job_id: job.id,
     job_title: job.title,
     job_company: job.company,
@@ -43,7 +43,19 @@ const chipBase: CSSProperties = {
   whiteSpace: 'nowrap',
 };
 
-function levelChip(level: JobLevel): CSSProperties {
+function levelChipStyle(level: JobLevel | null): CSSProperties {
+  if (level === null) {
+    return {
+      background: 'rgba(52,88,66,0.08)',
+      color: HT.greenDark,
+      border: '1px solid rgba(52,88,66,0.16)',
+      borderRadius: 999,
+      padding: '4px 10px',
+      fontSize: 12,
+      fontWeight: 700,
+      fontFamily: HT.fontSans,
+    };
+  }
   if (level === 'junior') {
     return {
       background: 'rgba(150,186,139,0.22)',
@@ -68,6 +80,11 @@ function levelChip(level: JobLevel): CSSProperties {
   };
 }
 
+function levelLabel(level: JobLevel | null): string {
+  if (level === null) return 'חברה באזור';
+  return JOB_LEVEL_LABELS[level];
+}
+
 export function HiTechJobsPage() {
   const [query, setQuery] = useState('');
   const [level, setLevel] = useState<JobLevel | 'all'>('all');
@@ -83,7 +100,8 @@ export function HiTechJobsPage() {
       if (level !== 'all' && job.level !== level) return false;
       if (domain !== 'all' && job.domain !== domain) return false;
       if (!q) return true;
-      const hay = `${job.title} ${job.company} ${job.domainLabel} ${job.location}`.toLowerCase();
+      const hay =
+        `${job.title} ${job.company} ${job.domainLabel} ${job.location} ${job.note ?? ''}`.toLowerCase();
       return hay.includes(q);
     });
   }, [query, level, domain]);
@@ -98,7 +116,6 @@ export function HiTechJobsPage() {
 
   return (
     <div style={{ fontFamily: HT.fontSans, background: HT.cream, minHeight: '60vh' }}>
-      {/* Compact hero */}
       <section
         style={{
           position: 'relative',
@@ -142,7 +159,7 @@ export function HiTechJobsPage() {
               lineHeight: 1.15,
             }}
           >
-            הבחירה הצפונית — משרות פתוחות בגליל
+            הבחירה הצפונית — משרות וחברות בגליל
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 12 }}
@@ -156,7 +173,7 @@ export function HiTechJobsPage() {
               maxWidth: 560,
             }}
           >
-            מצאו משרה מתאימה בחברות הייטק באזור קריית שמונה — והגישו ישירות באתר המעסיק.
+            משרות פתוחות להגשה ישירה, וחברות באזור — נחבר אתכם בוואטסאפ כשאין קישור הגשה.
           </motion.p>
           <motion.div
             initial={{ opacity: 0 }}
@@ -177,12 +194,11 @@ export function HiTechJobsPage() {
             }}
           >
             <Briefcase size={16} aria-hidden />
-            {HI_TECH_JOBS.length} משרות פתוחות
+            {HI_TECH_JOBS.length} הזדמנויות באזור
           </motion.div>
         </div>
       </section>
 
-      {/* Sticky filters */}
       <div
         style={{
           position: 'sticky',
@@ -337,13 +353,12 @@ export function HiTechJobsPage() {
             }}
             aria-live="polite"
           >
-            {filtered.length} מתוך {HI_TECH_JOBS.length} משרות
+            {filtered.length} מתוך {HI_TECH_JOBS.length} הזדמנויות
           </p>
         </div>
       </div>
 
-      {/* Job list */}
-      <section id="jobs" style={{ padding: '32px 24px 64px' }} aria-label="רשימת משרות">
+      <section id="jobs" style={{ padding: '32px 24px 64px' }} aria-label="רשימת משרות וחברות">
         <div style={{ maxWidth: 920, margin: '0 auto' }}>
           {filtered.length === 0 ? (
             <div
@@ -356,7 +371,7 @@ export function HiTechJobsPage() {
               }}
             >
               <p style={{ fontSize: 18, fontWeight: 700, color: HT.greenDark, margin: '0 0 8px' }}>
-                לא מצאנו משרות מתאימות
+                לא מצאנו התאמות
               </p>
               <p style={{ fontSize: 15, color: HT.muted, margin: '0 0 20px', lineHeight: 1.6 }}>
                 נסו לאפס את הסינון, או השאירו פרטים לליווי אישי במציאת תפקיד.
@@ -408,251 +423,193 @@ export function HiTechJobsPage() {
                 gap: 12,
               }}
             >
-              {filtered.map((job, i) => (
-                <motion.li
-                  key={job.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.35, delay: Math.min(i * 0.03, 0.24) }}
-                >
-                  <article
-                    style={{
-                      background: HT.white,
-                      borderRadius: 16,
-                      border: '1px solid rgba(52,88,66,0.08)',
-                      padding: '20px 22px',
-                      display: 'flex',
-                      flexWrap: 'wrap',
-                      gap: 16,
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                    }}
+              {filtered.map((job, i) => {
+                const hasApply = Boolean(job.applyUrl);
+                const ctaHref = hasApply ? job.applyUrl! : buildWhatsAppJobUrl(job);
+                const showCompanyLine = job.company !== job.title;
+
+                return (
+                  <motion.li
+                    key={job.id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.35, delay: Math.min(i * 0.03, 0.24) }}
                   >
-                    <div style={{ flex: '1 1 240px', minWidth: 0 }}>
+                    <article
+                      style={{
+                        background: HT.white,
+                        borderRadius: 16,
+                        border: '1px solid rgba(52,88,66,0.08)',
+                        padding: '20px 22px',
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        gap: 16,
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                      }}
+                    >
+                      <div style={{ flex: '1 1 240px', minWidth: 0 }}>
+                        <div
+                          style={{
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            gap: 8,
+                            alignItems: 'center',
+                            marginBottom: 6,
+                          }}
+                        >
+                          <span style={levelChipStyle(job.level)}>{levelLabel(job.level)}</span>
+                          <span
+                            style={{
+                              fontSize: 12,
+                              fontWeight: 600,
+                              color: HT.muted,
+                              background: HT.mint,
+                              borderRadius: 999,
+                              padding: '4px 10px',
+                            }}
+                          >
+                            {job.domain === 'employer'
+                              ? job.domainLabel
+                              : JOB_DOMAIN_LABELS[job.domain]}
+                          </span>
+                        </div>
+                        <h2
+                          style={{
+                            fontSize: 'clamp(17px, 2.4vw, 20px)',
+                            fontWeight: 800,
+                            color: HT.greenDark,
+                            margin: '0 0 6px',
+                            lineHeight: 1.3,
+                            fontFamily: /[A-Za-z]/.test(job.title) ? HT.fontEng : HT.fontSans,
+                          }}
+                        >
+                          {job.title}
+                        </h2>
+                        {showCompanyLine && (
+                          <p
+                            style={{
+                              margin: '0 0 6px',
+                              fontSize: 14,
+                              fontWeight: 600,
+                              color: HT.greenMid,
+                              fontFamily: HT.fontEng,
+                            }}
+                          >
+                            {job.company}
+                            <span style={{ color: HT.muted, fontWeight: 500, fontFamily: HT.fontSans }}>
+                              {' '}
+                              · {job.domainLabel}
+                            </span>
+                          </p>
+                        )}
+                        {!showCompanyLine && (
+                          <p
+                            style={{
+                              margin: '0 0 6px',
+                              fontSize: 14,
+                              fontWeight: 500,
+                              color: HT.muted,
+                            }}
+                          >
+                            {job.domainLabel}
+                          </p>
+                        )}
+                        {job.note && (
+                          <p
+                            style={{
+                              margin: '0 0 8px',
+                              fontSize: 13,
+                              color: HT.muted,
+                              lineHeight: 1.5,
+                            }}
+                          >
+                            {job.note}
+                          </p>
+                        )}
+                        <p
+                          style={{
+                            margin: 0,
+                            fontSize: 13,
+                            color: HT.muted,
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: 5,
+                          }}
+                        >
+                          <MapPin size={13} aria-hidden />
+                          {job.location}
+                        </p>
+                      </div>
+
                       <div
                         style={{
                           display: 'flex',
-                          flexWrap: 'wrap',
-                          gap: 8,
-                          alignItems: 'center',
-                          marginBottom: 6,
+                          flexDirection: 'column',
+                          alignItems: 'stretch',
+                          gap: 6,
+                          flex: '0 0 auto',
                         }}
                       >
-                        <span style={levelChip(job.level)}>{JOB_LEVEL_LABELS[job.level]}</span>
-                        <span
+                        <a
+                          href={ctaHref}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() =>
+                            pushJobCtaEvent(job, hasApply ? 'comeet' : 'whatsapp')
+                          }
                           style={{
-                            fontSize: 12,
-                            fontWeight: 600,
-                            color: HT.muted,
-                            background: HT.mint,
-                            borderRadius: 999,
-                            padding: '4px 10px',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: 8,
+                            fontFamily: HT.fontSans,
+                            fontSize: 15,
+                            fontWeight: 700,
+                            padding: '12px 22px',
+                            borderRadius: 14,
+                            background: hasApply ? HT.plum : HT.greenDark,
+                            color: HT.white,
+                            textDecoration: 'none',
+                            boxShadow: hasApply
+                              ? '0 8px 22px rgba(168,92,128,0.28)'
+                              : '0 8px 22px rgba(52,88,66,0.28)',
+                            whiteSpace: 'nowrap',
                           }}
                         >
-                          {JOB_DOMAIN_LABELS[job.domain]}
+                          {hasApply ? (
+                            <>
+                              להגשה
+                              <ExternalLink size={15} aria-hidden />
+                            </>
+                          ) : (
+                            <>
+                              דברו איתנו בוואטסאפ
+                              <MessageCircle size={15} aria-hidden />
+                            </>
+                          )}
+                        </a>
+                        <span
+                          style={{
+                            fontSize: 11,
+                            color: HT.muted,
+                            textAlign: 'center',
+                          }}
+                        >
+                          {hasApply
+                            ? 'ההגשה באתר Genpact'
+                            : 'נחבר אתכם להזדמנויות בחברה'}
                         </span>
                       </div>
-                      <h2
-                        style={{
-                          fontSize: 'clamp(17px, 2.4vw, 20px)',
-                          fontWeight: 800,
-                          color: HT.greenDark,
-                          margin: '0 0 6px',
-                          lineHeight: 1.3,
-                        }}
-                      >
-                        {job.title}
-                      </h2>
-                      <p
-                        style={{
-                          margin: '0 0 6px',
-                          fontSize: 14,
-                          fontWeight: 600,
-                          color: HT.greenMid,
-                          fontFamily: HT.fontEng,
-                        }}
-                      >
-                        {job.company}
-                        <span style={{ color: HT.muted, fontWeight: 500, fontFamily: HT.fontSans }}>
-                          {' '}
-                          · {job.domainLabel}
-                        </span>
-                      </p>
-                      <p
-                        style={{
-                          margin: 0,
-                          fontSize: 13,
-                          color: HT.muted,
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: 5,
-                        }}
-                      >
-                        <MapPin size={13} aria-hidden />
-                        {job.location}
-                      </p>
-                    </div>
-
-                    <div
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'stretch',
-                        gap: 6,
-                        flex: '0 0 auto',
-                      }}
-                    >
-                      <a
-                        href={job.applyUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => pushJobApplyEvent(job)}
-                        style={{
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          gap: 8,
-                          fontFamily: HT.fontSans,
-                          fontSize: 15,
-                          fontWeight: 700,
-                          padding: '12px 22px',
-                          borderRadius: 14,
-                          background: HT.plum,
-                          color: HT.white,
-                          textDecoration: 'none',
-                          boxShadow: '0 8px 22px rgba(168,92,128,0.28)',
-                          whiteSpace: 'nowrap',
-                        }}
-                      >
-                        להגשה
-                        <ExternalLink size={15} aria-hidden />
-                      </a>
-                      <span
-                        style={{
-                          fontSize: 11,
-                          color: HT.muted,
-                          textAlign: 'center',
-                        }}
-                      >
-                        ההגשה באתר Genpact
-                      </span>
-                    </div>
-                  </article>
-                </motion.li>
-              ))}
+                    </article>
+                  </motion.li>
+                );
+              })}
             </ul>
           )}
         </div>
       </section>
 
-      {/* Companies ecosystem */}
-      <section
-        id="companies-area"
-        style={{
-          padding: '64px 24px',
-          background: `linear-gradient(180deg, ${HT.mint} 0%, ${HT.cream} 100%)`,
-        }}
-        aria-labelledby="companies-heading"
-      >
-        <div style={{ maxWidth: 920, margin: '0 auto' }}>
-          <p
-            style={{
-              fontFamily: HT.fontScript,
-              fontSize: 22,
-              color: HT.terracotta,
-              margin: '0 0 6px',
-              textAlign: 'center',
-            }}
-          >
-            האקוסיסטם
-          </p>
-          <h2
-            id="companies-heading"
-            style={{
-              fontSize: 'clamp(24px, 3.5vw, 34px)',
-              fontWeight: 800,
-              color: HT.greenDark,
-              margin: '0 0 10px',
-              textAlign: 'center',
-              lineHeight: 1.2,
-            }}
-          >
-            חברות ומוסדות באזור
-          </h2>
-          <p
-            style={{
-              fontSize: 16,
-              color: HT.muted,
-              textAlign: 'center',
-              margin: '0 auto 36px',
-              maxWidth: 520,
-              lineHeight: 1.65,
-            }}
-          >
-            עד כ־30–40 דקות נסיעה מקריית שמונה — סביבת עבודה טכנולוגית מגוונת.
-          </p>
-
-          <ul
-            style={{
-              listStyle: 'none',
-              margin: 0,
-              padding: 0,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 8,
-            }}
-          >
-            {HI_TECH_COMPANIES.map((c) => (
-              <li
-                key={c.id}
-                style={{
-                  background: HT.white,
-                  borderRadius: 12,
-                  border: '1px solid rgba(52,88,66,0.07)',
-                  padding: '14px 18px',
-                  display: 'grid',
-                  gridTemplateColumns: 'minmax(0, 1.1fr) minmax(0, 1fr) minmax(0, 0.7fr)',
-                  gap: 8,
-                  alignItems: 'baseline',
-                }}
-                className="ht-company-row"
-              >
-                <div>
-                  <div
-                    style={{
-                      fontWeight: 700,
-                      fontSize: 15,
-                      color: HT.greenDark,
-                      fontFamily: /[A-Za-z]/.test(c.name) ? HT.fontEng : HT.fontSans,
-                    }}
-                  >
-                    {c.name}
-                  </div>
-                  <div style={{ fontSize: 12, color: HT.muted, marginTop: 2, lineHeight: 1.45 }}>
-                    {c.note}
-                  </div>
-                </div>
-                <div style={{ fontSize: 13, color: HT.muted }}>{c.field}</div>
-                <div
-                  style={{
-                    fontSize: 13,
-                    color: HT.greenMid,
-                    fontWeight: 600,
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 4,
-                  }}
-                >
-                  <MapPin size={12} aria-hidden />
-                  {c.location}
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      {/* Bottom CTA */}
       <section
         style={{
           padding: '72px 24px',
@@ -715,12 +672,6 @@ export function HiTechJobsPage() {
           clip: rect(0, 0, 0, 0);
           white-space: nowrap;
           border: 0;
-        }
-        @media (max-width: 700px) {
-          .ht-company-row {
-            grid-template-columns: 1fr !important;
-            gap: 4px !important;
-          }
         }
       `}</style>
     </div>
