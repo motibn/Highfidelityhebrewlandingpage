@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
-const logo = '/logo-1.png';
+const logo = '/logo-nav.svg';
 
 type NavLinkItem =
   | { label: string; href: string }
@@ -80,7 +80,7 @@ export const Navigation = () => {
           top: 0,
           left: 0,
           right: 0,
-          height: '110px',
+          height: '124px',
           backdropFilter: 'blur(16px)',
           WebkitBackdropFilter: 'blur(16px)',
           boxShadow: scrolled ? '0 4px 30px rgba(42,67,50,0.08)' : 'none',
@@ -92,17 +92,17 @@ export const Navigation = () => {
               height: '100%',
               display: 'block',
             }}
-            viewBox="0 0 1440 110"
+            viewBox="0 0 1440 124"
             preserveAspectRatio="none"
           >
             <path
-              d="M 0,0 L 0,86 Q 720,62 1440,86 L 1440,0 Z"
+              d="M 0,0 L 0,98 Q 720,72 1440,98 L 1440,0 Z"
               fill={scrolled ? 'rgba(245, 239, 227, 0.92)' : 'rgba(245, 239, 227, 0.55)'}
             />
           </svg>
         </div>
         <div style={{ maxWidth: '1320px', margin: '0 auto', padding: '0 24px', position: 'relative', zIndex: 10 }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '72px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '84px' }}>
             
             {/* Logo - Right side in RTL */}
             <div
@@ -116,13 +116,16 @@ export const Navigation = () => {
                   handleLogoClick();
                 }
               }}
-              style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', zIndex: 20, alignSelf: 'center' }}
+              style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', zIndex: 20, alignSelf: 'center', flexShrink: 0 }}
             >
               <img
                 src={logo}
                 alt="הבחירה הצפונית – קריית שמונה"
+                className="main-nav-logo"
                 style={{
-                  height: '56px',
+                  height: 'clamp(60px, 6vw, 76px)',
+                  width: 'auto',
+                  maxWidth: 'min(48vw, 360px)',
                   objectFit: 'contain',
                   display: 'block',
                   position: 'relative',
@@ -299,14 +302,15 @@ export const Navigation = () => {
                 >
                   <X size={20} />
                 </button>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                   <div style={{ fontSize: '15px', fontWeight: 700, color: '#2a4332' }}>קריית שמונה</div>
                   <ImageWithFallback
                     src={logo}
                     alt="הבחירה הצפונית – קריית שמונה"
                     style={{
-                      width: '32px',
-                      height: '32px',
+                      width: 'auto',
+                      height: '52px',
+                      maxWidth: '180px',
                       objectFit: 'contain',
                     }}
                   />
@@ -431,6 +435,10 @@ export const Navigation = () => {
         @media (max-width: 768px) {
           .hidden-mobile { display: none !important; }
           .show-mobile { display: flex !important; }
+          .main-nav-logo {
+            height: 52px !important;
+            max-width: min(62vw, 260px) !important;
+          }
         }
         @media (min-width: 769px) {
           .show-mobile { display: none !important; }

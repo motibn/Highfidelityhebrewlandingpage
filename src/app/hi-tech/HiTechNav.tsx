@@ -53,7 +53,8 @@ export function HiTechNav() {
           style={{
             maxWidth: 1200,
             margin: '0 auto',
-            padding: '14px 20px',
+            padding: '12px 20px',
+            minHeight: 88,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -62,13 +63,20 @@ export function HiTechNav() {
         >
           <Link
             to="/hi-tech/"
-            style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none' }}
+            style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none', flexShrink: 0 }}
             aria-label="קהילת ההייטק — דף הבית"
           >
             <img
-              src="/Main_Logo.svg"
+              src="/logo-nav.svg"
               alt="הבחירה הצפונית"
-              style={{ height: 44, width: 'auto' }}
+              className="ht-nav-logo"
+              style={{
+                height: 'clamp(56px, 7vw, 72px)',
+                width: 'auto',
+                maxWidth: 'min(52vw, 340px)',
+                objectFit: 'contain',
+                display: 'block',
+              }}
             />
           </Link>
 
@@ -233,6 +241,10 @@ export function HiTechNav() {
         @media (max-width: 900px) {
           .ht-nav-desktop { display: none !important; }
           .ht-nav-burger { display: flex !important; }
+          .ht-nav-logo {
+            height: 52px !important;
+            max-width: min(68vw, 280px) !important;
+          }
         }
       `}</style>
     </>

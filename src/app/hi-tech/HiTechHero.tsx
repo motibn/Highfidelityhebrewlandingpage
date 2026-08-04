@@ -23,7 +23,7 @@ export function HiTechHero() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '110px 24px 80px',
+        padding: '120px 24px 80px',
       }}
     >
       <motion.div style={{ position: 'absolute', inset: 0, y: bgY }}>
