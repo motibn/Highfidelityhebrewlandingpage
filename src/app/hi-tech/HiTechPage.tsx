@@ -5,6 +5,7 @@ import { HiTechCompanies } from './HiTechCompanies';
 import { HiTechFaq } from './HiTechFaq';
 import { HiTechHero } from './HiTechHero';
 import { HiTechStickyCta } from './HiTechStickyCta';
+import { HiTechTestimonials } from './HiTechTestimonials';
 import { HiTechWhy } from './HiTechWhy';
 import { HI_TECH_SEO, HI_TECH_THANK_YOU_PATH, HT } from './tokens';
 
@@ -46,6 +47,7 @@ export function HiTechPage() {
     <div style={{ fontFamily: HT.fontSans, background: HT.cream }}>
       <HiTechHero />
       <HiTechCompanies />
+      <HiTechTestimonials />
       <HiTechWhy />
       <HiTechBenefits />
       <HiTechFaq />

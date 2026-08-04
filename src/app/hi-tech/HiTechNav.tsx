@@ -7,6 +7,7 @@ import { HT, HI_TECH_JOBS_PATH, scrollToHiTechContact } from './tokens';
 const links = [
   { label: 'למה הייטק בצפון', href: '#why' },
   { label: 'החברות', href: '#companies' },
+  { label: 'עדויות', href: '#testimonials' },
   { label: 'מה מקבלים', href: '#benefits' },
   { label: 'שאלות', href: '#faq' },
 ];

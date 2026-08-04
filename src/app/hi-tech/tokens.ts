@@ -47,12 +47,37 @@ export const HI_TECH_JOBS_SEO = {
 export const HI_TECH_THANK_YOU_PATH = '/hi-tech/thank-you/';
 export const HI_TECH_JOBS_PATH = '/hi-tech/jobs/';
 
-export const COMPANY_NAMES = [
-  'NVIDIA',
-  'Genpact',
-  'BMC Software',
-  'Elbit Systems',
-  'Shamir',
+export const COMPANIES = [
+  {
+    name: 'NVIDIA',
+    logo: '/hi-tech/companies/nvidia.webp',
+    logoFallback: '/hi-tech/companies/nvidia.png',
+    alt: 'לוגו NVIDIA',
+  },
+  {
+    name: 'Genpact',
+    logo: '/hi-tech/companies/genpact.webp',
+    logoFallback: '/hi-tech/companies/genpact.png',
+    alt: 'לוגו Genpact',
+  },
+  {
+    name: 'BMC Software',
+    logo: '/hi-tech/companies/bmc.webp',
+    logoFallback: '/hi-tech/companies/bmc.png',
+    alt: 'לוגו BMC Software',
+  },
+  {
+    name: 'Elbit Systems',
+    logo: '/hi-tech/companies/elbit.webp',
+    logoFallback: '/hi-tech/companies/elbit.png',
+    alt: 'לוגו Elbit Systems',
+  },
+  {
+    name: 'Shamir',
+    logo: '/hi-tech/companies/shamir.webp',
+    logoFallback: '/hi-tech/companies/shamir.png',
+    alt: 'לוגו Shamir',
+  },
 ] as const;
 
 export function scrollToHiTechContact() {

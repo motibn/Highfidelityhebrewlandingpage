@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'motion/react';
-import { COMPANY_NAMES, HT } from './tokens';
+import { COMPANIES, HT } from './tokens';
 
 export function HiTechCompanies() {
   const ref = useRef(null);
@@ -51,28 +51,44 @@ export function HiTechCompanies() {
             flexWrap: 'wrap',
             justifyContent: 'center',
             alignItems: 'center',
-            gap: 'clamp(16px, 3vw, 36px)',
+            gap: 'clamp(16px, 3vw, 28px)',
           }}
         >
-          {COMPANY_NAMES.map((name, i) => (
+          {COMPANIES.map((company, i) => (
             <motion.div
-              key={name}
+              key={company.name}
               initial={{ opacity: 0, y: 12 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.45, delay: 0.08 * i }}
               style={{
-                fontFamily: HT.fontEng,
-                fontSize: 'clamp(15px, 2vw, 20px)',
-                fontWeight: 700,
-                color: HT.greenDark,
-                letterSpacing: '0.02em',
-                padding: '14px 22px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '16px 22px',
                 background: HT.mint,
                 borderRadius: 14,
-                minWidth: 120,
+                minWidth: 140,
+                minHeight: 72,
               }}
             >
-              {name}
+              <picture>
+                <source srcSet={company.logo} type="image/webp" />
+                <img
+                  src={company.logoFallback}
+                  alt={company.alt}
+                  width={148}
+                  height={48}
+                  loading="lazy"
+                  decoding="async"
+                  style={{
+                    display: 'block',
+                    width: 'clamp(110px, 18vw, 148px)',
+                    height: 'auto',
+                    maxHeight: 48,
+                    objectFit: 'contain',
+                  }}
+                />
+              </picture>
             </motion.div>
           ))}
         </div>
