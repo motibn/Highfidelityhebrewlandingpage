@@ -36,7 +36,16 @@ export const HI_TECH_THANK_YOU_SEO = {
   robots: 'noindex, follow',
 } as const;
 
+export const HI_TECH_JOBS_SEO = {
+  title: 'משרות הייטק בגליל | הבחירה הצפונית',
+  description:
+    'משרות פתוחות בהייטק באזור קריית שמונה — Genpact ועוד. סננו לפי תחום ורמה והגישו ישירות באתר המעסיק.',
+  canonical: 'https://www.k8now.com/hi-tech/jobs/',
+  robots: 'noindex, follow',
+} as const;
+
 export const HI_TECH_THANK_YOU_PATH = '/hi-tech/thank-you/';
+export const HI_TECH_JOBS_PATH = '/hi-tech/jobs/';
 
 export const COMPANY_NAMES = [
   'NVIDIA',

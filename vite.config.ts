@@ -65,7 +65,7 @@ function figmaAssetResolver() {
 export default defineConfig({
   plugins: [
     spaPreviewFallback(),
-    copySpaRouteIndexHtml(['thank-you', 'hi-tech', 'hi-tech/thank-you']),
+    copySpaRouteIndexHtml(['thank-you', 'hi-tech', 'hi-tech/thank-you', 'hi-tech/jobs']),
     figmaAssetResolver(),
     // The React and Tailwind plugins are both required for Make, even if
     // Tailwind is not being actively used – do not remove them

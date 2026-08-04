@@ -8,6 +8,7 @@ import { AccessibilityProvider } from './components/AccessibilityWidget';
 import { CookieConsent } from './components/CookieConsent';
 import { HiTechPage } from './hi-tech/HiTechPage';
 import { HiTechThankYouPage } from './hi-tech/HiTechThankYouPage';
+import { HiTechJobsPage } from './hi-tech/HiTechJobsPage';
 import { HiTechNav } from './hi-tech/HiTechNav';
 import { HiTechFooter } from './hi-tech/HiTechFooter';
 import { HT } from './hi-tech/tokens';
@@ -317,6 +318,8 @@ function AppContent() {
             <Route path="/hi-tech/" element={<HiTechPage />} />
             <Route path="/hi-tech/thank-you" element={<HiTechThankYouPage />} />
             <Route path="/hi-tech/thank-you/" element={<HiTechThankYouPage />} />
+            <Route path="/hi-tech/jobs" element={<HiTechJobsPage />} />
+            <Route path="/hi-tech/jobs/" element={<HiTechJobsPage />} />
           </Routes>
         </main>
         <HiTechFooter />

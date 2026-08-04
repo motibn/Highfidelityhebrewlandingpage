@@ -43,8 +43,14 @@ if (!fs.existsSync(hiTechThankYouIndex)) {
   ok = false;
 }
 
+const hiTechJobsIndex = path.join(dist, 'hi-tech', 'jobs', 'index.html');
+if (!fs.existsSync(hiTechJobsIndex)) {
+  console.error(`verify-dist: חסר ${path.relative(root, hiTechJobsIndex)} (נדרש ל־/hi-tech/jobs/)`);
+  ok = false;
+}
+
 if (!ok) {
   process.exit(1);
 }
 
-console.log('verify-dist: dist תקין (index.html, thank-you/, hi-tech/, hi-tech/thank-you/, .htaccess, assets/)');
+console.log('verify-dist: dist תקין (index.html, thank-you/, hi-tech/, hi-tech/thank-you/, hi-tech/jobs/, .htaccess, assets/)');

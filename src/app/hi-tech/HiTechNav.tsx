@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X } from 'lucide-react';
-import { HT, scrollToHiTechContact } from './tokens';
+import { HT, HI_TECH_JOBS_PATH, scrollToHiTechContact } from './tokens';
 
 const links = [
   { label: 'למה הייטק בצפון', href: '#why' },
@@ -20,6 +20,9 @@ export function HiTechNav() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const isThankYou = location.pathname.includes('thank-you');
+  const isJobs = location.pathname.includes('/jobs');
+  const hideLandingAnchors = isThankYou || isJobs;
+  const solidNav = scrolled || hideLandingAnchors;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 36);
@@ -44,8 +47,8 @@ export function HiTechNav() {
           left: 0,
           zIndex: 100,
           transition: 'background 0.35s ease, box-shadow 0.35s ease',
-          background: scrolled || isThankYou ? 'rgba(247,251,245,0.94)' : 'transparent',
-          backdropFilter: scrolled || isThankYou ? 'blur(12px)' : undefined,
+          background: solidNav ? 'rgba(247,251,245,0.94)' : 'transparent',
+          backdropFilter: solidNav ? 'blur(12px)' : undefined,
           boxShadow: scrolled ? '0 8px 28px rgba(52,88,66,0.08)' : 'none',
         }}
       >
@@ -92,7 +95,7 @@ export function HiTechNav() {
             }}
             className="ht-nav-desktop"
           >
-            {!isThankYou &&
+            {!hideLandingAnchors &&
               links.map((l) => (
                 <button
                   key={l.href}
@@ -112,25 +115,74 @@ export function HiTechNav() {
                   {l.label}
                 </button>
               ))}
-            <button
-              type="button"
-              onClick={scrollToHiTechContact}
-              style={{
-                marginInlineStart: 8,
-                background: HT.plum,
-                color: HT.white,
-                border: 'none',
-                borderRadius: 999,
-                padding: '10px 20px',
-                fontFamily: HT.fontSans,
-                fontSize: 14,
-                fontWeight: 700,
-                cursor: 'pointer',
-                boxShadow: '0 8px 22px rgba(168,92,128,0.28)',
-              }}
-            >
-              הצטרפו לקהילה
-            </button>
+            {isJobs && (
+              <span
+                style={{
+                  fontFamily: HT.fontSans,
+                  fontSize: 14,
+                  fontWeight: 700,
+                  color: HT.plum,
+                  padding: '8px 12px',
+                }}
+                aria-current="page"
+              >
+                משרות
+              </span>
+            )}
+            {!isJobs && (
+              <Link
+                to={HI_TECH_JOBS_PATH}
+                style={{
+                  fontFamily: HT.fontSans,
+                  fontSize: 14,
+                  fontWeight: 500,
+                  color: HT.greenDark,
+                  padding: '8px 12px',
+                  textDecoration: 'none',
+                }}
+              >
+                משרות
+              </Link>
+            )}
+            {isJobs ? (
+              <Link
+                to="/hi-tech/#contact"
+                style={{
+                  marginInlineStart: 8,
+                  background: HT.plum,
+                  color: HT.white,
+                  borderRadius: 999,
+                  padding: '10px 20px',
+                  fontFamily: HT.fontSans,
+                  fontSize: 14,
+                  fontWeight: 700,
+                  textDecoration: 'none',
+                  boxShadow: '0 8px 22px rgba(168,92,128,0.28)',
+                }}
+              >
+                ליווי אישי
+              </Link>
+            ) : (
+              <button
+                type="button"
+                onClick={scrollToHiTechContact}
+                style={{
+                  marginInlineStart: 8,
+                  background: HT.plum,
+                  color: HT.white,
+                  border: 'none',
+                  borderRadius: 999,
+                  padding: '10px 20px',
+                  fontFamily: HT.fontSans,
+                  fontSize: 14,
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  boxShadow: '0 8px 22px rgba(168,92,128,0.28)',
+                }}
+              >
+                הצטרפו לקהילה
+              </button>
+            )}
           </nav>
 
           <button
@@ -191,50 +243,101 @@ export function HiTechNav() {
               }}
               aria-label="תפריט מובייל"
             >
-              {links.map((l) => (
-                <button
-                  key={l.href}
-                  type="button"
-                  onClick={() => {
-                    setOpen(false);
-                    scrollTo(l.href);
-                  }}
+              {!hideLandingAnchors &&
+                links.map((l) => (
+                  <button
+                    key={l.href}
+                    type="button"
+                    onClick={() => {
+                      setOpen(false);
+                      scrollTo(l.href);
+                    }}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      textAlign: 'right',
+                      fontFamily: HT.fontSans,
+                      fontSize: 18,
+                      fontWeight: 600,
+                      color: HT.greenDark,
+                      padding: '14px 8px',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {l.label}
+                  </button>
+                ))}
+              {isJobs ? (
+                <span
                   style={{
-                    background: 'none',
-                    border: 'none',
-                    textAlign: 'right',
+                    fontFamily: HT.fontSans,
+                    fontSize: 18,
+                    fontWeight: 700,
+                    color: HT.plum,
+                    padding: '14px 8px',
+                  }}
+                  aria-current="page"
+                >
+                  משרות
+                </span>
+              ) : (
+                <Link
+                  to={HI_TECH_JOBS_PATH}
+                  onClick={() => setOpen(false)}
+                  style={{
                     fontFamily: HT.fontSans,
                     fontSize: 18,
                     fontWeight: 600,
                     color: HT.greenDark,
                     padding: '14px 8px',
+                    textDecoration: 'none',
+                  }}
+                >
+                  משרות
+                </Link>
+              )}
+              {isJobs ? (
+                <Link
+                  to="/hi-tech/#contact"
+                  onClick={() => setOpen(false)}
+                  style={{
+                    marginTop: 12,
+                    background: HT.plum,
+                    color: HT.white,
+                    borderRadius: 14,
+                    padding: '14px 18px',
+                    fontFamily: HT.fontSans,
+                    fontSize: 16,
+                    fontWeight: 700,
+                    textDecoration: 'none',
+                    textAlign: 'center',
+                  }}
+                >
+                  ליווי אישי
+                </Link>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOpen(false);
+                    scrollToHiTechContact();
+                  }}
+                  style={{
+                    marginTop: 12,
+                    background: HT.plum,
+                    color: HT.white,
+                    border: 'none',
+                    borderRadius: 14,
+                    padding: '14px 18px',
+                    fontFamily: HT.fontSans,
+                    fontSize: 16,
+                    fontWeight: 700,
                     cursor: 'pointer',
                   }}
                 >
-                  {l.label}
+                  הצטרפו לקהילה
                 </button>
-              ))}
-              <button
-                type="button"
-                onClick={() => {
-                  setOpen(false);
-                  scrollToHiTechContact();
-                }}
-                style={{
-                  marginTop: 12,
-                  background: HT.plum,
-                  color: HT.white,
-                  border: 'none',
-                  borderRadius: 14,
-                  padding: '14px 18px',
-                  fontFamily: HT.fontSans,
-                  fontSize: 16,
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                }}
-              >
-                הצטרפו לקהילה
-              </button>
+              )}
             </motion.nav>
           </motion.div>
         )}

@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import { motion } from 'motion/react';
 import { CheckCircle2 } from 'lucide-react';
 import { setPageSEO } from '../utils/seo';
-import { HI_TECH_THANK_YOU_SEO, HT } from './tokens';
+import { HI_TECH_JOBS_PATH, HI_TECH_THANK_YOU_SEO, HT } from './tokens';
 
 function pushLeadConversionEvent(): void {
   const w = window as Window & { dataLayer?: Record<string, unknown>[] };
@@ -114,7 +114,7 @@ export function HiTechThankYouPage() {
               margin: '0 0 36px',
             }}
           >
-            בינתיים אפשר לחזור לדף הקמפיין ולהכיר עוד על ההזדמנות בצפון.
+            בינתיים אפשר לצפות במשרות הפתוחות באזור — ולהגיש מועמדות ישירות.
           </p>
         </motion.div>
 
@@ -127,15 +127,19 @@ export function HiTechThankYouPage() {
             borderRadius: 24,
             padding: '28px 24px',
             boxShadow: '0 20px 50px rgba(0,0,0,0.22)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 14,
           }}
         >
           <Link
-            to="/hi-tech/"
+            to={HI_TECH_JOBS_PATH}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
               justifyContent: 'center',
-              minWidth: 200,
+              minWidth: 220,
               padding: '14px 28px',
               fontSize: 16,
               fontWeight: 700,
@@ -145,6 +149,19 @@ export function HiTechThankYouPage() {
               textDecoration: 'none',
               fontFamily: HT.fontSans,
               boxShadow: '0 8px 22px rgba(168,92,128,0.35)',
+            }}
+          >
+            לצפייה במשרות הפתוחות
+          </Link>
+          <Link
+            to="/hi-tech/"
+            style={{
+              fontSize: 14,
+              fontWeight: 600,
+              color: HT.muted,
+              textDecoration: 'underline',
+              textUnderlineOffset: 3,
+              fontFamily: HT.fontSans,
             }}
           >
             חזרה לדף הקמפיין
