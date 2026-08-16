@@ -60,10 +60,10 @@ const SOCIALS = [
   },
 ] as const;
 
-const linkMuted = 'rgba(242,232,213,0.55)';
-const linkHover = KM.cream;
-const legalMuted = 'rgba(194,220,180,0.35)';
-const legalHover = 'rgba(194,220,180,0.7)';
+const linkMuted = 'rgba(244,237,227,0.55)';
+const linkHover = KM.paper;
+const legalMuted = 'rgba(244,237,227,0.35)';
+const legalHover = 'rgba(244,237,227,0.7)';
 
 export function MusicFooter() {
   const { openTerms, openPrivacy, openAccessibility } = useLegalModal();
@@ -72,7 +72,7 @@ export function MusicFooter() {
   return (
     <footer
       style={{
-        background: KM.footer,
+        background: KM.walnut,
         padding: '48px 24px 36px',
         borderTop: '1px solid rgba(255,255,255,0.06)',
         fontFamily: KM.fontSans,
@@ -84,7 +84,7 @@ export function MusicFooter() {
             style={{
               fontFamily: KM.fontScript,
               fontSize: 'clamp(22px, 3vw, 34px)',
-              color: KM.cream,
+              color: KM.paper,
               margin: 0,
               lineHeight: 1.4,
               fontWeight: 400,
@@ -96,7 +96,7 @@ export function MusicFooter() {
             style={{
               width: 60,
               height: 1,
-              background: 'rgba(217,227,210,0.35)',
+              background: 'rgba(176,137,104,0.45)',
               margin: '16px auto 0',
             }}
             aria-hidden
@@ -130,14 +130,14 @@ export function MusicFooter() {
                   }}
                 />
               </picture>
-              <div style={{ fontSize: 14, fontWeight: 700, color: KM.cream }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: KM.paper }}>
                 k8music · קהילת המוזיקאים
               </div>
             </div>
             <p
               style={{
                 fontSize: 13,
-                color: 'rgba(194,220,180,0.55)',
+                color: 'rgba(244,237,227,0.55)',
                 lineHeight: 1.7,
                 fontWeight: 400,
                 margin: 0,
@@ -153,7 +153,7 @@ export function MusicFooter() {
                 style={{
                   fontSize: 11,
                   fontWeight: 700,
-                  color: KM.greenLight,
+                  color: KM.brass,
                   letterSpacing: '0.5px',
                   marginBottom: 12,
                 }}
@@ -182,7 +182,7 @@ export function MusicFooter() {
                 style={{
                   fontSize: 11,
                   fontWeight: 700,
-                  color: KM.greenLight,
+                  color: KM.brass,
                   letterSpacing: '0.5px',
                   marginBottom: 12,
                 }}
@@ -232,18 +232,18 @@ export function MusicFooter() {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      color: 'rgba(194,220,180,0.7)',
+                      color: 'rgba(244,237,227,0.7)',
                       textDecoration: 'none',
                       transition: 'all 0.2s ease',
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.background = 'rgba(255,255,255,0.15)';
-                      e.currentTarget.style.color = KM.cream;
+                      e.currentTarget.style.color = KM.paper;
                       e.currentTarget.style.transform = 'translateY(-2px)';
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.background = 'rgba(255,255,255,0.07)';
-                      e.currentTarget.style.color = 'rgba(194,220,180,0.7)';
+                      e.currentTarget.style.color = 'rgba(244,237,227,0.7)';
                       e.currentTarget.style.transform = 'translateY(0)';
                     }}
                   >
@@ -266,7 +266,7 @@ export function MusicFooter() {
             gap: 12,
           }}
         >
-          <div style={{ fontSize: 12, color: 'rgba(194,220,180,0.4)', fontWeight: 400 }}>
+          <div style={{ fontSize: 12, color: 'rgba(244,237,227,0.4)', fontWeight: 400 }}>
             © {year} הבחירה הצפונית. כל הזכויות שמורות.
           </div>
           <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', justifyContent: 'flex-end' }}>

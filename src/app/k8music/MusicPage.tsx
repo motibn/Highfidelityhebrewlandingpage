@@ -44,14 +44,14 @@ export function MusicPage() {
   }, []);
 
   return (
-    <div style={{ fontFamily: KM.fontSans, background: KM.cream }}>
+    <div style={{ fontFamily: KM.fontSans, background: KM.paper }}>
       <MusicHero />
       <MusicOffer />
       <MusicRhythm />
       <MusicWhy />
       <MusicProcess />
       <MusicFaq />
-      <Suspense fallback={<div style={{ minHeight: 320, background: KM.greenDark }} aria-hidden />}>
+      <Suspense fallback={<div style={{ minHeight: 320, background: KM.walnut }} aria-hidden />}>
         <ContactForm
           variant="k8music"
           thankYouPath={K8MUSIC_THANK_YOU_PATH}

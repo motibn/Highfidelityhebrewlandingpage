@@ -50,7 +50,7 @@ export function MusicStickyCta() {
             style={{
               width: '100%',
               maxWidth: 420,
-              background: KM.plum,
+              background: KM.amber,
               color: KM.white,
               border: 'none',
               borderRadius: 16,
@@ -59,7 +59,7 @@ export function MusicStickyCta() {
               fontSize: 16,
               fontWeight: 700,
               cursor: 'pointer',
-              boxShadow: '0 12px 36px rgba(52,88,66,0.35)',
+              boxShadow: '0 12px 36px rgba(28,20,16,0.35)',
             }}
           >
             הצטרפו לקהילת המוזיקאים

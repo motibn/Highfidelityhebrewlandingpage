@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { KM, scrollToMusicContact } from './tokens';
-import { SoundWave } from './MusicDecor';
+import { SoundWave, VinylRing } from './MusicDecor';
 
 export function MusicHero() {
   const ref = useRef<HTMLElement>(null);
@@ -20,7 +20,7 @@ export function MusicHero() {
         position: 'relative',
         minHeight: '100vh',
         overflow: 'hidden',
-        background: `linear-gradient(165deg, ${KM.mint} 0%, ${KM.cream} 45%, #E8F0E4 100%)`,
+        background: `linear-gradient(165deg, ${KM.paper} 0%, #EDE4D6 45%, #E6D9C8 100%)`,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -29,9 +29,11 @@ export function MusicHero() {
     >
       <motion.div style={{ position: 'absolute', inset: 0, y: bgY }}>
         <picture>
-          <source media="(max-width: 1024px)" srcSet="/hero-1280.avif" type="image/avif" />
+          <source media="(max-width: 1024px)" srcSet="/k8music/hero-1280.avif" type="image/avif" />
+          <source srcSet="/k8music/hero-1920.avif" type="image/avif" />
+          <source media="(max-width: 1024px)" srcSet="/k8music/hero-1280.jpg" type="image/jpeg" />
           <img
-            src="/hero-1920.avif"
+            src="/k8music/hero-1920.jpg"
             alt=""
             aria-hidden="true"
             fetchPriority="high"
@@ -44,7 +46,7 @@ export function MusicHero() {
               height: '100%',
               objectFit: 'cover',
               objectPosition: 'center 40%',
-              opacity: 0.42,
+              opacity: 0.55,
             }}
           />
         </picture>
@@ -53,10 +55,25 @@ export function MusicHero() {
             position: 'absolute',
             inset: 0,
             background:
-              'linear-gradient(180deg, rgba(217,227,210,0.88) 0%, rgba(247,251,245,0.72) 48%, rgba(247,251,245,0.55) 100%)',
+              'linear-gradient(180deg, rgba(244,237,227,0.82) 0%, rgba(244,237,227,0.55) 50%, rgba(28,20,16,0.25) 100%)',
           }}
         />
       </motion.div>
+
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          left: '-80px',
+          bottom: '8%',
+          width: 'min(280px, 42vw)',
+          zIndex: 1,
+          pointerEvents: 'none',
+          opacity: 0.7,
+        }}
+      >
+        <VinylRing color={KM.brass} opacity={0.35} />
+      </div>
 
       <div
         style={{
@@ -89,7 +106,7 @@ export function MusicHero() {
             fontFamily: KM.fontSans,
             fontSize: 'clamp(34px, 6.2vw, 64px)',
             fontWeight: 900,
-            color: KM.greenDark,
+            color: KM.ink,
             lineHeight: 1.15,
             letterSpacing: '-0.02em',
             margin: '0 0 20px',
@@ -97,7 +114,7 @@ export function MusicHero() {
         >
           יש אולפן, במה וקהילה.
           <br />
-          <span style={{ color: KM.plum }}>והם מגיעים עם טבע וחיים שקטים.</span>
+          <span style={{ color: KM.amber }}>והם מגיעים עם טבע וחיים שקטים.</span>
         </motion.h1>
 
         <motion.p
@@ -122,9 +139,9 @@ export function MusicHero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.28 }}
-          style={{ maxWidth: 280, margin: '0 auto 28px' }}
+          style={{ maxWidth: 320, margin: '0 auto 28px' }}
         >
-          <SoundWave color={KM.plum} opacity={0.45} />
+          <SoundWave color={KM.plum} opacity={0.55} />
         </motion.div>
 
         <motion.div
@@ -137,7 +154,7 @@ export function MusicHero() {
             type="button"
             onClick={scrollToMusicContact}
             style={{
-              background: KM.plum,
+              background: KM.amber,
               color: KM.white,
               border: 'none',
               borderRadius: 999,
@@ -146,7 +163,7 @@ export function MusicHero() {
               fontSize: 16,
               fontWeight: 700,
               cursor: 'pointer',
-              boxShadow: '0 10px 28px rgba(168,92,128,0.35)',
+              boxShadow: '0 10px 28px rgba(196,120,58,0.35)',
             }}
           >
             הצטרפו לקהילה &gt;
@@ -158,8 +175,8 @@ export function MusicHero() {
             }
             style={{
               background: 'rgba(255,255,255,0.55)',
-              color: KM.greenDark,
-              border: `1.5px solid rgba(52,88,66,0.22)`,
+              color: KM.ink,
+              border: `1.5px solid rgba(176,137,104,0.45)`,
               borderRadius: 999,
               padding: '16px 34px',
               fontFamily: KM.fontSans,

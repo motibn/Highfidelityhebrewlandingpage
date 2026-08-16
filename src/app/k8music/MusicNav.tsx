@@ -46,9 +46,9 @@ export function MusicNav() {
           left: 0,
           zIndex: 100,
           transition: 'background 0.35s ease, box-shadow 0.35s ease',
-          background: solidNav ? 'rgba(247,251,245,0.94)' : 'transparent',
+          background: solidNav ? 'rgba(244,237,227,0.94)' : 'transparent',
           backdropFilter: solidNav ? 'blur(12px)' : undefined,
-          boxShadow: scrolled ? '0 8px 28px rgba(52,88,66,0.08)' : 'none',
+          boxShadow: scrolled ? '0 8px 28px rgba(42,33,24,0.08)' : 'none',
         }}
       >
         <div
@@ -107,7 +107,7 @@ export function MusicNav() {
                     fontFamily: KM.fontSans,
                     fontSize: 14,
                     fontWeight: 500,
-                    color: KM.greenDark,
+                    color: KM.ink,
                     padding: '8px 12px',
                   }}
                 >
@@ -119,7 +119,7 @@ export function MusicNav() {
                 to="/k8music/#contact"
                 style={{
                   marginInlineStart: 8,
-                  background: KM.plum,
+                  background: KM.amber,
                   color: KM.white,
                   borderRadius: 999,
                   padding: '10px 20px',
@@ -127,7 +127,7 @@ export function MusicNav() {
                   fontSize: 14,
                   fontWeight: 700,
                   textDecoration: 'none',
-                  boxShadow: '0 8px 22px rgba(168,92,128,0.28)',
+                  boxShadow: '0 8px 22px rgba(196,120,58,0.28)',
                 }}
               >
                 הצטרפו לקהילה
@@ -138,7 +138,7 @@ export function MusicNav() {
                 onClick={scrollToMusicContact}
                 style={{
                   marginInlineStart: 8,
-                  background: KM.plum,
+                  background: KM.amber,
                   color: KM.white,
                   border: 'none',
                   borderRadius: 999,
@@ -147,7 +147,7 @@ export function MusicNav() {
                   fontSize: 14,
                   fontWeight: 700,
                   cursor: 'pointer',
-                  boxShadow: '0 8px 22px rgba(168,92,128,0.28)',
+                  boxShadow: '0 8px 22px rgba(196,120,58,0.28)',
                 }}
               >
                 הצטרפו לקהילה
@@ -162,14 +162,14 @@ export function MusicNav() {
             onClick={() => setOpen((v) => !v)}
             style={{
               display: 'none',
-              background: KM.mint,
+              background: KM.paper,
               border: 'none',
               borderRadius: 12,
               width: 44,
               height: 44,
               alignItems: 'center',
               justifyContent: 'center',
-              color: KM.greenDark,
+              color: KM.ink,
               cursor: 'pointer',
             }}
           >
@@ -188,7 +188,7 @@ export function MusicNav() {
               position: 'fixed',
               inset: 0,
               zIndex: 99,
-              background: 'rgba(26,42,32,0.45)',
+              background: 'rgba(28,20,16,0.45)',
             }}
             onClick={() => setOpen(false)}
           >
@@ -204,7 +204,7 @@ export function MusicNav() {
                 bottom: 0,
                 left: 0,
                 width: 'min(320px, 86vw)',
-                background: KM.cream,
+                background: KM.paper,
                 padding: '88px 24px 32px',
                 display: 'flex',
                 flexDirection: 'column',
@@ -229,7 +229,7 @@ export function MusicNav() {
                       fontFamily: KM.fontSans,
                       fontSize: 18,
                       fontWeight: 600,
-                      color: KM.greenDark,
+                      color: KM.ink,
                       padding: '14px 8px',
                       cursor: 'pointer',
                     }}
@@ -243,7 +243,7 @@ export function MusicNav() {
                   onClick={() => setOpen(false)}
                   style={{
                     marginTop: 12,
-                    background: KM.plum,
+                    background: KM.amber,
                     color: KM.white,
                     borderRadius: 14,
                     padding: '14px 18px',
@@ -265,7 +265,7 @@ export function MusicNav() {
                   }}
                   style={{
                     marginTop: 12,
-                    background: KM.plum,
+                    background: KM.amber,
                     color: KM.white,
                     border: 'none',
                     borderRadius: 14,

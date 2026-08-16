@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'motion/react';
 import { KM, scrollToMusicContact } from './tokens';
+import { StaffLines } from './MusicDecor';
 
 const steps = [
   {
@@ -44,7 +45,7 @@ export function MusicProcess() {
             style={{
               fontFamily: KM.fontScript,
               fontSize: 22,
-              color: KM.terracotta,
+              color: KM.amber,
               margin: '0 0 8px',
             }}
           >
@@ -55,12 +56,15 @@ export function MusicProcess() {
               fontFamily: KM.fontSans,
               fontSize: 'clamp(28px, 4vw, 40px)',
               fontWeight: 800,
-              color: KM.greenDark,
+              color: KM.ink,
               margin: 0,
             }}
           >
             איך מצטרפים
           </h2>
+          <div style={{ maxWidth: 240, margin: '12px auto 0' }}>
+            <StaffLines color={KM.brass} opacity={0.25} />
+          </div>
         </div>
 
         <ol style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 18 }}>
@@ -75,7 +79,7 @@ export function MusicProcess() {
                 gridTemplateColumns: '72px 1fr',
                 gap: 16,
                 alignItems: 'start',
-                background: KM.cream,
+                background: KM.paper,
                 borderRadius: 18,
                 padding: '22px 24px',
               }}
@@ -85,7 +89,7 @@ export function MusicProcess() {
                   fontFamily: KM.fontSans,
                   fontSize: 28,
                   fontWeight: 900,
-                  color: KM.greenSage,
+                  color: KM.brass,
                   lineHeight: 1,
                 }}
               >
@@ -97,7 +101,7 @@ export function MusicProcess() {
                     fontFamily: KM.fontSans,
                     fontSize: 20,
                     fontWeight: 700,
-                    color: KM.greenDark,
+                    color: KM.ink,
                     margin: '0 0 6px',
                   }}
                 >
@@ -124,7 +128,7 @@ export function MusicProcess() {
             type="button"
             onClick={scrollToMusicContact}
             style={{
-              background: KM.plum,
+              background: KM.amber,
               color: KM.white,
               border: 'none',
               borderRadius: 999,
@@ -133,7 +137,7 @@ export function MusicProcess() {
               fontSize: 16,
               fontWeight: 700,
               cursor: 'pointer',
-              boxShadow: '0 8px 24px rgba(168,92,128,0.3)',
+              boxShadow: '0 8px 24px rgba(196,120,58,0.3)',
             }}
           >
             השאירו פרטים ונחזור אליכם

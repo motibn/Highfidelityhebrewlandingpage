@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { motion, useInView } from 'motion/react';
 import { Music2, AudioLines, Briefcase, Disc3, Radio } from 'lucide-react';
 import { KM } from './tokens';
+import { StaffLines } from './MusicDecor';
 
 const offers = [
   {
@@ -54,13 +55,16 @@ export function MusicOffer() {
               fontFamily: KM.fontSans,
               fontSize: 'clamp(24px, 3.5vw, 36px)',
               fontWeight: 800,
-              color: KM.plum,
+              color: KM.ink,
               lineHeight: 1.3,
               margin: '0 0 12px',
             }}
           >
             מה מחכה לכם בקהילה
           </motion.h2>
+          <div style={{ maxWidth: 240, margin: '0 auto 12px' }}>
+            <StaffLines color={KM.brass} opacity={0.25} />
+          </div>
           <p
             style={{
               fontFamily: KM.fontSans,
@@ -90,10 +94,10 @@ export function MusicOffer() {
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.45, delay: 0.07 * i }}
                 style={{
-                  background: KM.cream,
+                  background: KM.paper,
                   borderRadius: 20,
                   padding: '28px 24px',
-                  border: '1px solid rgba(52,88,66,0.08)',
+                  border: '1px solid rgba(176,137,104,0.28)',
                 }}
               >
                 <div
@@ -101,11 +105,11 @@ export function MusicOffer() {
                     width: 48,
                     height: 48,
                     borderRadius: 14,
-                    background: KM.mint,
+                    background: 'rgba(176,137,104,0.16)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: KM.greenDark,
+                    color: KM.amber,
                     marginBottom: 16,
                   }}
                 >
@@ -116,7 +120,7 @@ export function MusicOffer() {
                     fontFamily: KM.fontSans,
                     fontSize: 20,
                     fontWeight: 700,
-                    color: KM.greenDark,
+                    color: KM.ink,
                     margin: '0 0 8px',
                   }}
                 >

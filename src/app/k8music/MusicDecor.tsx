@@ -1,9 +1,9 @@
 import { KM } from './tokens';
 
-/** Subtle sound-wave linework — music accent without changing the campaign UI. */
+/** Subtle sound-wave linework — analog music accent. */
 export function SoundWave({
-  color = KM.greenSage,
-  opacity = 0.28,
+  color = KM.brass,
+  opacity = 0.4,
 }: {
   color?: string;
   opacity?: number;
@@ -24,6 +24,51 @@ export function SoundWave({
         strokeLinecap="round"
         opacity={opacity * 0.65}
       />
+    </svg>
+  );
+}
+
+/** Concentric vinyl ring — corner decoration, keep opacity low. */
+export function VinylRing({
+  color = KM.brass,
+  opacity = 0.28,
+}: {
+  color?: string;
+  opacity?: number;
+}) {
+  return (
+    <svg viewBox="0 0 200 200" fill="none" aria-hidden style={{ width: '100%', height: 'auto', display: 'block' }}>
+      <circle cx="100" cy="100" r="92" stroke={color} strokeWidth="1.2" opacity={opacity} />
+      <circle cx="100" cy="100" r="72" stroke={color} strokeWidth="1" opacity={opacity * 0.8} />
+      <circle cx="100" cy="100" r="52" stroke={color} strokeWidth="1" opacity={opacity * 0.65} />
+      <circle cx="100" cy="100" r="32" stroke={color} strokeWidth="1.4" opacity={opacity} />
+      <circle cx="100" cy="100" r="8" fill={color} opacity={opacity * 0.9} />
+    </svg>
+  );
+}
+
+/** Five staff lines behind section titles. */
+export function StaffLines({
+  color = KM.brass,
+  opacity = 0.22,
+}: {
+  color?: string;
+  opacity?: number;
+}) {
+  return (
+    <svg viewBox="0 0 320 40" fill="none" aria-hidden style={{ width: '100%', height: 'auto', display: 'block' }}>
+      {[8, 14, 20, 26, 32].map((y) => (
+        <line
+          key={y}
+          x1="0"
+          y1={y}
+          x2="320"
+          y2={y}
+          stroke={color}
+          strokeWidth="1"
+          opacity={opacity}
+        />
+      ))}
     </svg>
   );
 }

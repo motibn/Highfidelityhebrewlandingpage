@@ -43,7 +43,9 @@ export const ContactForm = ({
   const isInView = useInView(ref, { once: true, amount: 0.1 });
   const [shouldLoadOrigamiScript, setShouldLoadOrigamiScript] = useState(false);
   const { openTerms, openPrivacy } = useLegalModal();
-  const isCampaign = variant === 'hi-tech' || variant === 'k8music';
+  const isHiTech = variant === 'hi-tech';
+  const isK8Music = variant === 'k8music';
+  const isCampaign = isHiTech || isK8Music;
 
   useEffect(() => {
     configureOrigamiFields();
@@ -103,13 +105,16 @@ export const ContactForm = ({
     };
   }, [shouldLoadOrigamiScript]);
 
-  const sectionBg = isCampaign
-    ? 'linear-gradient(160deg, #345842 0%, #2A4A38 55%, #345842 100%)'
-    : 'linear-gradient(160deg, #2a4332 0%, #1e3228 60%, #2a4332 100%)';
-  const topFill = isCampaign ? '#F7FBF5' : '#f0e8d6';
-  const accent = isCampaign ? '#A85C80' : '#c2754a';
-  const leafA = isCampaign ? '#96BA8B' : '#8aaa78';
-  const leafB = isCampaign ? '#CF8071' : '#c2754a';
+  const sectionBg = isK8Music
+    ? 'linear-gradient(160deg, #1C1410 0%, #2A2118 55%, #1C1410 100%)'
+    : isHiTech
+      ? 'linear-gradient(160deg, #345842 0%, #2A4A38 55%, #345842 100%)'
+      : 'linear-gradient(160deg, #2a4332 0%, #1e3228 60%, #2a4332 100%)';
+  const topFill = isK8Music ? '#F4EDE3' : isHiTech ? '#F7FBF5' : '#f0e8d6';
+  const accent = isK8Music ? '#C4783A' : isHiTech ? '#A85C80' : '#c2754a';
+  const leafA = isK8Music ? '#B08968' : isHiTech ? '#96BA8B' : '#8aaa78';
+  const leafB = isK8Music ? '#8B5A6B' : isHiTech ? '#CF8071' : '#c2754a';
+  const bottomFill = isK8Music ? '#1C1410' : '#1a2a20';
 
   return (
     <section
@@ -138,7 +143,7 @@ export const ContactForm = ({
       {/* Bottom edge */}
       <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }}>
         <svg viewBox="0 0 1440 60" preserveAspectRatio="none" style={{ width: '100%', height: '60px', display: 'block' }}>
-          <path d="M0,0 C300,50 700,15 1000,38 C1200,52 1350,18 1440,30 L1440,60 L0,60 Z" fill="#1a2a20" />
+          <path d="M0,0 C300,50 700,15 1000,38 C1200,52 1350,18 1440,30 L1440,60 L0,60 Z" fill={bottomFill} />
         </svg>
       </div>
 
@@ -161,9 +166,11 @@ export const ContactForm = ({
         transform: 'translate(-50%, -50%)',
         width: '700px',
         height: '500px',
-        background: isCampaign
-          ? 'radial-gradient(ellipse, rgba(168,92,128,0.14) 0%, transparent 65%)'
-          : 'radial-gradient(ellipse, rgba(194,117,74,0.12) 0%, transparent 65%)',
+        background: isK8Music
+          ? 'radial-gradient(ellipse, rgba(196,120,58,0.18) 0%, transparent 65%)'
+          : isHiTech
+            ? 'radial-gradient(ellipse, rgba(168,92,128,0.14) 0%, transparent 65%)'
+            : 'radial-gradient(ellipse, rgba(194,117,74,0.12) 0%, transparent 65%)',
         pointerEvents: 'none',
       }} />
 

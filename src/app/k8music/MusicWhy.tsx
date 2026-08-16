@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { motion, useInView } from 'motion/react';
 import { Music2, Trees, Users, Home } from 'lucide-react';
 import { KM, scrollToMusicContact } from './tokens';
+import { StaffLines } from './MusicDecor';
 
 const points = [
   {
@@ -35,7 +36,7 @@ export function MusicWhy() {
       id="why"
       ref={ref}
       style={{
-        background: `linear-gradient(180deg, ${KM.mint} 0%, ${KM.cream} 100%)`,
+        background: `linear-gradient(180deg, #EDE4D6 0%, ${KM.paper} 100%)`,
         padding: '88px 24px',
       }}
     >
@@ -48,13 +49,16 @@ export function MusicWhy() {
               fontFamily: KM.fontSans,
               fontSize: 'clamp(28px, 4vw, 42px)',
               fontWeight: 800,
-              color: KM.greenDark,
+              color: KM.ink,
               margin: '0 0 14px',
               lineHeight: 1.2,
             }}
           >
             למה מוזיקה בקריית שמונה?
           </motion.h2>
+          <div style={{ maxWidth: 260, margin: '0 auto 16px' }}>
+            <StaffLines color={KM.brass} opacity={0.25} />
+          </div>
           <p
             style={{
               fontFamily: KM.fontSans,
@@ -87,7 +91,7 @@ export function MusicWhy() {
                   background: KM.white,
                   borderRadius: 20,
                   padding: '28px 24px',
-                  border: '1px solid rgba(52,88,66,0.08)',
+                  border: '1px solid rgba(42,33,24,0.08)',
                 }}
               >
                 <div
@@ -95,11 +99,11 @@ export function MusicWhy() {
                     width: 48,
                     height: 48,
                     borderRadius: 14,
-                    background: KM.mint,
+                    background: KM.paper,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    color: KM.greenDark,
+                    color: KM.brass,
                     marginBottom: 16,
                   }}
                 >
@@ -110,7 +114,7 @@ export function MusicWhy() {
                     fontFamily: KM.fontSans,
                     fontSize: 20,
                     fontWeight: 700,
-                    color: KM.greenDark,
+                    color: KM.ink,
                     margin: '0 0 8px',
                   }}
                 >
@@ -137,7 +141,7 @@ export function MusicWhy() {
             type="button"
             onClick={scrollToMusicContact}
             style={{
-              background: KM.greenDark,
+              background: KM.amber,
               color: KM.white,
               border: 'none',
               borderRadius: 999,

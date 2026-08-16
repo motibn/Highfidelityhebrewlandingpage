@@ -306,7 +306,7 @@ function AppContent() {
           position: 'relative',
           fontFamily: KM.fontSans,
           overflowX: 'hidden',
-          background: KM.cream,
+          background: KM.paper,
           minHeight: '100vh',
         }}
       >
@@ -335,7 +335,7 @@ function AppContent() {
           section[id] { scroll-margin-top: 72px; }
           .skip-to-content {
             position: absolute; top: -100px; right: 16px; z-index: 1000;
-            background: ${KM.greenDark}; color: white; padding: 12px 16px; border-radius: 8px;
+            background: ${KM.walnut}; color: white; padding: 12px 16px; border-radius: 8px;
           }
           .skip-to-content:focus { top: 16px; }
         `}</style>

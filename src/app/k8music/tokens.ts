@@ -1,21 +1,16 @@
 /**
- * Brand tokens for /k8music campaign (same palette as hi-tech / brand book).
- * Homepage keeps its own hardcoded colors — these are k8music only.
+ * Brand tokens for /k8music — analog warm palette (paper, wood, evening light).
+ * Homepage and /hi-tech keep their own colors.
  */
 export const KM = {
-  greenDark: '#345842',
-  greenMid: '#679263',
-  greenLight: '#96BA8B',
-  greenSage: '#84A87E',
-  mint: '#D9E3D2',
-  cream: '#F7FBF5',
+  paper: '#F4EDE3',
+  ink: '#2A2118',
+  muted: '#6B5344',
+  amber: '#C4783A',
+  brass: '#B08968',
+  plum: '#8B5A6B',
+  walnut: '#1C1410',
   white: '#FFFFFF',
-  plum: '#A85C80',
-  terracotta: '#CF8071',
-  sand: '#F5D7A1',
-  charcoal: '#1E2A22',
-  muted: '#4A5E50',
-  footer: '#1A2A20',
   fontSans: "'Fb Tamlil', 'Heebo', Arial, sans-serif",
   fontScript: "'Fb Marzipan', 'Playpen Sans Hebrew', cursive",
   fontEng: "'Fb Tamlil Eng', 'Fb Tamlil', Arial, sans-serif",

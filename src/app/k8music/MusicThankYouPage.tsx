@@ -34,7 +34,7 @@ export function MusicThankYouPage() {
         alignItems: 'center',
         justifyContent: 'center',
         padding: '120px 24px 80px',
-        background: `linear-gradient(160deg, ${KM.greenDark} 0%, #2A4A38 55%, ${KM.greenDark} 100%)`,
+        background: `linear-gradient(160deg, ${KM.walnut} 0%, #2A2118 55%, ${KM.walnut} 100%)`,
         fontFamily: KM.fontSans,
         overflow: 'hidden',
       }}
@@ -44,7 +44,7 @@ export function MusicThankYouPage() {
           position: 'absolute',
           inset: 0,
           background:
-            'radial-gradient(ellipse at 30% 20%, rgba(168,92,128,0.18) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(150,186,139,0.12) 0%, transparent 45%)',
+            'radial-gradient(ellipse at 30% 20%, rgba(196,120,58,0.18) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(176,137,104,0.12) 0%, transparent 45%)',
           pointerEvents: 'none',
         }}
       />
@@ -61,12 +61,12 @@ export function MusicThankYouPage() {
               width: 56,
               height: 56,
               borderRadius: '50%',
-              background: 'rgba(150,186,139,0.22)',
-              border: '2px solid rgba(150,186,139,0.45)',
+              background: 'rgba(196,120,58,0.22)',
+              border: '2px solid rgba(176,137,104,0.45)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: KM.greenLight,
+              color: KM.brass,
             }}
             aria-hidden
           >
@@ -77,7 +77,7 @@ export function MusicThankYouPage() {
             style={{
               fontFamily: KM.fontScript,
               fontSize: 26,
-              color: KM.terracotta,
+              color: KM.amber,
               margin: '0 0 8px',
             }}
           >
@@ -88,7 +88,7 @@ export function MusicThankYouPage() {
             style={{
               fontSize: 'clamp(28px, 4vw, 42px)',
               fontWeight: 900,
-              color: KM.cream,
+              color: KM.paper,
               margin: '0 0 14px',
               lineHeight: 1.2,
             }}
@@ -99,7 +99,7 @@ export function MusicThankYouPage() {
           <p
             style={{
               fontSize: 17,
-              color: 'rgba(217,227,210,0.9)',
+              color: 'rgba(244,237,227,0.9)',
               lineHeight: 1.7,
               margin: '0 0 36px',
             }}
@@ -113,7 +113,7 @@ export function MusicThankYouPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.5 }}
           style={{
-            background: 'rgba(247,251,245,0.97)',
+            background: 'rgba(244,237,227,0.97)',
             borderRadius: 24,
             padding: '28px 24px',
             boxShadow: '0 20px 50px rgba(0,0,0,0.22)',
@@ -134,11 +134,11 @@ export function MusicThankYouPage() {
               fontSize: 16,
               fontWeight: 700,
               color: KM.white,
-              background: KM.plum,
+              background: KM.amber,
               borderRadius: 14,
               textDecoration: 'none',
               fontFamily: KM.fontSans,
-              boxShadow: '0 8px 22px rgba(168,92,128,0.35)',
+              boxShadow: '0 8px 22px rgba(196,120,58,0.35)',
             }}
           >
             חזרה לדף הקהילה

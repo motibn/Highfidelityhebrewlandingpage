@@ -59,7 +59,7 @@ export function MusicFaq() {
       id="faq"
       ref={ref}
       style={{
-        background: `linear-gradient(160deg, ${KM.mint} 0%, #EEF4EA 100%)`,
+        background: `linear-gradient(160deg, ${KM.paper} 0%, #EDE4D6 100%)`,
         padding: '88px 24px',
       }}
     >
@@ -69,7 +69,7 @@ export function MusicFaq() {
             fontFamily: KM.fontSans,
             fontSize: 'clamp(28px, 4vw, 40px)',
             fontWeight: 800,
-            color: KM.greenDark,
+            color: KM.ink,
             textAlign: 'center',
             margin: '0 0 36px',
           }}
@@ -90,7 +90,7 @@ export function MusicFaq() {
                   background: KM.white,
                   borderRadius: 16,
                   overflow: 'hidden',
-                  border: '1px solid rgba(52,88,66,0.08)',
+                  border: '1px solid rgba(42,33,24,0.08)',
                 }}
               >
                 <button
@@ -110,7 +110,7 @@ export function MusicFaq() {
                     fontFamily: KM.fontSans,
                     fontSize: 16,
                     fontWeight: 700,
-                    color: KM.greenDark,
+                    color: KM.ink,
                     textAlign: 'right',
                   }}
                 >
@@ -119,7 +119,7 @@ export function MusicFaq() {
                     size={20}
                     style={{
                       flexShrink: 0,
-                      color: isOpen ? KM.plum : KM.greenMid,
+                      color: isOpen ? KM.amber : KM.brass,
                       transform: isOpen ? 'rotate(180deg)' : 'none',
                       transition: 'transform 0.25s ease',
                     }}
@@ -160,8 +160,8 @@ export function MusicFaq() {
             onClick={scrollToMusicContact}
             style={{
               background: 'transparent',
-              color: KM.plum,
-              border: `2px solid ${KM.plum}`,
+              color: KM.amber,
+              border: `2px solid ${KM.amber}`,
               borderRadius: 999,
               padding: '12px 26px',
               fontFamily: KM.fontSans,
