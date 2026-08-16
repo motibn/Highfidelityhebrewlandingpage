@@ -12,6 +12,11 @@ import { HiTechJobsPage } from './hi-tech/HiTechJobsPage';
 import { HiTechNav } from './hi-tech/HiTechNav';
 import { HiTechFooter } from './hi-tech/HiTechFooter';
 import { HT } from './hi-tech/tokens';
+import { MusicPage } from './k8music/MusicPage';
+import { MusicThankYouPage } from './k8music/MusicThankYouPage';
+import { MusicNav } from './k8music/MusicNav';
+import { MusicFooter } from './k8music/MusicFooter';
+import { KM } from './k8music/tokens';
 import '../styles/hi-tech-fonts.css';
 
 // TikTok SVG icon (not in lucide-react)
@@ -285,11 +290,58 @@ function AppContent() {
   const { openTerms, openPrivacy, openAccessibility } = useLegalModal();
   const location = useLocation();
   const isHiTech = location.pathname.startsWith('/hi-tech');
+  const isK8Music = location.pathname.startsWith('/k8music');
 
   useEffect(() => {
     document.documentElement.setAttribute('dir', 'rtl');
     document.documentElement.setAttribute('lang', 'he');
   }, []);
+
+  if (isK8Music) {
+    return (
+      <div
+        dir="rtl"
+        lang="he"
+        style={{
+          position: 'relative',
+          fontFamily: KM.fontSans,
+          overflowX: 'hidden',
+          background: KM.cream,
+          minHeight: '100vh',
+        }}
+      >
+        <a
+          href="#main-content"
+          className="skip-to-content"
+          aria-label="דלג ישירות לתוכן הראשי"
+        >
+          דלג לתוכן
+        </a>
+        <MusicNav />
+        <main id="main-content" tabIndex={-1} style={{ position: 'relative', outline: 'none' }}>
+          <Routes>
+            <Route path="/k8music" element={<MusicPage />} />
+            <Route path="/k8music/" element={<MusicPage />} />
+            <Route path="/k8music/thank-you" element={<MusicThankYouPage />} />
+            <Route path="/k8music/thank-you/" element={<MusicThankYouPage />} />
+          </Routes>
+        </main>
+        <MusicFooter />
+        <CookieConsent />
+        <style>{`
+          * { box-sizing: border-box; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+          html { scroll-behavior: smooth; }
+          body { margin: 0; padding: 0; overflow-x: hidden; }
+          section[id] { scroll-margin-top: 72px; }
+          .skip-to-content {
+            position: absolute; top: -100px; right: 16px; z-index: 1000;
+            background: ${KM.greenDark}; color: white; padding: 12px 16px; border-radius: 8px;
+          }
+          .skip-to-content:focus { top: 16px; }
+        `}</style>
+      </div>
+    );
+  }
 
   if (isHiTech) {
     return (

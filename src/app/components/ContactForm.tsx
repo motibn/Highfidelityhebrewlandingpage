@@ -29,7 +29,7 @@ export type ContactFormProps = {
   headline?: string;
   subheadline?: string;
   /** Visual variant — defaults preserve homepage look */
-  variant?: 'default' | 'hi-tech';
+  variant?: 'default' | 'hi-tech' | 'k8music';
 };
 
 export const ContactForm = ({
@@ -43,7 +43,7 @@ export const ContactForm = ({
   const isInView = useInView(ref, { once: true, amount: 0.1 });
   const [shouldLoadOrigamiScript, setShouldLoadOrigamiScript] = useState(false);
   const { openTerms, openPrivacy } = useLegalModal();
-  const isHiTech = variant === 'hi-tech';
+  const isCampaign = variant === 'hi-tech' || variant === 'k8music';
 
   useEffect(() => {
     configureOrigamiFields();
@@ -103,13 +103,13 @@ export const ContactForm = ({
     };
   }, [shouldLoadOrigamiScript]);
 
-  const sectionBg = isHiTech
+  const sectionBg = isCampaign
     ? 'linear-gradient(160deg, #345842 0%, #2A4A38 55%, #345842 100%)'
     : 'linear-gradient(160deg, #2a4332 0%, #1e3228 60%, #2a4332 100%)';
-  const topFill = isHiTech ? '#F7FBF5' : '#f0e8d6';
-  const accent = isHiTech ? '#A85C80' : '#c2754a';
-  const leafA = isHiTech ? '#96BA8B' : '#8aaa78';
-  const leafB = isHiTech ? '#CF8071' : '#c2754a';
+  const topFill = isCampaign ? '#F7FBF5' : '#f0e8d6';
+  const accent = isCampaign ? '#A85C80' : '#c2754a';
+  const leafA = isCampaign ? '#96BA8B' : '#8aaa78';
+  const leafB = isCampaign ? '#CF8071' : '#c2754a';
 
   return (
     <section
@@ -161,7 +161,7 @@ export const ContactForm = ({
         transform: 'translate(-50%, -50%)',
         width: '700px',
         height: '500px',
-        background: isHiTech
+        background: isCampaign
           ? 'radial-gradient(ellipse, rgba(168,92,128,0.14) 0%, transparent 65%)'
           : 'radial-gradient(ellipse, rgba(194,117,74,0.12) 0%, transparent 65%)',
         pointerEvents: 'none',
@@ -185,7 +185,7 @@ export const ContactForm = ({
             lineHeight: 1.15,
             letterSpacing: '-1px',
             marginBottom: '16px',
-            fontFamily: isHiTech ? "'Fb Tamlil', 'Heebo', Arial, sans-serif" : 'inherit',
+            fontFamily: isCampaign ? "'Fb Tamlil', 'Heebo', Arial, sans-serif" : 'inherit',
           }}>
             {headline}
           </h2>
@@ -196,7 +196,7 @@ export const ContactForm = ({
             maxWidth: '520px',
             margin: '0 auto',
             fontWeight: 400,
-            fontFamily: isHiTech ? "'Fb Tamlil', 'Heebo', Arial, sans-serif" : 'inherit',
+            fontFamily: isCampaign ? "'Fb Tamlil', 'Heebo', Arial, sans-serif" : 'inherit',
           }}>
             {subheadline}
           </p>

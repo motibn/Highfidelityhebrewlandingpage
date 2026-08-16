@@ -49,8 +49,20 @@ if (!fs.existsSync(hiTechJobsIndex)) {
   ok = false;
 }
 
+const k8musicIndex = path.join(dist, 'k8music', 'index.html');
+if (!fs.existsSync(k8musicIndex)) {
+  console.error(`verify-dist: חסר ${path.relative(root, k8musicIndex)} (נדרש ל־/k8music/)`);
+  ok = false;
+}
+
+const k8musicThankYouIndex = path.join(dist, 'k8music', 'thank-you', 'index.html');
+if (!fs.existsSync(k8musicThankYouIndex)) {
+  console.error(`verify-dist: חסר ${path.relative(root, k8musicThankYouIndex)} (נדרש ל־/k8music/thank-you/)`);
+  ok = false;
+}
+
 if (!ok) {
   process.exit(1);
 }
 
-console.log('verify-dist: dist תקין (index.html, thank-you/, hi-tech/, hi-tech/thank-you/, hi-tech/jobs/, .htaccess, assets/)');
+console.log('verify-dist: dist תקין (index.html, thank-you/, hi-tech/, hi-tech/thank-you/, hi-tech/jobs/, k8music/, k8music/thank-you/, .htaccess, assets/)');
