@@ -72,6 +72,9 @@ export default defineConfig({
       'hi-tech/jobs',
       'k8music',
       'k8music/thank-you',
+      'admin/login',
+      'admin/jobs',
+      'admin/jobs/new',
     ]),
     figmaAssetResolver(),
     // The React and Tailwind plugins are both required for Make, even if

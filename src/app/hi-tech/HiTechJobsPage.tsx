@@ -5,13 +5,14 @@ import { Briefcase, ExternalLink, MapPin, MessageCircle, Search, X } from 'lucid
 import { setPageSEO } from '../utils/seo';
 import {
   buildWhatsAppJobUrl,
-  HI_TECH_JOBS,
   JOB_DOMAIN_LABELS,
   JOB_LEVEL_LABELS,
+  SEED_HI_TECH_JOBS,
   type HiTechJob,
   type JobDomain,
   type JobLevel,
 } from './jobs-data';
+import { fetchPublishedJobs, incrementJobClick } from '../../lib/supabase/jobs';
 import { HI_TECH_JOBS_PATH, HI_TECH_JOBS_SEO, HT } from './tokens';
 
 function pushJobCtaEvent(job: HiTechJob, channel: 'comeet' | 'whatsapp'): void {
@@ -27,6 +28,7 @@ function pushJobCtaEvent(job: HiTechJob, channel: 'comeet' | 'whatsapp'): void {
     page_path: HI_TECH_JOBS_PATH,
     campaign: 'hi-tech',
   });
+  void incrementJobClick(job.id, channel);
 }
 
 const DOMAIN_OPTIONS = Object.entries(JOB_DOMAIN_LABELS) as [JobDomain, string][];
@@ -86,6 +88,8 @@ function levelLabel(level: JobLevel | null): string {
 }
 
 export function HiTechJobsPage() {
+  const [jobs, setJobs] = useState<HiTechJob[]>(SEED_HI_TECH_JOBS);
+  const [jobsLoading, setJobsLoading] = useState(true);
   const [query, setQuery] = useState('');
   const [level, setLevel] = useState<JobLevel | 'all'>('all');
   const [domain, setDomain] = useState<JobDomain | 'all'>('all');
@@ -94,9 +98,24 @@ export function HiTechJobsPage() {
     setPageSEO(HI_TECH_JOBS_SEO);
   }, []);
 
+  useEffect(() => {
+    let cancelled = false;
+    setJobsLoading(true);
+    fetchPublishedJobs()
+      .then((data) => {
+        if (!cancelled) setJobs(data);
+      })
+      .finally(() => {
+        if (!cancelled) setJobsLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return HI_TECH_JOBS.filter((job) => {
+    return jobs.filter((job) => {
       if (level !== 'all' && job.level !== level) return false;
       if (domain !== 'all' && job.domain !== domain) return false;
       if (!q) return true;
@@ -104,7 +123,7 @@ export function HiTechJobsPage() {
         `${job.title} ${job.company} ${job.domainLabel} ${job.location} ${job.note ?? ''}`.toLowerCase();
       return hay.includes(q);
     });
-  }, [query, level, domain]);
+  }, [jobs, query, level, domain]);
 
   const hasFilters = query.trim() !== '' || level !== 'all' || domain !== 'all';
 
@@ -194,7 +213,7 @@ export function HiTechJobsPage() {
             }}
           >
             <Briefcase size={16} aria-hidden />
-            {HI_TECH_JOBS.length} הזדמנויות באזור
+            {jobsLoading ? '…' : jobs.length} הזדמנויות באזור
           </motion.div>
         </div>
       </section>
@@ -353,7 +372,7 @@ export function HiTechJobsPage() {
             }}
             aria-live="polite"
           >
-            {filtered.length} מתוך {HI_TECH_JOBS.length} הזדמנויות
+            {filtered.length} מתוך {jobs.length} הזדמנויות
           </p>
         </div>
       </div>

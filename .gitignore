@@ -8,3 +8,5 @@ dist
 .env.*.local
 # Brand pack source (fonts copied to public/fonts/brand — do not ship 155MB Links)
 brand-source/
+.vercel
+.env*

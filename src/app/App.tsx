@@ -17,6 +17,7 @@ import { MusicThankYouPage } from './k8music/MusicThankYouPage';
 import { MusicNav } from './k8music/MusicNav';
 import { MusicFooter } from './k8music/MusicFooter';
 import { KM } from './k8music/tokens';
+import { AdminRoutes } from './admin/AdminRoutes';
 import '../styles/hi-tech-fonts.css';
 
 // TikTok SVG icon (not in lucide-react)
@@ -291,11 +292,16 @@ function AppContent() {
   const location = useLocation();
   const isHiTech = location.pathname.startsWith('/hi-tech');
   const isK8Music = location.pathname.startsWith('/k8music');
+  const isAdmin = location.pathname.startsWith('/admin');
 
   useEffect(() => {
     document.documentElement.setAttribute('dir', 'rtl');
     document.documentElement.setAttribute('lang', 'he');
   }, []);
+
+  if (isAdmin) {
+    return <AdminRoutes />;
+  }
 
   if (isK8Music) {
     return (

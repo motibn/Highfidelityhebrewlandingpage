@@ -53,8 +53,8 @@ export function buildWhatsAppJobUrl(job: HiTechJob): string {
   return `https://wa.me/${HI_TECH_WHATSAPP}?text=${encodeURIComponent(text)}`;
 }
 
-/** כל הפריטים מהאקסל — חברות ואז משרות Genpact */
-export const HI_TECH_JOBS: HiTechJob[] = [
+/** כל הפריטים מהאקסל — seed ל-Supabase + fallback ציבורי */
+export const SEED_HI_TECH_JOBS: HiTechJob[] = [
   {
     id: 'nvidia',
     title: 'NVIDIA',
@@ -345,3 +345,6 @@ export const HI_TECH_JOBS: HiTechJob[] = [
       'https://www.comeet.com/jobs/genpact/B9.008/upper-galilee---senior-support-engineer/12.F6C',
   },
 ];
+
+/** @deprecated Use SEED_HI_TECH_JOBS or fetchPublishedJobs() */
+export const HI_TECH_JOBS = SEED_HI_TECH_JOBS;
