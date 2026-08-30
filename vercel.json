@@ -6,7 +6,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self' https: data: blob: 'unsafe-inline' 'unsafe-eval'; frame-src 'self' https://www.facebook.com https://www.facebook.com/plugins/ https://live-public.origamicloud.ms; child-src 'self' https://www.facebook.com https://www.facebook.com/plugins/ https://live-public.origamicloud.ms;"
+          "value": "default-src 'self' https: data: blob: 'unsafe-inline' 'unsafe-eval'; frame-src 'self' blob: https://www.facebook.com https://www.facebook.com/plugins/ https://live-public.origamicloud.ms https://www.google.com https://www.gstatic.com https://recaptcha.google.com https://www.recaptcha.net https://maps.googleapis.com https://maps.google.com; child-src 'self' blob: https://www.facebook.com https://www.facebook.com/plugins/ https://live-public.origamicloud.ms https://www.google.com https://www.gstatic.com https://recaptcha.google.com https://www.recaptcha.net https://maps.googleapis.com https://maps.google.com;"
         }
       ]
     }
